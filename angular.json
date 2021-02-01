@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "AbnsinaPharma-frontend"
+    }
+  },
+  "defaultProject": "AbnsinaPharma-frontend",
+  "cli": {
+    "analytics": "b793c79a-92e1-4b7f-b373-ce8a0c2b9dd0"
+  }
 }
