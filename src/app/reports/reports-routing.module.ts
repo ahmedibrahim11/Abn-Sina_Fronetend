@@ -9,6 +9,8 @@ const routes: Routes = [
   { path: '', component: ReportsComponent,
   children: [
     { path: 'sales', component: SalesAndStocksComponent },
+    { path: '', redirectTo:"sales" },
+    { path: '**', redirectTo:"sales" },
 
   ] },
 ];
