@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
@@ -10,7 +11,7 @@ export class SmartTableComponent implements OnInit {
   @Input() data:any=[];
   @Input() headers:string[]=[];
   source: LocalDataSource = new LocalDataSource();
-  url:string="controller/Action";
+
   settings:any = {
     actions:false,
     pager: {
@@ -29,7 +30,6 @@ export class SmartTableComponent implements OnInit {
 
   constructor() { 
     
-    console.log(this.data);
   }
 
   ceateTableHeaders(){
@@ -37,12 +37,14 @@ export class SmartTableComponent implements OnInit {
       this.settings.columns[columnname] ={ title:columnname };
 
     });
-    
+    debugger
+    this.data=this.data.splice(1);
+    this.source.load(this.data);
 
   }
 
   ngOnInit(): void {
-    this.source.load(this.data);
+    this.ceateTableHeaders();
 
   }
 

@@ -1,4 +1,4 @@
-<div>
-    <app-smart-table [headers]="headers" [data]="data" >
+<div *ngIf="this.data.length>0">
+    <app-smart-table [data]="data" [headers]="tableHeaders" >
   </app-smart-table>
 </div>
