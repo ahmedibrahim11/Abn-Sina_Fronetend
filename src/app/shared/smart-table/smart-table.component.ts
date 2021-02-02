@@ -9,7 +9,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class SmartTableComponent implements OnInit {
   @Input() data:any=[];
-  @Input() headers:string[]=[];
+  @Input() headers:any[]=[];
   source: LocalDataSource = new LocalDataSource();
 
   settings:any = {
@@ -33,11 +33,10 @@ export class SmartTableComponent implements OnInit {
   }
 
   ceateTableHeaders(){
-    this.headers.forEach(columnname => {
-      this.settings.columns[columnname] ={ title:columnname };
+    this.headers.forEach(column => {
+      this.settings.columns[column.name] ={ title:column.title };
 
     });
-    debugger
     this.data=this.data.splice(1);
     this.source.load(this.data);
 

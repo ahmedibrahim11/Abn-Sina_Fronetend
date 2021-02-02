@@ -12,7 +12,7 @@ export class SalesAndStocksComponent implements OnInit {
    url:string="Report/downloadFile";
 
 data:any[]=[];
-tableHeaders:string[]=[];
+tableHeaders:any[]=[];
   
   constructor(private _fileService:FileService) { }
 
@@ -59,7 +59,7 @@ this.getExelfile();
       this.getheaders(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
-     
+     console.log(this.data);
     };
  }
 
@@ -69,11 +69,20 @@ getheaders(ws:any){
 let secRow=  JSON.stringify((XLSX.utils.sheet_to_json(ws, { header: 2}))[0] ); 
 secRow=secRow.replace(/"/g, "").replace(/}/g,'');
 // Fetch the first row
-let headersArr= secRow.split(":").splice(1) ;
- headersArr.forEach(element => {
-   let header=element.split(",")
-  this.tableHeaders.push(header[0])
-});
+let headersArr= secRow.split(":") ;
+this.tableHeaders.push({name:"Daily Sales and Stock for AL ANDALOUS Sales and Stock",title:"Date"});
+
+for (let i = 1; i < headersArr.length; i++) {
+  const element = headersArr[i];
+  let header=element.split(",");
+  debugger;
+  
+  if (header[0]==="Date") {
+    header[0]="SupCode";
+  }
+    this.tableHeaders.push({name:header[1],title:header[0]});
+}
+
 
 
 }
