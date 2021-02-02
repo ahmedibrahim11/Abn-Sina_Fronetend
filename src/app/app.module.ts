@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SmartTableComponent } from './shared/smart-table/smart-table.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -13,7 +14,7 @@ import { SmartTableComponent } from './shared/smart-table/smart-table.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

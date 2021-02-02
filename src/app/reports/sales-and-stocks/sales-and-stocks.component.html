@@ -1,5 +1,8 @@
 <div *ngIf="this.data.length>0">
     <app-smart-table [data]="data" [headers]="tableHeaders" >
   </app-smart-table>
-  <!-- calling charts -->
+  <div><app-pie-chart></app-pie-chart></div>
+  <div>
+    <app-bar-chart></app-bar-chart>
+  </div>
 </div>
