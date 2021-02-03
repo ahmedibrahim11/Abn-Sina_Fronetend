@@ -40,7 +40,7 @@ export class PieChartComponent implements OnInit{
 
   pieChartLabels: Label[] = this.itemsName;
 
-  pieChartData: any[] = this.itemsCode;
+  pieChartData: any[] = [1,2,3];
 
   pieChartType: ChartType = 'pie';
 

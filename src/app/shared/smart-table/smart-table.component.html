@@ -1,5 +1,11 @@
-<div>
+<div class="container">
+  <div class="row mb-4">
     <input class="form-control"  #search class="search" type="text" placeholder="Search..." (change)="onSearch(search.value)">
-      <ng2-smart-table [settings]="settings" [source]="source" >
+
+  </div>
+  <div class="row">
+<ng2-smart-table [settings]="settings" [source]="source" >
     </ng2-smart-table>
+  </div>
+      
   </div>
