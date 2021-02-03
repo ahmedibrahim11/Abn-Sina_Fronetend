@@ -1,13 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.css']
 })
-export class PieChartComponent {
+export class PieChartComponent implements OnInit{
+
+    @Input() chartData: any = [];
+    itemsName : any = [];
+    itemsCode : any = [];
+  ngOnInit(): void {
+     for(var i=0 ; i< this.chartData.length ; i++){
+      this.itemsName.push(this.chartData[i]['Item name']);
+    }
+    for(var i=0 ; i< this.chartData.length ; i++){
+      this.itemsCode.push(this.chartData[i]['Item Code']);
+    }
+  }
 
   pieChartOptions: ChartOptions = {
     responsive: true,
@@ -25,9 +38,9 @@ export class PieChartComponent {
     },
   };
 
-  pieChartLabels: Label[] = ['Nitrogen', 'Oxygen', 'Argon', 'Carbon dioxide'];
+  pieChartLabels: Label[] = this.itemsName;
 
-  pieChartData: number[] = [78.09, 20.95, 0.93, 0.03];
+  pieChartData: any[] = this.itemsCode;
 
   pieChartType: ChartType = 'pie';
 

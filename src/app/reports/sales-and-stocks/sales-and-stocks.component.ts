@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from 'src/app/core/file.Service';
 import * as XLSX from 'xlsx';
+
+import * as _ from "lodash";
 @Component({
   selector: 'app-sales-and-stocks',
   templateUrl: './sales-and-stocks.component.html',
@@ -13,11 +15,15 @@ export class SalesAndStocksComponent implements OnInit {
 
   data: any[] = [];
   tableHeaders: any[] = [];
+  itemsCode : any = [];
+  branchesCode : any = [];
+  totalSales : any = [];
 
   constructor(private _fileService: FileService) { }
 
   ngOnInit(): void {
     this.getExelfile();
+
   }
 
   getExelfile() {
@@ -48,11 +54,32 @@ export class SalesAndStocksComponent implements OnInit {
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
-      console.log("a7aaaaaaaa",this.data);
-      // const result = this.data.filter(p => p['Branch Code']=='11');
-      //  console.log("result",result);
-
+        this.getAllCardsValue("Item Code");
+        this.getAllCardsValue("Branch Code");
+        this.getAllCardsValue("Sales Value");
     };
+  }
+
+  getAllCardsValue(key:any){
+    switch(key){
+      case "Item Code":
+        _.map(this.data,(item)=>{
+         this.itemsCode += _.sum(item[key])
+    })
+    break;
+    case "Branch Code":
+        _.map(this.data,(item)=>{
+         this.branchesCode += _.sum(item[key])
+    })
+    break;
+    case "Sales Value":
+      var salesValue =_.map(this.data, (item:any) => { 
+      return item[key]; 
+   }) 
+     this.totalSales = _.sum(salesValue)
+    break;
+    }
+    
   }
 
   get_header_row(ws: any) {
