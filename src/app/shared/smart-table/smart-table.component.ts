@@ -16,12 +16,9 @@ export class SmartTableComponent implements OnInit {
     actions: false,
     pager: {
       display: true,
-      perPage: 50,
+      perPage: 5,
       pagging: true,
-
     },
-
-
 
     columns: {
     }
@@ -34,7 +31,12 @@ export class SmartTableComponent implements OnInit {
 
   ceateTableHeaders() {
     this.headers.forEach(column => {
-      this.settings.columns[column.name] = { title: column.title };
+      if (column.name === "Item Code" || column.name === "Item name" || column.name === "Branch Code" || column.name === "Branch Name" ) {
+        this.settings.columns[column.name] = { title: column.title };
+      }
+      else {
+        this.settings.columns[column.name] = { title: column.title, filter: false };
+      }
     });
     this.source.load(this.data);
     console.log("thisData", this.data);
