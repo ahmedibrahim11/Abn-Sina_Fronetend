@@ -15,9 +15,11 @@ export class SalesAndStocksComponent implements OnInit {
 
   data: any[] = [];
   tableHeaders: any[] = [];
-  itemsCode : any = [];
-  branchesCode : any = [];
-  totalSales : any = [];
+  itemsCode: any = [];
+  branchesCode: any = [];
+  totalSales: any = [];
+  totalStocks: any = [];
+
 
   constructor(private _fileService: FileService) { }
 
@@ -54,32 +56,41 @@ export class SalesAndStocksComponent implements OnInit {
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
-        this.getAllCardsValue("Item Code");
-        this.getAllCardsValue("Branch Code");
-        this.getAllCardsValue("Sales Value");
+      this.getAllCardsValue("Item Code");
+      this.getAllCardsValue("Branch Code");
+      this.getAllCardsValue("Sales Value");
+      this.getAllCardsValue("Stock");
     };
   }
 
-  getAllCardsValue(key:any){
-    switch(key){
+  getAllCardsValue(key: any) {
+    switch (key) {
       case "Item Code":
-        _.map(this.data,(item)=>{
-         this.itemsCode += _.sum(item[key])
-    })
-    break;
-    case "Branch Code":
-        _.map(this.data,(item)=>{
-         this.branchesCode += _.sum(item[key])
-    })
-    break;
-    case "Sales Value":
-      var salesValue =_.map(this.data, (item:any) => { 
-      return item[key]; 
-   }) 
-     this.totalSales = _.sum(salesValue)
-    break;
+        _.map(this.data, (item) => {
+          this.itemsCode += _.sum(item[key])
+        })
+        break;
+      case "Branch Code":
+        var branches = _.uniq(_.map(this.data, (item) => { return item[key] }))
+        console.log("brancehsss", branches);
+        this.branchesCode = branches;
+
+        break;
+      case "Sales Value":
+        var salesValue = _.map(this.data, (item: any) => {
+          return item[key];
+        })
+        this.totalSales = _.sum(salesValue)
+        break;
+
+      case "Stock":
+        var stocks = _.map(this.data, (item: any) => {
+          return item[key];
+        })
+        this.totalStocks = _.sum(stocks)
+        break;
     }
-    
+
   }
 
   get_header_row(ws: any) {

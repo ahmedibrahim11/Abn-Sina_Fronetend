@@ -1,50 +1,58 @@
 <div class="container">
   <div class="row mb-5 mt-3">
-
-    <div class="col-md-4">
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">{{itemsCode?.length-1}}</h5>
-    <p class="card-text">Number of all items</p>
-  </div>
-</div>
+    <div class="col-md-3">
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+          <p class="card-text">Number of all items</p>
+          <h5 class="card-title">{{itemsCode?.length-1}}</h5>
+        </div>
+      </div>
     </div>
 
-     <div class="col-md-4">
-<div class="card" >
-  <div class="card-body">
-    <h5 class="card-title">{{branchesCode?.length-1}}</h5>
-    <p class="card-text">Number of all branches</p>
-  </div>
-</div>
+    <div class="col-md-3">
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+          <p class="card-text">Number of all branches</p>
+          <h5 class="card-title">{{branchesCode.length}}</h5>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-4">
-<div class="card" >
-  <div class="card-body">
-    <h5 class="card-title">{{totalSales}}</h5>
-    <p class="card-text">Total sales</p>
-  </div>
-</div>
+    <div class="col-md-3">
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+          <p class="card-text">Total sales</p>
+          <h5 class="card-title">{{totalSales}}</h5>
+        </div>
+      </div>
     </div>
-<div class="row mt-5 mb-5">
-<div class="col-md-8">
-    <app-pie-chart [chartData]="data"></app-pie-chart>
-</div>
-<div class="col-md-4">
-  <app-bar-chart [chartData]="data"></app-bar-chart>
 
-</div>
+    <div class="col-md-3">
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+          <p class="card-text">Number of all Stocks</p>
+          <h5 class="card-title">{{totalStocks}}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5 mb-5">
+      <div class="col-md-8">
+        <app-pie-chart [chartData]="data"></app-pie-chart>
+      </div>
+      <div class="col-md-4">
+        <app-bar-chart [chartData]="data"></app-bar-chart>
+
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="this.data.length>0">
+        <app-smart-table [data]="data" [headers]="tableHeaders">
+        </app-smart-table>
+      </div>
+
+
+
+
+
+    </div>
   </div>
-  <div class="row">
-<div *ngIf="this.data.length>0">
-    <app-smart-table [data]="data" [headers]="tableHeaders" >
-  </app-smart-table>
-  </div>
-
-  
-
-
-  
-</div>
-</div>
