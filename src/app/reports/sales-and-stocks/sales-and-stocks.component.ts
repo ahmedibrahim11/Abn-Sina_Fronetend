@@ -19,6 +19,7 @@ export class SalesAndStocksComponent implements OnInit {
   branchesCode: any = [];
   totalSales: any = [];
   totalStocks: any = [];
+  top7Brnaches:any=[];
 
 
   constructor(private _fileService: FileService) { }
@@ -33,7 +34,6 @@ export class SalesAndStocksComponent implements OnInit {
     this._fileService.downloadFile("testExcel.xlsx", this.url).subscribe(
       {
         next: (res) => {
-          debugger;
           this.extractDataFromExcel(res);
         },
         error: (err) => { console.log(err) },
@@ -49,7 +49,6 @@ export class SalesAndStocksComponent implements OnInit {
       /* create workbook */
       const binarystr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
-      debugger;
       /* selected the first sheet */
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
@@ -60,7 +59,35 @@ export class SalesAndStocksComponent implements OnInit {
       this.getAllCardsValue("Branch Code");
       this.getAllCardsValue("Sales Value");
       this.getAllCardsValue("Stock");
+      this.getSalesBranches();
     };
+  }
+
+  getSalesBranches(){
+let allbranchesSales=[];
+
+ let dataGroupedByBranch  =_.groupBy(this.data,"Branch Name");
+ console.log("names",dataGroupedByBranch);
+ for (let key in dataGroupedByBranch) {
+
+   if (key) {
+    let branch={brnachName:key,value:0}
+    let values:number[]=[];
+    dataGroupedByBranch[key].forEach((elm:any)=>{
+      values.push(elm["Sales Value"]);
+     });
+   branch.value=_.sum(values);
+
+   allbranchesSales.push(branch);
+     
+   }
+ 
+}
+ this.top7Brnaches=_.orderBy(allbranchesSales,'value').reverse().slice(0,7);
+console.log( this.top7Brnaches) 
+
+
+
   }
 
   getAllCardsValue(key: any) {
@@ -72,7 +99,7 @@ export class SalesAndStocksComponent implements OnInit {
         break;
       case "Branch Code":
         var branches = _.uniq(_.map(this.data, (item) => { return item[key] }))
-        console.log("brancehsss", branches);
+
         this.branchesCode = branches;
 
         break;
@@ -91,6 +118,8 @@ export class SalesAndStocksComponent implements OnInit {
         break;
     }
 
+
+
   }
 
   get_header_row(ws: any) {
@@ -100,7 +129,7 @@ export class SalesAndStocksComponent implements OnInit {
     for (C = range.s.c; C <= range.e.c; ++C) {
       var cell = ws[XLSX.utils.encode_cell({ c: C, r: R })]
       /* find the cell in the first row */
-      var hdr = "UNKNOWN " + C; // <-- replace with your desired default 
+      var hdr = "UNKNOWN " + C; // <-- replace with your desired default
       if (cell && cell.t)
         hdr = XLSX.utils.format_cell(cell);
       this.tableHeaders.push({ name: hdr, title: hdr });
