@@ -4,7 +4,7 @@
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
           <p class="card-text">Number of all items</p>
-          <h5 class="card-title">{{itemsCode.length-1}}</h5>
+          <h5 class="card-title">{{ itemsCode.length - 1 }}</h5>
         </div>
       </div>
     </div>
@@ -13,7 +13,7 @@
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
           <p class="card-text">Number of all branches</p>
-          <h5 class="card-title">{{branchesCode.length}}</h5>
+          <h5 class="card-title">{{ branchesCode.length }}</h5>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
           <p class="card-text">Total sales</p>
-          <h5 class="card-title">{{totalSales}}</h5>
+          <h5 class="card-title">{{ totalSales }}</h5>
         </div>
       </div>
     </div>
@@ -31,50 +31,63 @@
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
           <p class="card-text">Number of all Stocks</p>
-          <h5 class="card-title">{{totalStocks}}</h5>
+          <h5 class="card-title">{{ totalStocks }}</h5>
         </div>
       </div>
     </div>
-
   </div>
 
-  <div>
+  <div></div>
 
+  <div
+    class="row shadow-lg p-3 mb-5 bg-white rounded"
+    style="background-color: white; width: 25%; margin-left: 35%"
+  >
+    <div class="custom-control custom-radio">
+      <input
+        type="radio"
+        class="custom-control-input"
+        name="btnradio"
+        id="btnradio1"
+        [(ngModel)]="chartType"
+        value="BarChart"
+        checked
+        mdbInput
+      />
+      <label class="custom-control-label" for="btnradio1">BarChart</label>
+    </div>
+
+    <div class="custom-control custom-radio ml-5">
+      <input
+        type="radio"
+        class="custom-control-input"
+        name="btnradio"
+        [(ngModel)]="chartType"
+        id="btnradio2"
+        value="PieChart"
+      />
+      <label class="custom-control-label" for="btnradio2">PieChart</label>
+    </div>
   </div>
 
-  <div class="btn-group" role="group" >
-select Chart Type ?
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio1"  [(ngModel)]="chartType" value='BarChart' autocomplete="off" checked>
-  <label class="btn btn-outline-primary" for="btnradio1">BarChart </label>
-
-  <input type="radio" class="btn-check" name="btnradio"  [(ngModel)]="chartType" id="btnradio2" value='PieChart' autocomplete="off">
-  <label class="btn btn-outline-primary" for="btnradio2">PieChart</label>
-
-
+  <div class="col-md-12" *ngIf="chartType === 'BarChart'">
+    <app-bar-chart
+      [chartData]="top7Brnaches"
+      [header]="bieChartHeader"
+    ></app-bar-chart>
+  </div>
+  <div class="col-md-12" *ngIf="chartType === 'PieChart'">
+    <app-pie-chart
+      [chartData]="top7Brnaches"
+      [header]="bieChartHeader"
+    ></app-pie-chart>
+  </div>
 </div>
-
-
-    <div class="col-md-12" *ngIf="chartType==='BarChart'">
-      <app-pie-chart [chartData]="top7Brnaches" [header]="bieChartHeader"></app-pie-chart>
-    </div>
-    <div class="col-md-12" *ngIf="chartType==='PieChart'">
-      <app-bar-chart [chartData]="top7Brnaches" [header]="bieChartHeader"></app-bar-chart>
-
-    </div>
+<br />
+<br />
+<br />
+<div>
+  <div *ngIf="this.data.length > 0">
+    <app-smart-table [data]="data" [headers]="tableHeaders"> </app-smart-table>
   </div>
-<br>
-<br>
-<br>
-    <div >
-      <div *ngIf="this.data.length>0">
-        <app-smart-table [data]="data" [headers]="tableHeaders">
-        </app-smart-table>
-      </div>
-
-
-
-
-
-    </div>
-
-
+</div>

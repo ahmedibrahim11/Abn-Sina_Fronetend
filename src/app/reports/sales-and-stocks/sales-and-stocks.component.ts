@@ -56,6 +56,8 @@ export class SalesAndStocksComponent implements OnInit {
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
+          this.chartType='BarChart';
+
       this.getAllCardsValue("Item Code");
       this.getAllCardsValue("Branch Code");
       this.getAllCardsValue("Sales Value");
