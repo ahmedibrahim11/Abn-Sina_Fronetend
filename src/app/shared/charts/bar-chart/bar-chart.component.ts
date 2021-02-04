@@ -9,32 +9,54 @@ import { Input } from '@angular/core';
   styleUrls: ['./bar-chart.component.css']
 })
 export class BarChartComponent implements OnInit {
+
   @Input() chartData: any = [];
-    itemsName : any = [];
-    itemsCode : any = [];
-
-  ngOnInit(): void {
-    for(var i=0 ; i< this.chartData.length ; i++){
-      this.itemsName.push(this.chartData[i]['Item name']);
-    }
-    for(var i=0 ; i< this.chartData.length ; i++){
-      this.itemsCode.push(this.chartData[i]['Item Code']);
-    }
-    console.log(this.itemsCode)
-  }
-
-  barChartOptions: ChartOptions = {
-    responsive: true,
-    scales: { xAxes: [{}], yAxes: [{}] },
-  };
-  barChartLabels: Label[] = this.itemsName;
-  barChartType: ChartType = 'bar';
-  barChartLegend = false;
-  barChartPlugins = [];
-
-  barChartData: ChartDataSets[] = [
-    { data: this.itemsCode},
+  @Input() header: any = [];
   
-  ];
+  itemsName : any = [];
+  itemsValue: any = [];
+ngOnInit(): void {
+   for(var i=0 ; i< this.chartData.length ; i++){
+    this.itemsName.push(this.chartData[i]['name']);
+  }
+  for(var i=0 ; i< this.chartData.length ; i++){
+    this.itemsValue.push(this.chartData[i]['value']);
+  }
+}
 
+barChartOptions: ChartOptions = {
+  
+  responsive: true,
+  legend: {
+    position: 'top',
+
+  
+  },
+  tooltips: {
+    enabled: true,
+    mode: 'single',
+    callbacks: {
+      label: function (tooltipItems:any, data:any) {
+        return data.datasets[0].data[tooltipItems.index] + 'LE';
+      }
+    }
+  },
+};
+
+barChartLabels: Label[] = this.itemsName;
+barChartData: ChartDataSets [] = [{data: this.itemsValue,label:"Most Sales Branches"}]
+barChartType: ChartType = 'bar';
+barChartLegend = true;
+barChartPlugins = [];
+barChartColors = [
+  {
+    backgroundColor: ['rgba(255, 99, 132)',
+    'rgba(54, 162, 235)',
+    'rgba(255, 206, 86)',
+    'rgba(75, 192, 192)',
+    'rgba(153, 102, 255 )',
+    'rgba(153, 202, 205)',
+    'rgba(255, 159, 64,)']
+  },
+];
 }

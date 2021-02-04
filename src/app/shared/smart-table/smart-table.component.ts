@@ -16,7 +16,7 @@ export class SmartTableComponent implements OnInit {
     actions: false,
     pager: {
       display: true,
-      perPage: 5,
+      perPage: 20,
       pagging: true,
     },
 

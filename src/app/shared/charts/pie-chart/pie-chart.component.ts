@@ -11,14 +11,16 @@ import { Input } from '@angular/core';
 export class PieChartComponent implements OnInit{
 
     @Input() chartData: any = [];
+    @Input() header: any = [];
+    
     itemsName : any = [];
-    itemsCode : any = [];
+    itemsValue: any = [];
   ngOnInit(): void {
      for(var i=0 ; i< this.chartData.length ; i++){
-      this.itemsName.push(this.chartData[i]['Item name']);
+      this.itemsName.push(this.chartData[i]['name']);
     }
     for(var i=0 ; i< this.chartData.length ; i++){
-      this.itemsCode.push(this.chartData[i]['Item Code']);
+      this.itemsValue.push(this.chartData[i]['value']);
     }
   }
 
@@ -40,7 +42,7 @@ export class PieChartComponent implements OnInit{
 
   pieChartLabels: Label[] = this.itemsName;
 
-  pieChartData: any[] = [1,2,3];
+  pieChartData: any[] = this.itemsValue;
 
   pieChartType: ChartType = 'pie';
 
@@ -50,7 +52,13 @@ export class PieChartComponent implements OnInit{
 
   pieChartColors = [
     {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+      backgroundColor: ['rgba(255, 99, 132)',
+      'rgba(54, 162, 235)',
+      'rgba(255, 206, 86)',
+      'rgba(75, 192, 192)',
+      'rgba(153, 102, 255 )',
+      'rgba(153, 202, 205)',
+      'rgba(255, 159, 64,)']
     },
   ];
 }

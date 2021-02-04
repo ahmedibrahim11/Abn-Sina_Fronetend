@@ -12,6 +12,8 @@ import { SmartTableComponent } from '../shared/smart-table/smart-table.component
 import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.component';
 import { PieChartComponent } from '../shared/charts/pie-chart/pie-chart.component';
 import { ChartsModule } from 'ng2-charts';
+import { NgbButtonsModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +23,10 @@ import { ChartsModule } from 'ng2-charts';
     ReportsRoutingModule,
     Ng2SmartTableModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
+    NgbModule,
+    FormsModule,
+    NgbButtonsModule,
   ],
   providers:[FileService,ExcelService]
 })

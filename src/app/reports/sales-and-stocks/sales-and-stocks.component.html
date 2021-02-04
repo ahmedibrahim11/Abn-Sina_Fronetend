@@ -35,16 +35,37 @@
         </div>
       </div>
     </div>
-    <div class="row mt-5 mb-5">
-      <div class="col-md-8">
-        <app-pie-chart [chartData]="data"></app-pie-chart>
-      </div>
-      <div class="col-md-4">
-        <app-bar-chart [chartData]="data"></app-bar-chart>
 
-      </div>
+  </div>
+
+  <div>
+
+  </div>
+
+  <div class="btn-group" role="group" >
+select Chart Type ?
+  <input type="radio" class="btn-check" name="btnradio" id="btnradio1"  [(ngModel)]="chartType" value='BarChart' autocomplete="off" checked>
+  <label class="btn btn-outline-primary" for="btnradio1">BarChart </label>
+
+  <input type="radio" class="btn-check" name="btnradio"  [(ngModel)]="chartType" id="btnradio2" value='PieChart' autocomplete="off">
+  <label class="btn btn-outline-primary" for="btnradio2">PieChart</label>
+
+
+</div>
+
+
+    <div class="col-md-12" *ngIf="chartType==='BarChart'">
+      <app-pie-chart [chartData]="top7Brnaches" [header]="bieChartHeader"></app-pie-chart>
     </div>
-    <div class="row">
+    <div class="col-md-12" *ngIf="chartType==='PieChart'">
+      <app-bar-chart [chartData]="top7Brnaches" [header]="bieChartHeader"></app-bar-chart>
+
+    </div>
+  </div>
+<br>
+<br>
+<br>
+    <div >
       <div *ngIf="this.data.length>0">
         <app-smart-table [data]="data" [headers]="tableHeaders">
         </app-smart-table>
@@ -55,4 +76,5 @@
 
 
     </div>
-  </div>
+
+

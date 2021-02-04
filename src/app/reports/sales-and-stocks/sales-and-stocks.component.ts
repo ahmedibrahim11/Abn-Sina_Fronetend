@@ -20,7 +20,8 @@ export class SalesAndStocksComponent implements OnInit {
   totalSales: any = [];
   totalStocks: any = [];
   top7Brnaches:any=[];
-
+  bieChartHeader="Most Top 7 Sales Branches"
+  chartType = '';
 
   constructor(private _fileService: FileService) { }
 
@@ -71,7 +72,7 @@ let allbranchesSales=[];
  for (let key in dataGroupedByBranch) {
 
    if (key) {
-    let branch={brnachName:key,value:0}
+    let branch={name:key,value:0}
     let values:number[]=[];
     dataGroupedByBranch[key].forEach((elm:any)=>{
       values.push(elm["Sales Value"]);
