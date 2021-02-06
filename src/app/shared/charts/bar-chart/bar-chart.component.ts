@@ -21,29 +21,13 @@ export class BarChartComponent implements OnInit {
   itemsName : any = [];
   itemsValue: any = [];
 ngOnInit(): void {
-
-  switch (this.type) {
-    case 1:
-      for (var i = 0; i < this.chartData.length; i++) {
-        this.itemsName.push(this.chartData[i]['name']);
-      }
-      for (var i = 0; i < this.chartData.length; i++) {
-        this.itemsValue.push(this.chartData[i]['value']);
-      }
-      break;
-
-    case 2:
-      for (var i = 0; i < this.branchData.length; i++) {
-        this.itemsName.push(this.branchData[i]);
-      }
-      for (var i = 0; i < this.chartData.length; i++) {
-        this.itemsValue.push(this.chartData[i]);
-      }
-
-      break;
-
-    default:
-      break;
+   for(var i=0 ; i< this.chartData.length ; i++){
+    this.itemsName.push(this.chartData[i]['name']);
+  }
+  for(var i=0 ; i< this.chartData.length ; i++){
+    this.itemsValue.push(this.chartData[i]['value']);
+   let color=  this.generateColors();
+   this.barChartColors[0].backgroundColor.push(color);
   }
  
 }
@@ -72,15 +56,15 @@ barChartData: ChartDataSets [] = [{data: this.itemsValue,label:"Most Sales Branc
 barChartType: ChartType = 'bar';
 barChartLegend = true;
 barChartPlugins = [];
+generateColors() {
+  var r = Math.floor(Math.random() * 255);
+  var g = Math.floor(Math.random() * 255);
+  var b = Math.floor(Math.random() * 255);
+  return "rgb(" + r + "," + g + "," + b + ")" as never;
+};
 barChartColors = [
   {
-    backgroundColor: ['rgba(255, 99, 132)',
-    'rgba(54, 162, 235)',
-    'rgba(255, 206, 86)',
-    'rgba(75, 192, 192)',
-    'rgba(153, 102, 255 )',
-    'rgba(153, 202, 205)',
-    'rgba(255, 159, 64,)']
+    backgroundColor: []
   },
 ];
 }

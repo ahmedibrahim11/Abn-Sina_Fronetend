@@ -1,0 +1,125 @@
+<div class="row ">
+    <div class="col-md">
+      <select placeholder="Please Select Item"
+        class="btn btn pt-4 shadow-lg"
+        [(ngModel)]="selectedItem"
+        (change)="selectItemChange(selectedItem)"
+      >
+        <option disabled>--Select Item--</option>
+        <option *ngFor="let item of itemsName" [ngValue]="item">
+          {{ item }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md">
+      <select placeholder="Please Select branch"
+        class="btn btn pt-4 shadow-lg"
+      >
+        <option disabled>--Select Branch--</option>
+        <option *ngFor="let item of itemInBranches" [ngValue]="item">
+          {{ item['Branch Name'] }}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-3 ml-5" >
+      
+      <div
+        class="row shadow-lg p-3 mb-5 bg-white rounded"
+        style="background-color: white"
+      >
+        <div class="custom-control custom-radio">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradio1"
+            id="btnradio3"
+            (change)="handleStockOrSalesChange($event)"
+            checked
+            mdbInput
+            value="stock"
+          />
+          <label class="custom-control-label" for="btnradio3">Stock</label>
+        </div>
+
+        <div class="custom-control custom-radio ml-5">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradio1"
+            id="btnradio4"
+            value="sales"
+
+            (change)="handleStockOrSalesChange($event)"
+          />
+          <label class="custom-control-label" for="btnradio4">Sales</label>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-3 ml-5">
+      <div
+        class="row shadow-lg p-3 mb-5 bg-white rounded"
+        style="background-color: white"
+      >
+        <div class="custom-control custom-radio">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradio2"
+            id="btnradio5"
+            value="BarChart"
+            (change)="handleChartChange($event)"
+            checked
+            mdbInput
+          />
+          <label class="custom-control-label" for="btnradio5">BarChart</label>
+        </div>
+
+        <div class="custom-control custom-radio ml-5">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradio2"
+            id="btnradio6"
+            value="PieChart"
+            (change)="handleChartChange($event)"
+          />
+          <label class="custom-control-label" for="btnradio6">PieChart</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="selectedItem">
+    <div class="col-md-12">
+      <div *ngIf="selectedStockSales === 'stock'">
+        <div *ngIf="selectedBarBieChart === 'bar'">
+          <app-bar-chart
+            [chartData]="selectedItemStocks"
+            [header]="statisticsHeader"
+          ></app-bar-chart>
+        </div>
+        <div *ngIf="selectedBarBieChart === 'pie'">
+          <app-pie-chart
+            [chartData]="selectedItemStocks"
+            [header]="statisticsHeader"
+          ></app-pie-chart>
+        </div>
+      </div>
+      <div *ngIf="selectedStockSales === 'sales'">
+        <div *ngIf="selectedBarBieChart === 'bar'">
+          <app-bar-chart
+            [chartData]="selectedItemSales"
+            [header]="statisticsHeader"
+          ></app-bar-chart>
+        </div>
+        <div *ngIf="selectedBarBieChart === 'pie'">
+          <app-pie-chart
+            [chartData]="selectedItemSales"
+            [header]="statisticsHeader"
+          ></app-pie-chart>
+        </div>
+      </div>
+    </div>
+  </div>
