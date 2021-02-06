@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 
@@ -23,12 +24,9 @@ export class SalesAndStocksItemComponent implements OnInit {
   ngOnInit(): void {
     this.selectedStockSales = 'stock';
     this.selectedBarBieChart = 'bar';
-    this.itemsName = _.uniq(
-      _.map(this.data, (item) => {
-       return item['Item name'];
-      })
-    );
-    console.log("ittteeeeeeee",this.itemsName);
+
+    this.itemsName=_.uniqBy(this.data,"Item name");
+    console.log("itemsName",this.itemsName);
   }
   
   handleStockOrSalesChange(event: any) {
@@ -50,24 +48,27 @@ export class SalesAndStocksItemComponent implements OnInit {
 
   getBranchesByItem(item:any)
   {
-      this.itemInBranches=_.filter(this.data,b=>b["Item name"]===item);
-
-    console.log("item BRanches",this.itemInBranches);
+      this.itemInBranches=_.filter(this.data,b=>b["Item Code"]===item['Item Code']);
+      console.log("item BRanches",this.itemInBranches);
   }
 
   selectItemChange(item:any) {
+    debugger;
     console.log("iteeem",item);
-    this.selectedItemStocks=[];
-    this.getSelectedItemData(this.selectedItem);
     this.getBranchesByItem(item);
-    // this.getSelectedItemBranches(this.allItemData);
  
   }
-  getSelectedItemData(selectedItemName: any) {
-    this.allItemData = _.filter(this.data, function (item) {
-      return item['Item name'] === selectedItemName;
-    });
+  selectBranch(branch:any){
+      console.log("branch",branch['Branch Code']);
+      this.getStockBranchVaules(this.selectedItem['Item Code'],branch['Branch Code'])
   }
+
+  getStockBranchVaules(itemCode:any,branchCode:any){
+    debugger;
+    var values=_.filter(this.itemInBranches,v=>v["Item Code"]==itemCode && v['Branch Code']==branchCode)
+    debugger;
+  }
+
   getSelectedItemBranches(itemData: any) {
     this.selectedItemBranches = _.uniq(
       _.map(itemData, (item) => {
