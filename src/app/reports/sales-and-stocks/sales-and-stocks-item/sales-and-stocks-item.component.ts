@@ -52,7 +52,7 @@ export class SalesAndStocksItemComponent implements OnInit {
       console.log("item BRanches",this.itemInBranches);
   }
 
-  selectItemChange(item:any) {
+  selectItemChange(item:any) { 
     debugger;
     console.log("iteeem",item);
     this.getBranchesByItem(item);
@@ -61,30 +61,21 @@ export class SalesAndStocksItemComponent implements OnInit {
   selectBranch(branch:any){
       console.log("branch",branch['Branch Code']);
       this.getStockBranchVaules(this.selectedItem['Item Code'],branch['Branch Code'])
+
   }
 
   getStockBranchVaules(itemCode:any,branchCode:any){
     debugger;
-    var values=_.filter(this.itemInBranches,v=>v["Item Code"]==itemCode && v['Branch Code']==branchCode)
+    this.selectedItemStocks=[];
+    this.selectedItemSales=[];
+
+    var values:any=_.filter(this.itemInBranches,v=>v["Item Code"]==itemCode && v['Branch Code']==branchCode);
+    this.selectedItemStocks.push({name:values[0]['Branch Name'],value:values[0]["Stock Value"]})
     debugger;
-  }
+    this.selectedItemSales.push({name:values[0]['Branch Name'],value:values[0]["Sales Value"]})
 
-  getSelectedItemBranches(itemData: any) {
-    this.selectedItemBranches = _.uniq(
-      _.map(itemData, (item) => {
-        return item['Branch Name'];
-      })
-    );
-    this.selectedItemStocks = _.uniq(
-      _.map(itemData, (item) => {
-        return {name:item['Stock'],value:item['Stock Value']};
-      })
-    );
-    this.selectedItemSales = _.uniq(
-      _.map(itemData, (item) => {
-        return {name:item['Stock Value'],value:item['Stock Value']};
+    console.log("ItemStocks",this.selectedItemStocks);
+    console.log("ItemValues",this.selectedItemSales);
 
-      })
-    );
   }
 }
