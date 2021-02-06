@@ -10,26 +10,18 @@ import * as _ from 'lodash';
 })
 export class SalesAndStocksComponent implements OnInit {
   url: string = 'Report/downloadFile';
-
   data: any[] = [];
   tableHeaders: any[] = [];
-  itemsName: any = [];
-  selectedStockSales: any;
-  selectedBarBieChart: any;
-  allItemData: any = [];
-  selectedItemBranches: any = [];
-  selectedItemStocks: any = [];
-  selectedItemSales: any = [];
-  selectedItem: any;
+  loader=true;
+
   branchesName: any;
   itemsCode: any = [];
   branchesCode: any = [];
   totalSales: any = [];
   totalStocks: any = [];
-  top7Brnaches: any = [];
-  bieChartHeader = 'Most Top 7 Sales Branches';
-  statisticsHeader = 'Item stock and sales values';
-  chartType = '';
+
+
+
   selectedChart = '';
   selectedChart2 = '';
 
@@ -64,42 +56,20 @@ export class SalesAndStocksComponent implements OnInit {
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
-      this.chartType = 'BarChart';
+   
       this.selectedChart = 'BarChart';
       this.selectedChart2 = 'BarChart';
-      this.selectedStockSales = 'stock';
-      this.selectedBarBieChart = 'bar';
+
       this.getAllCardsValue('Item Code');
       this.getAllCardsValue('Item name');
       this.getAllCardsValue('Branch Code');
       this.getAllCardsValue('Sales Value');
       this.getAllCardsValue('Stock');
-      this.getSalesBranches();
+     this.loader=false;
     };
   }
 
-  getSalesBranches() {
-    let allbranchesSales = [];
-
-    let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
-    console.log('names', dataGroupedByBranch);
-    for (let key in dataGroupedByBranch) {
-      if (key) {
-        let branch = { name: key, value: 0 };
-        let values: number[] = [];
-        dataGroupedByBranch[key].forEach((elm: any) => {
-          values.push(elm['Sales Value']);
-        });
-        branch.value = _.sum(values);
-
-        allbranchesSales.push(branch);
-      }
-    }
-    this.top7Brnaches = _.orderBy(allbranchesSales, 'value')
-      .reverse()
-      .slice(0, 7);
-    console.log(this.top7Brnaches);
-  }
+  
 
   getAllCardsValue(key: any) {
     switch (key) {
@@ -131,81 +101,14 @@ export class SalesAndStocksComponent implements OnInit {
         });
         this.totalStocks = _.sum(stocks);
         break;
-      case 'Item name':
-        this.itemsName = _.uniq(
-          _.map(this.data, (item) => {
-            return item[key];
-          })
-        );
+
     }
   }
 
-  handleStockChange(evt: any) {
-    var target = evt.target;
-    if (target.checked) {
-      this.selectedStockSales = 'stock';
-    } else {
-      this.selectedStockSales = 'sales';
-    }
-    console.log(this.selectedStockSales);
-  }
-  handleSalesChange(evt: any) {
-    var target = evt.target;
-    if (target.checked) {
-      this.selectedStockSales = 'sales';
-    } else {
-      this.selectedStockSales = 'stock';
-    }
-    console.log(this.selectedStockSales);
-  }
-  handleBarChange(evt: any) {
-    var target = evt.target;
-    if (target.checked) {
-      this.selectedBarBieChart = 'bar';
-    } else {
-      this.selectedBarBieChart = 'pie';
-    }
-    console.log(this.selectedBarBieChart);
-  }
-  handlePieChange(evt: any) {
-    var target = evt.target;
-    if (target.checked) {
-      this.selectedBarBieChart = 'pie';
-    } else {
-      this.selectedBarBieChart = 'bar';
-    }
-    console.log(this.selectedBarBieChart);
-  }
 
-  selected() {
-    this.getSelectedItemData(this.selectedItem);
-    this.getSelectedItemBranches(this.allItemData);
-  }
 
-  getSelectedItemData(selectedItemName: any) {
-    this.allItemData = _.filter(this.data, function (item) {
-      return item['Item name'] === selectedItemName;
-    });
-  }
-  getSelectedItemBranches(itemData: any) {
-    this.selectedItemBranches = _.uniq(
-      _.map(itemData, (item) => {
-        return item['Branch Name'];
-      })
-    );
-    this.selectedItemStocks = _.uniq(
-      _.map(itemData, (item) => {
-        return item['Stock Value'];
-      })
-    );
-    this.selectedItemSales = _.uniq(
-      _.map(itemData, (item) => {
-        return item['Sales Value'];
-      })
-    );
-    console.log(this.selectedItemStocks);
-    console.log(this.selectedItemSales);
-  }
+
+ 
 
   get_header_row(ws: any) {
     var range = XLSX.utils.decode_range(ws['!ref']);
@@ -219,7 +122,8 @@ export class SalesAndStocksComponent implements OnInit {
       if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
       this.tableHeaders.push({ name: hdr, title: hdr });
     }
-    debugger;
     return this.tableHeaders;
   }
+
+  
 }

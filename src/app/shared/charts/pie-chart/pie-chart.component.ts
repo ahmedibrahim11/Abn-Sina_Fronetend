@@ -21,6 +21,8 @@ export class PieChartComponent implements OnInit{
     }
     for(var i=0 ; i< this.chartData.length ; i++){
       this.itemsValue.push(this.chartData[i]['value']);
+      let color=  this.generateColors();
+      this.pieChartColors[0].backgroundColor.push(color);
     }
   }
 
@@ -50,15 +52,15 @@ export class PieChartComponent implements OnInit{
 
   pieChartPlugins = [];
 
+  generateColors() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")" as never;
+  };
   pieChartColors = [
     {
-      backgroundColor: ['rgba(255, 99, 132)',
-      'rgba(54, 162, 235)',
-      'rgba(255, 206, 86)',
-      'rgba(75, 192, 192)',
-      'rgba(153, 102, 255 )',
-      'rgba(153, 202, 205)',
-      'rgba(255, 159, 64,)']
+      backgroundColor: []
     },
   ];
 }

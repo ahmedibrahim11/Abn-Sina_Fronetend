@@ -1,3 +1,19 @@
 .phcontainer{
     margin: 1%;
 }
+select{
+    width: 100%;
+}
+
+.spinner-border{
+    width: 12rem !important;
+    height: 12rem !important;
+}
+.loadercontainer{
+    align-items: center;
+    display: block;
+    align-content: center;
+    text-align: center;
+    margin-top: 25%;
+
+}
