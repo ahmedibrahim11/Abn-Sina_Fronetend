@@ -3,8 +3,8 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text">Number of all items</p>
-          <h5 class="card-title">{{ itemsCode.length - 1 }}</h5>
+          <p class="card-text text-center font-weight-bold">Number of all items</p>
+          <h5 class="card-title text-center text-primary">{{ itemsCode.length - 1 }}</h5>
         </div>
       </div>
     </div>
@@ -12,8 +12,8 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text">Number of all branches</p>
-          <h5 class="card-title">{{ branchesCode.length }}</h5>
+          <p class="card-text text-center font-weight-bold">Number of all branches</p>
+          <h5 class="card-title text-center text-primary">{{ branchesCode.length }}</h5>
         </div>
       </div>
     </div>
@@ -21,8 +21,8 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text">Total sales</p>
-          <h5 class="card-title">{{ totalSales }}</h5>
+          <p class="card-text text-center font-weight-bold">Total sales</p>
+          <h5 class="card-title text-center text-primary">{{ totalSales }}</h5>
         </div>
       </div>
     </div>
@@ -30,14 +30,12 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text">Number of all Stocks</p>
-          <h5 class="card-title">{{ totalStocks }}</h5>
+          <p class="card-text text-center font-weight-bold">Number of all Stocks</p>
+          <h5 class="card-title text-center text-primary">{{ totalStocks }}</h5>
         </div>
       </div>
     </div>
   </div>
-
-  <div></div>
 
   <div
     class="row shadow-lg p-3 mb-5 bg-white rounded"
@@ -74,12 +72,14 @@
     <app-bar-chart
       [chartData]="top7Brnaches"
       [header]="bieChartHeader"
+      [type]="1"
     ></app-bar-chart>
   </div>
   <div class="col-md-12" *ngIf="chartType === 'PieChart'">
     <app-pie-chart
       [chartData]="top7Brnaches"
       [header]="bieChartHeader"
+      [type]="1"
     ></app-pie-chart>
   </div>
   <br />
@@ -169,13 +169,17 @@
         <div *ngIf="selectedBarBieChart === 'bar'">
           <app-bar-chart
             [chartData]="selectedItemStocks"
+            [branchData]="selectedItemBranches"
             [header]="statisticsHeader"
+            [type]="2"
           ></app-bar-chart>
         </div>
         <div *ngIf="selectedBarBieChart === 'pie'">
           <app-pie-chart
             [chartData]="selectedItemStocks"
+            [branchData]="selectedItemBranches"
             [header]="statisticsHeader"
+            [type]="2"
           ></app-pie-chart>
         </div>
       </div>
@@ -183,19 +187,28 @@
         <div *ngIf="selectedBarBieChart === 'bar'">
           <app-bar-chart
             [chartData]="selectedItemSales"
+            [branchData]="selectedItemBranches"
             [header]="statisticsHeader"
+            [type]="2"
+
           ></app-bar-chart>
         </div>
         <div *ngIf="selectedBarBieChart === 'pie'">
           <app-pie-chart
             [chartData]="selectedItemSales"
+            [branchData]="selectedItemBranches"
             [header]="statisticsHeader"
+            [type]="2"
+
           ></app-pie-chart>
         </div>
       </div>
     </div>
   </div>
-
+  
+  <br />
+  <br />
+  <br />
   <div>
     <div *ngIf="this.data.length > 0">
       <app-smart-table [data]="data" [headers]="tableHeaders">

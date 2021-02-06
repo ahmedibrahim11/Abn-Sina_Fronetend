@@ -11,17 +11,41 @@ import { Input } from '@angular/core';
 export class BarChartComponent implements OnInit {
 
   @Input() chartData: any = [];
+
+
+  @Input() branchData: any = [];
+  @Input() type: any = '';
+
   @Input() header: any = [];
   
   itemsName : any = [];
   itemsValue: any = [];
 ngOnInit(): void {
-   for(var i=0 ; i< this.chartData.length ; i++){
-    this.itemsName.push(this.chartData[i]['name']);
+
+  switch (this.type) {
+    case 1:
+      for (var i = 0; i < this.chartData.length; i++) {
+        this.itemsName.push(this.chartData[i]['name']);
+      }
+      for (var i = 0; i < this.chartData.length; i++) {
+        this.itemsValue.push(this.chartData[i]['value']);
+      }
+      break;
+
+    case 2:
+      for (var i = 0; i < this.branchData.length; i++) {
+        this.itemsName.push(this.branchData[i]);
+      }
+      for (var i = 0; i < this.chartData.length; i++) {
+        this.itemsValue.push(this.chartData[i]);
+      }
+
+      break;
+
+    default:
+      break;
   }
-  for(var i=0 ; i< this.chartData.length ; i++){
-    this.itemsValue.push(this.chartData[i]['value']);
-  }
+ 
 }
 
 barChartOptions: ChartOptions = {
