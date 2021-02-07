@@ -17,8 +17,6 @@ export class MostSalesBranchesComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    debugger;
-    console.log(this.data);
     this.chartType = 'BarChart';
     this.getSalesBranches();
   }
@@ -27,7 +25,6 @@ export class MostSalesBranchesComponent implements OnInit {
     let allbranchesSales = [];
 
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
-    console.log('names', dataGroupedByBranch);
     for (let key in dataGroupedByBranch) {
       if (key) {
         let branch = { name: key, value: 0 };

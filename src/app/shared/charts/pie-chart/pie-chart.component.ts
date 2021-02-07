@@ -18,7 +18,6 @@ export class PieChartComponent implements OnInit {
   itemsName: any = [];
   itemsValue: any = [];
   ngOnInit(): void {
-    console.log("chartData",this.chartData);
      for(var i=0 ; i< this.chartData.length ; i++){
       this.itemsName.push(this.chartData[i]['name']);
     }

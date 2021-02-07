@@ -13,7 +13,7 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text text-center font-weight-bold">Number of all items</p>
+          <p class="card-text text-center font-weight-bold">Total Items</p>
           <h5 class="card-title text-center text-primary">{{ itemsCode.length - 1 }}</h5>
         </div>
       </div>
@@ -22,7 +22,7 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text text-center font-weight-bold">Number of all branches</p>
+          <p class="card-text text-center font-weight-bold">Total Branches</p>
           <h5 class="card-title text-center text-primary">{{ branchesCode.length }}</h5>
         </div>
       </div>
@@ -31,7 +31,7 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text text-center font-weight-bold">Total sales</p>
+          <p class="card-text text-center font-weight-bold">Total Sales</p>
           <h5 class="card-title text-center text-primary">{{ totalSales }}</h5>
         </div>
       </div>
@@ -40,7 +40,7 @@
     <div class="col-md-3">
       <div class="card shadow-lg p-3 mb-5 bg-white rounded">
         <div class="card-body">
-          <p class="card-text text-center font-weight-bold">Number of all Stocks</p>
+          <p class="card-text text-center font-weight-bold">Total Stocks</p>
           <h5 class="card-title text-center text-primary">{{ totalStocks }}</h5>
         </div>
       </div>
@@ -62,10 +62,10 @@
 
   <!-- sales stocks items charts -->
 
-  <!-- <div *ngIf="this.data.length > 0">
-<app-sales-and-stocks-item  [data]="data">
+   <div *ngIf="this.data.length > 0">
+<app-sales-and-stocks-item  [data]="data" >
 </app-sales-and-stocks-item>
-</div> -->
+</div>
 
 <hr>
 <br>
