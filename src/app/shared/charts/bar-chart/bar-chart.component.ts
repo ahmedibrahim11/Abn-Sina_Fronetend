@@ -26,13 +26,16 @@ export class BarChartComponent implements OnInit {
   itemsValue: any = [];
 ngOnInit(): void {
    for(var i=0 ; i< this.chartData.length ; i++){
-    this.itemsName.push(this.chartData[i]['name']);
+    this.itemsName.push(this.chartData[i]['name'].substring(0,18));
+
   }
   for(var i=0 ; i< this.chartData.length ; i++){
     this.itemsValue.push(this.chartData[i]['value']);
    let color=  this.generateColors();
    this.barChartColors[0].backgroundColor.push(color);
   }
+
+
  
 }
 
@@ -59,7 +62,7 @@ barChartOptions: ChartOptions = {
 };
 
 barChartLabels: Label[] = this.itemsName;
-barChartData: ChartDataSets [] = [{data: this.itemsValue,label:"Most Sales Branches"}]
+barChartData: ChartDataSets [] = [{data: this.itemsValue,label:this.header}]
 barChartType: ChartType = 'bar';
 barChartLegend = true;
 barChartPlugins = [];

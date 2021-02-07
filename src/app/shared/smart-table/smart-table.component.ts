@@ -40,7 +40,6 @@ export class SmartTableComponent implements OnInit {
       }
     });
     this.source.load(this.data);
-    console.log("thisData", this.data);
   }
 
   ngOnInit(): void {
