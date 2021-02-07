@@ -23,11 +23,11 @@ selectedItemSalesQty:any[]=[];
 
   itemsDropDownMenu: any = [];
   selectedItem: any;
-  selectedChartType: any;
+chartType: any;
 
   ngOnInit(): void {
-    this.selectedvalQty = 'value';
-    this.selectedChartType = 'bar';
+    this.selectedvalQty = 'val';
+    this.chartType = 'bar';
 
     this.itemsDropDownMenu=_.uniqBy(this.data,"Item name");
   }
@@ -47,8 +47,8 @@ selectedItemSalesQty:any[]=[];
 
         dataGroupedByBranch[key].filter(s=>s['Item name']===itemName).forEach((elm: any) => {
           values.push(elm['Sales Value']);
-          qty.push(elm['Sales']);
-      
+          qty.push(elm['Sales Qty']);
+      console.log(elm)
         });
         branch.value = _.sum(values);
         branch.qty = _.sum(qty);
