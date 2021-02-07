@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Input } from '@angular/core';
 import * as _ from 'lodash';
+import * as jsPDF from 'jspdf'
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-most-sales-branches',
@@ -9,19 +11,37 @@ import * as _ from 'lodash';
 })
 export class MostSalesBranchesComponent implements OnInit {
   bieChartHeader = 'Most Top 7 Sales Branches';
+  lowerHeader = 'Lowest 7 Sales Branches'
   chartType = '';
+  chartID = '';
+  branchType = '';
   top7Brnaches: any = [];
- @Input()  data:any=[];
+  lowest7Branches: any = [];
+  @Input() data: any = [];
   constructor() {
+  }
 
-   }
+  openPDF(): void {
+    var element:any=document.getElementById(this.chartID);
+    debugger;
+    html2canvas(element).then((canvas)=>{
+      var imgData=canvas.toDataURL('image/png');
+      let doc = new jsPDF();
+      doc.addImage(imgData,0,0,0,90,100);
+      doc.save('csvpdf.pdf');
+    })
+   
+  }
 
   ngOnInit(): void {
     debugger;
     console.log(this.data);
     this.chartType = 'BarChart';
+    this.branchType = 'highest';
+    this.chartID = 'firstCase';
     this.getSalesBranches();
   }
+
 
   getSalesBranches() {
     let allbranchesSales = [];
@@ -43,5 +63,8 @@ export class MostSalesBranchesComponent implements OnInit {
     this.top7Brnaches = _.orderBy(allbranchesSales, 'value')
       .reverse()
       .slice(0, 7);
+    this.lowest7Branches = _.orderBy(allbranchesSales, 'value')
+      .slice(0, 7);
+
   }
 }

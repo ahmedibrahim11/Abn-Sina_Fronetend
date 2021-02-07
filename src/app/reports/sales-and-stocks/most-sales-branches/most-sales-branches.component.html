@@ -1,43 +1,97 @@
-<div
-class="row shadow-lg p-3 mb-5 bg-white rounded"
-style="background-color: white; width: 25%; margin-left: 35%"
->
-<div class="custom-control custom-radio">
-  <input
-    type="radio"
-    class="custom-control-input"
-    name="btnradio"
-    id="btnradio1"
-    [(ngModel)]="chartType"
-    value="BarChart"
-    checked
-    mdbInput
-  />
-  <label class="custom-control-label" for="btnradio1">BarChart</label>
-</div>
-
-<div class="custom-control custom-radio ml-5">
-  <input
-    type="radio"
-    class="custom-control-input"
-    name="btnradio"
-    [(ngModel)]="chartType"
-    id="btnradio2"
-    value="PieChart"
-  />
-  <label class="custom-control-label" for="btnradio2">PieChart</label>
-</div>
-</div>
-
-<div class="col-md-12" *ngIf="chartType === 'BarChart'">
-<app-bar-chart
-  [chartData]="top7Brnaches"
-  [header]="bieChartHeader"
-></app-bar-chart>
-</div>
-<div class="col-md-12" *ngIf="chartType === 'PieChart'">
-<app-pie-chart
-  [chartData]="top7Brnaches"
-  [header]="bieChartHeader"
-></app-pie-chart>
+<div class="row" >
+  <div
+  class="col-md-4 mr-5 shadow-lg p-3 mb-5 bg-white rounded"
+  style="background-color: white; margin-left: 15%;"
+  >
+  <div class="row">
+    <div class="custom-control custom-radio col-md-4 ml-4">
+      <input
+        type="radio"
+        class="custom-control-input"
+        name="btnradio"
+        id="btnradio1"
+        [(ngModel)]="chartType"
+        value="BarChart"
+        checked
+        mdbInput
+      />
+      <label class="custom-control-label" for="btnradio1">BarChart</label>
+    </div>
+    
+  <div class="custom-control custom-radio col-md-6">
+    <input
+      type="radio"
+      class="custom-control-input"
+      name="btnradio"
+      [(ngModel)]="chartType"
+      id="btnradio2"
+      value="PieChart"
+    />
+    <label class="custom-control-label" for="btnradio2">PieChart</label>
+  </div>
+  </div>
+  
+  </div>
+  
+  
+  
+  <div
+  class="col-md-4 shadow-lg p-3 mb-5 bg-white rounded"
+  style="background-color: white;"
+  >
+  <div class="row">
+    <div class="custom-control custom-radio col-md-4 ml-2">
+      <input
+        type="radio"
+        class="custom-control-input"
+        name="btnradioBranch"
+        id="btnradio3"
+        [(ngModel)]="branchType"
+        value="highest"
+        checked
+        mdbInput
+      />
+      <label class="custom-control-label" for="btnradio3">Highest</label>
+    </div>
+    <div class="custom-control custom-radio col-md-6">
+      <input
+        type="radio"
+        class="custom-control-input"
+        name="btnradioBranch"
+        [(ngModel)]="branchType"
+        id="btnradio4"
+        value="lowest"
+      />
+      <label class="custom-control-label" for="btnradio4">Lowest</label>
+    </div>
+      
+  </div>
+  
+  </div>
+  <button class="btn btn-danger" (click)="openPDF()">Export chart PDF</button>
+  <div id='firstCase' class="col-md-12" *ngIf="chartType === 'BarChart' && branchType === 'highest'">
+  <app-bar-chart
+    [chartData]="top7Brnaches"
+    [header]="bieChartHeader"
+  ></app-bar-chart>
+  </div>
+  <div id='secondCase' class="col-md-12" *ngIf="chartType === 'BarChart' && branchType === 'lowest'">
+    <app-bar-chart 
+    
+      [chartData]="lowest7Branches"
+      [header]="lowerHeader"
+    ></app-bar-chart>
+    </div>
+  <div id="thirdCase" class="col-md-12" *ngIf="chartType === 'PieChart' && branchType === 'highest'">
+  <app-pie-chart
+    [chartData]="top7Brnaches"
+    [header]="bieChartHeader"
+  ></app-pie-chart>
+  </div>
+  <div id='fourthCase' class="col-md-12" *ngIf="chartType === 'PieChart' && branchType === 'lowest'">
+    <app-pie-chart
+      [chartData]="lowest7Branches"
+      [header]="lowerHeader"
+    ></app-pie-chart>
+    </div>
 </div>

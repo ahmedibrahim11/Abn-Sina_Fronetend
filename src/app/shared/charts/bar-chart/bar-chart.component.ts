@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit,ViewChild } from '@angular/core';
 import { ChartDataSets, ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { Input } from '@angular/core';
+
+
+
+
 
 @Component({
   selector: 'app-bar-chart',
@@ -31,6 +35,9 @@ ngOnInit(): void {
   }
  
 }
+
+
+
 
 barChartOptions: ChartOptions = {
   
