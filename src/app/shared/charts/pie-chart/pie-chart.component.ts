@@ -61,7 +61,7 @@ export class PieChartComponent implements OnInit {
     html2canvas(element).then((canvas) => {
       var imgData = canvas.toDataURL('image/png');
       let doc = new jsPDF();
-      doc.addImage(imgData, 0, 0, 0, 90, 300);
+      doc.addImage(imgData, 0, 0, 0, 90, 400);
       doc.save('pieChart.pdf');
     });
   }
