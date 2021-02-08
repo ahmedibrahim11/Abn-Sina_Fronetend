@@ -11,7 +11,6 @@ export class MostSalesBranchesComponent implements OnInit {
   bieChartHeader = 'Most Top 7 Sales Branches';
   lowerHeader = 'Lowest 7 Sales Branches';
   chartType = '';
-  chartID = '';
   branchType = '';
   top7Brnaches: any = [];
   lowest7Branches: any = [];
@@ -21,7 +20,6 @@ export class MostSalesBranchesComponent implements OnInit {
   ngOnInit(): void {
     this.chartType = 'BarChart';
     this.branchType = 'highest';
-    this.chartID = 'firstCase';
     this.getSalesBranches();
   }
 
