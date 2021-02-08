@@ -1,15 +1,19 @@
 <div class="text-center">
-    <h3>{{header}}</h3>
-    </div>
-    <div  class="barchart">
-        <canvas  id='barchart'
-            baseChart 
-            [datasets]="barChartData" 
-            [labels]="barChartLabels" 
-            [chartType]="barChartType"
-            [options]="barChartOptions" 
-            [plugins]="barChartPlugins" 
-            [colors]="barChartColors" 
-            [legend]="barChartLegend">
-        </canvas>
-    </div>
+  <h3>{{ header }}</h3>
+</div>
+<button class="btn btn-danger" (click)="openPDF()">Export chart PDF</button>
+
+<div class="barchart">
+  <canvas
+    id="myChart"
+    baseChart
+    [datasets]="barChartData"
+    [labels]="barChartLabels"
+    [chartType]="barChartType"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+    [colors]="barChartColors"
+    [legend]="barChartLegend"
+  >
+  </canvas>
+</div>
