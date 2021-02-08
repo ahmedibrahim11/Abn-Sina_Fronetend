@@ -38,7 +38,7 @@ export class BarChartComponent implements OnInit {
       var imgData = canvas.toDataURL('image/png');
       let doc = new jsPDF();
       doc.addImage(imgData, 0, 0, 0, 100, 700);
-      doc.save('barChart.pdf');
+      doc.save(this.header);
     });
   }
 
