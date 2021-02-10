@@ -12,15 +12,13 @@ export class SalesAndStocksComponent implements OnInit {
   url: string = 'Report/downloadFile';
   data: any[] = [];
   tableHeaders: any[] = [];
-  loader=true;
+  loader = true;
 
   branchesName: any;
   itemsCode: any = [];
   branchesCode: any = [];
   totalSales: any = [];
   totalStocks: any = [];
-
-
 
   selectedChart = '';
   selectedChart2 = '';
@@ -56,7 +54,7 @@ export class SalesAndStocksComponent implements OnInit {
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
-   
+
       this.selectedChart = 'BarChart';
       this.selectedChart2 = 'BarChart';
 
@@ -65,11 +63,9 @@ export class SalesAndStocksComponent implements OnInit {
       this.getAllCardsValue('Branch Code');
       this.getAllCardsValue('Sales Value');
       this.getAllCardsValue('Stock');
-     this.loader=false;
+      this.loader = false;
     };
   }
-
-  
 
   getAllCardsValue(key: any) {
     switch (key) {
@@ -93,6 +89,7 @@ export class SalesAndStocksComponent implements OnInit {
           return item[key];
         });
         this.totalSales = _.sum(salesValue);
+        this.totalSales = this.totalSales.toFixed(2);
         break;
 
       case 'Stock':
@@ -100,15 +97,10 @@ export class SalesAndStocksComponent implements OnInit {
           return item[key];
         });
         this.totalStocks = _.sum(stocks);
+        this.totalStocks = this.totalStocks.toFixed(2);
         break;
-
     }
   }
-
-
-
-
- 
 
   get_header_row(ws: any) {
     var range = XLSX.utils.decode_range(ws['!ref']);
@@ -124,6 +116,4 @@ export class SalesAndStocksComponent implements OnInit {
     }
     return this.tableHeaders;
   }
-
-  
 }
