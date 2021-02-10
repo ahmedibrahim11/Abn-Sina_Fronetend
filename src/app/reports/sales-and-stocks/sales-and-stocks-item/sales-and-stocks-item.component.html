@@ -1,9 +1,8 @@
 <div class="row ">
-  <div class="col-md-4">
+  <div class="col-md-3">
     <label class="label"> Item Name</label>
 
-    <select placeholder="Please Select Item" class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem"
-      (change)="selectItemChange(selectedItem)">
+    <select placeholder="Please Select Item" class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem">
       <option disabled>--Select Item--</option>
       <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
         {{ item['Item name'] }}
@@ -17,14 +16,15 @@
       <div class="custom-control custom-radio">
 
         <input type="radio" (change)="changeType($event)" class="custom-control-input" name="btnradiobar"
-          id="btnradiobar" value="bar" mdbInput  />
+          id="btnradiobar" checked  value="bar" mdbInput  />
         <label class="custom-control-label" for="btnradiobar">BarChart</label>
 
       </div>
 
       <div class="custom-control custom-radio ml-5">
-        <input type="radio" class="custom-control-input" (change)="changeType($event)" name="btnradiobar"
-          id="btnradiopie" value="pie" />
+        <input type="radio" class="custom-control-input"
+         (change)="changeType($event)" name="btnradiobar"
+          id="btnradiopie" value="pie"   />
         <label class="custom-control-label" for="btnradiopie">PieChart</label>
       </div>
     </div>
@@ -47,49 +47,27 @@
       </div>
     </div>
   </div>
+  <div class="col-md-3 ml-4">
+  <button (click)="generatCharts()" class="btn btn-primary" type="button">Generate</button>
+  </div>
 
 </div>
 <br />
 <br />
-<div *ngIf="selectedItem && chartType === 'bar'">
-  <div class="row" *ngIf="selectedvalQty==='val'">
-    <div class="col-md-6">
-      <app-bar-chart [chartData]="selectedItemStocks" [header]="stockChartHeader"></app-bar-chart>
-    </div>
-    <div class="col-md-6">
-      <app-bar-chart [chartData]="selectedItemSales" [header]="salesChartHeader"></app-bar-chart>
-    </div>
-  </div>
-  <div class="row" *ngIf="selectedvalQty==='qty'">
-    <div class="col-md-6">
-      <app-bar-chart [chartData]="selectedItemStocksQty" [header]="stockChartHeader"></app-bar-chart>
-    </div>
-    <div class="col-md-6">
-      <app-bar-chart [chartData]="selectedItemSalesQty" [header]="salesChartHeader"></app-bar-chart>
-    </div>
-  </div>
 
+<div class="row">
+  <div class="col-md-6">
 
+<canvas id="chart1">
+
+</canvas>
 </div>
 
+<div class="col-md-6">
 
-<div *ngIf="selectedItem&&chartType === 'pie'">
-  <div class="row" *ngIf="selectedvalQty==='val'">
-    <div class="col-md-6">
-      <app-pie-chart [chartData]="selectedItemStocks" [header]="stockChartHeader"></app-pie-chart>
-    </div>
-    <div class="col-md-6">
-      <app-pie-chart [chartData]="selectedItemSales" [header]="salesChartHeader"></app-pie-chart>
-    </div>
+  <canvas id="chart2">
+  
+  </canvas>
   </div>
-
-  <div class="row" *ngIf="selectedvalQty==='qty'">
-    <div class="col-md-6">
-      <app-pie-chart [chartData]="selectedItemStocksQty" [header]="stockChartHeader"></app-pie-chart>
-    </div>
-    <div class="col-md-6">
-      <app-pie-chart [chartData]="selectedItemSalesQty" [header]="salesChartHeader"></app-pie-chart>
-    </div>
-  </div>
-
 </div>
+

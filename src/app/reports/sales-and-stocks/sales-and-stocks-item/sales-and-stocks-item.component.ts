@@ -1,7 +1,16 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
+import * as Chart from 'chart.js';
+import html2canvas from 'html2canvas';
+import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
+export interface ChartDataModal{
+  labels:string[],
+  values:number[],
+  colors:string[],
+
+}
 @Component({
   selector: 'app-sales-and-stocks-item',
   templateUrl: './sales-and-stocks-item.component.html',
@@ -9,13 +18,9 @@ import * as _ from 'lodash';
 })
 export class SalesAndStocksItemComponent implements OnInit {
   @Input() data: any = [];
-  top7BrnachesStock: any = [];
-  top7BrnachesSales: any = [];
-  selectedItemStocksQty: any[] = [];
-  selectedItemSalesQty: any[] = [];
 
-  selectedItemStocks: any = [];
-  selectedItemSales: any = [];
+
+
   selectedvalQty: any;
 
   stockChartHeader = ' Stock Values';
@@ -23,21 +28,30 @@ export class SalesAndStocksItemComponent implements OnInit {
 
   itemsDropDownMenu: any = [];
   selectedItem: any;
-  chartType: any;
-
-  constructor() { }
+  chartType:string='bar';
+  chart1: any;
+  chart2: any;
+  chart1Data: ChartDataModal;
+  chart2Data: ChartDataModal;
+  constructor() { 
+    this.chart1Data= {labels:[],colors:[],values:[]};
+    this.chart2Data= {labels:[],colors:[],values:[]};
+    this.chart1=undefined;
+    this.chart2=undefined;
+  }
 
   ngOnInit(): void {
     this.selectedvalQty = 'val';
-    this.chartType = '';
+    this.chartType = 'bar';
     this.itemsDropDownMenu = _.uniqBy(this.data, "Item name");
-    console.log("dropDownMenu", this.itemsDropDownMenu);
   }
 
   changeValueQuantity(e: any) {
     
     if (e.target.value === 'val') {
       this.selectedvalQty = 'val';
+      this.stockChartHeader = ' Stock Values';
+      this.salesChartHeader = ' Sales Values';
     }
     else {
       this.selectedvalQty = 'qty';
@@ -57,7 +71,7 @@ export class SalesAndStocksItemComponent implements OnInit {
     }
   }
 
-  getSalesValues(itemCode: Number) {
+  getSalesData(itemCode: Number,type:string,chartData:ChartDataModal) {
     
     let allbranchesSales = [];
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
@@ -65,31 +79,27 @@ export class SalesAndStocksItemComponent implements OnInit {
       if (key) {
         let branch = { name: key, value: 0, qty: 0 };
         let values: number[] = [];
-        let qty: number[] = [];
         dataGroupedByBranch[key].filter(s => s['Item Code'] === itemCode).forEach((elm: any) => {
-          values.push(elm['Sales Value']);
-          qty.push(elm['Sales Qty']);
+          values.push(elm[type]);
         });
         branch.value = _.sum(values);
-        branch.qty = _.sum(qty);
         allbranchesSales.push(branch);
       }
     }
-    this.top7BrnachesSales = _.orderBy(allbranchesSales, 'value')
+  let top7BrnachesSales = _.orderBy(allbranchesSales, 'value')
       .reverse()
       .slice(0, 7);
-    this.top7BrnachesSales.forEach((branch: any) => {
-      let row = { name: branch.name, value: branch.value };
-      let qrow = { name: branch.name, value: branch.qty };
-      this.selectedItemSales.push(row);
-      this.selectedItemSalesQty.push(qrow);
-     
+      top7BrnachesSales.forEach((branch: any) => {
 
-    })
+        chartData.labels.push(branch.name);
+        chartData.values.push(branch.value);
+        chartData.colors.push(this.generateColors());
+  
+      });
 
   }
 
-  getStockValues(itemCode: Number) {
+  getStockData(itemCode: Number,type:string,chartData:ChartDataModal) {
   
     let allbranches = [];
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
@@ -97,36 +107,209 @@ export class SalesAndStocksItemComponent implements OnInit {
       if (key) {
         let branch = { name: key, value: 0 };
         let values: number[] = [];
-        let qty: number[] = [];
+
         dataGroupedByBranch[key].filter(s => s['Item Code'] === itemCode).forEach((elm: any) => {
-          values.push(elm['Stock Value']);
-          qty.push(elm['Stock']);
+          values.push(elm[type]);
+   
         });
         branch.value = _.sum(values);
         allbranches.push(branch);
       }
     }
-    this.top7BrnachesStock = _.orderBy(allbranches, 'value')
+   let top7BrnachesStock = _.orderBy(allbranches, 'value')
       .reverse()
       .slice(0, 7);
-    this.top7BrnachesStock.forEach((branch: any) => {
-      let row = { name: branch.name, value: branch.value };
-      let qrow = { name: branch.name, value: branch.value };
-      this.selectedItemStocks.push(row);
-      this.selectedItemStocksQty.push(qrow);
-    })
+      top7BrnachesStock.forEach((branch: any) => {
+
+      chartData.labels.push(branch.name);
+      chartData.values.push(branch.value);
+      chartData.colors.push(this.generateColors());
+
+    });
+
+
 
   }
 
-  selectItemChange(item: any) {
-    this.chartType = '';
+  generatCharts() {
+    this.chart1Data= {labels:[],colors:[],values:[]};
+    this.chart2Data= {labels:[],colors:[],values:[]};
+    if (this.selectedvalQty==="val") {
+      this.getSalesData(this.selectedItem['Item Code'],'Sales Qty',this.chart1Data);
+      this.getSalesData(this.selectedItem['Item Code'],'Sales Value',this.chart2Data);
 
-    this.selectedItemStocks = [];
-    this.selectedItemSales = [];
-    this.selectedItemStocksQty = [];
-    this.selectedItemSalesQty = [];
-    this.getStockValues(item['Item Code']);
-    this.getSalesValues(item['Item Code']);
+ 
+      
+    }else{
+      this.getStockData(this.selectedItem['Item Code'],'Stock',this.chart1Data);
 
+    this.getStockData(this.selectedItem['Item Code'],'Stock Value',this.chart2Data);
+
+
+
+    }
+
+
+    switch (this.chartType) {
+      case 'bar':
+        this.generateBarChart(this.chart1,this.chart1Data,"chart1",this.stockChartHeader);
+        this.generateBarChart(this.chart2,this.chart2Data,"chart2",this.salesChartHeader);
+        break;
+        case 'pie':
+          this.generatePieChart(this.chart1,this.chart1Data,"chart1",this.stockChartHeader);
+          this.generatePieChart(this.chart2,this.chart2Data,"chart2",this.salesChartHeader);
+          break;
+    
+      default:
+        break;
+    }
+
+
+
+  }
+
+  generateColors() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return ('rgb(' + r + ',' + g + ',' + b + ')') as never;
+  }
+  generateBarChart(chartelem:Chart,chartData:ChartDataModal,id:any ,header:string){
+    if (chartelem!==undefined) {
+      chartelem.destroy();
+    }
+    chartelem = new Chart(id, {
+      type:'bar',
+      options: {
+        animation: { duration: 1000, easing: 'linear' },
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+            label: function (tooltipItems: any, data: any) {
+              return data.datasets[0].data[tooltipItems.index] + 'LE';
+            },
+          },
+        },
+        title: {
+          display: true,
+          fontSize: 10,
+          text: header
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: true
+              },
+
+
+            }
+          ],
+
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                fontColor: "#000",
+                fontSize: 10
+
+              }
+            }
+          ]
+        },
+        legend:{
+          align:"center",
+          display:false
+        }
+
+      },
+
+      data: {
+        labels: chartData.labels.map(s => s.substring(0, 18)),
+
+
+        datasets: [
+          {
+            data: chartData.values,
+            backgroundColor: chartData.colors,
+            borderColor: "#fff",
+         
+
+
+          },
+
+        ],
+
+
+      },
+
+
+    });
+  }
+
+  generatePieChart(chartelem:Chart,chartData:ChartDataModal,id:any,header:string){
+    if (chartelem!==undefined) {
+      chartelem.destroy();
+    }
+    chartelem = new Chart(id, {
+      type:'pie',
+      options: {
+      responsive:true,
+        tooltips: {
+          enabled: true,
+          mode: 'single',
+          callbacks: {
+            label: function (tooltipItems: any, data: any) {
+              return data.datasets[0].data[tooltipItems.index] + 'LE';
+            },
+          },
+        },
+        title: {
+          display: true,
+          fontSize: 10,
+          text:header
+        },
+     
+        legend:{
+          align:"center",
+          display:true
+        }
+
+      },
+
+      data: {
+        labels: chartData.labels.map(s => s.substring(0, 18)),
+
+
+        datasets: [
+          {
+            data: chartData.values,
+            backgroundColor: chartData.colors,
+            borderColor: "#fff",
+ 
+          
+
+
+          },
+
+        ],
+
+
+      },
+
+
+    });
+  }
+
+  openPDF(id:any): void {
+    var element: any = document.getElementById(id);
+
+    html2canvas(element).then((canvas) => {
+      var imgData = canvas.toDataURL('image/png');
+      let doc = new jsPDF();
+      doc.addImage(imgData, 0, 0, 0, 100, 500);
+      doc.save("ss");
+    });
   }
 }
