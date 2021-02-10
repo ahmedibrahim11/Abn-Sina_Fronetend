@@ -1,8 +1,6 @@
 <div class="row">
-  <div
-    class="col-md-4 mr-5 shadow-lg p-3 mb-5 bg-white rounded"
-    style="background-color: white; margin-left: 15%"
-  >
+  <div class="col-md-4 mr-5 shadow-lg p-3 mb-5 bg-white rounded"
+    style="background-color: white; margin-left: 15%">
     <div class="row">
       <div class="custom-control custom-radio col-md-4 ml-4">
         <input
@@ -11,10 +9,11 @@
           name="btnradio"
           id="btnradio1"
           [(ngModel)]="chartType"
-          value="BarChart"
+          value="bar"
           checked
-          mdbInput
-        />
+          (change)="onChartTypeChange()"
+
+          mdbInput/>
         <label class="custom-control-label" for="btnradio1">BarChart</label>
       </div>
 
@@ -25,12 +24,15 @@
           name="btnradio"
           [(ngModel)]="chartType"
           id="btnradio2"
-          value="PieChart"
+          value="pie"
+          (change)="onChartTypeChange()"
+       
         />
         <label class="custom-control-label" for="btnradio2">PieChart</label>
       </div>
     </div>
   </div>
+
 
   <div
     class="col-md-4 shadow-lg p-3 mb-5 bg-white rounded"
@@ -47,6 +49,7 @@
           value="highest"
           checked
           mdbInput
+          (change)="onTopOrLowestChange()"
         />
         <label class="custom-control-label" for="btnradio3">Highest</label>
       </div>
@@ -58,45 +61,48 @@
           [(ngModel)]="branchType"
           id="btnradio4"
           value="lowest"
+          (change)="onTopOrLowestChange()"
         />
         <label class="custom-control-label" for="btnradio4">Lowest</label>
       </div>
     </div>
   </div>
-  <div
-    class="col-md-12"
-    *ngIf="chartType === 'BarChart' && branchType === 'highest'"
-  >
-    <app-bar-chart
-      [chartData]="top7Brnaches"
-      [header]="bieChartHeader"
-    ></app-bar-chart>
-  </div>
-  <div
-    class="col-md-12"
-    *ngIf="chartType === 'BarChart' && branchType === 'lowest'"
-  >
-    <app-bar-chart
-      [chartData]="lowest7Branches"
-      [header]="lowerHeader"
-    ></app-bar-chart>
-  </div>
-  <div
-    class="col-md-12"
-    *ngIf="chartType === 'PieChart' && branchType === 'highest'"
-  >
-    <app-pie-chart
-      [chartData]="top7Brnaches"
-      [header]="bieChartHeader"
-    ></app-pie-chart>
-  </div>
-  <div
-    class="col-md-12"
-    *ngIf="chartType === 'PieChart' && branchType === 'lowest'"
-  >
-    <app-pie-chart
-      [chartData]="lowest7Branches"
-      [header]="lowerHeader"
-    ></app-pie-chart>
-  </div>
+
+
+<div class="col-md-12"  >
+  <button class="btn btn-danger" style="float: right;" (click)="openPDF()">Export chart PDF</button>
+
+  <canvas   id="chart"></canvas>
+
 </div>
+
+<div>
+  <table class="table table-dark table-striped">
+    <thead >
+      <td *ngFor="let item of chartData">
+        {{item.name}}
+
+      </td>
+    </thead>
+    
+    <tbody>
+     <tr>
+      <td *ngFor="let item of chartData">
+        {{item.value}}
+
+      </td>
+     </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+
+
+
+
+
+ 
+ 
+

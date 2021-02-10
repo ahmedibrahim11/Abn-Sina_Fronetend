@@ -48,7 +48,7 @@ export class SalesAndStocksItemComponent implements OnInit {
 
 
   changeType(e: any) {
-    debugger;
+   
     if (e.target.value === 'bar') {
       this.chartType = 'bar';
     }
@@ -58,7 +58,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   }
 
   getSalesValues(itemCode: Number) {
-    debugger;
+    
     let allbranchesSales = [];
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
     for (let key in dataGroupedByBranch) {
@@ -83,15 +83,14 @@ export class SalesAndStocksItemComponent implements OnInit {
       let qrow = { name: branch.name, value: branch.qty };
       this.selectedItemSales.push(row);
       this.selectedItemSalesQty.push(qrow);
-      console.log("values",this.selectedItemSales);
-      console.log("quan",this.selectedItemSales);
+     
 
     })
 
   }
 
   getStockValues(itemCode: Number) {
-    debugger;
+  
     let allbranches = [];
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
     for (let key in dataGroupedByBranch) {
@@ -124,7 +123,6 @@ export class SalesAndStocksItemComponent implements OnInit {
     this.selectedItemSales = [];
     this.selectedItemStocksQty = [];
     this.selectedItemSalesQty = [];
-    debugger;
     this.getStockValues(item['Item Code']);
     this.getSalesValues(item['Item Code']);
   }
