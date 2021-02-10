@@ -149,15 +149,20 @@ export class SalesAndStocksItemComponent implements OnInit {
 
     }
 
-
+    if (this.chart1!==undefined) {
+      this.chart1.destroy();
+    }
+    if (this.chart2!==undefined) {
+      this.chart2.destroy();
+    }
     switch (this.chartType) {
       case 'bar':
-        this.generateBarChart(this.chart1,this.chart1Data,"chart1",this.stockChartHeader);
-        this.generateBarChart(this.chart2,this.chart2Data,"chart2",this.salesChartHeader);
+     this.chart1=   this.generateBarChart(this.chart1Data,"chart1",this.stockChartHeader);
+     this.chart2=  this.generateBarChart(this.chart2Data,"chart2",this.salesChartHeader);
         break;
         case 'pie':
-          this.generatePieChart(this.chart1,this.chart1Data,"chart1",this.stockChartHeader);
-          this.generatePieChart(this.chart2,this.chart2Data,"chart2",this.salesChartHeader);
+         this.chart1= this.generatePieChart(this.chart1Data,"chart1",this.stockChartHeader);
+         this.chart2= this.generatePieChart(this.chart2Data,"chart2",this.salesChartHeader);
           break;
     
       default:
@@ -174,11 +179,9 @@ export class SalesAndStocksItemComponent implements OnInit {
     var b = Math.floor(Math.random() * 255);
     return ('rgb(' + r + ',' + g + ',' + b + ')') as never;
   }
-  generateBarChart(chartelem:Chart,chartData:ChartDataModal,id:any ,header:string){
-    if (chartelem!==undefined) {
-      chartelem.destroy();
-    }
-    chartelem = new Chart(id, {
+  generateBarChart(chartData:ChartDataModal,id:any ,header:string){
+   
+    return new Chart(id, {
       type:'bar',
       options: {
         animation: { duration: 1000, easing: 'linear' },
@@ -202,11 +205,8 @@ export class SalesAndStocksItemComponent implements OnInit {
               gridLines: {
                 display: true
               },
-
-
             }
           ],
-
           yAxes: [
             {
               ticks: {
@@ -226,7 +226,7 @@ export class SalesAndStocksItemComponent implements OnInit {
       },
 
       data: {
-        labels: chartData.labels.map(s => s.substring(0, 18)),
+        labels: chartData.labels.map(s => s.substring(0, 15)),
 
 
         datasets: [
@@ -248,11 +248,9 @@ export class SalesAndStocksItemComponent implements OnInit {
     });
   }
 
-  generatePieChart(chartelem:Chart,chartData:ChartDataModal,id:any,header:string){
-    if (chartelem!==undefined) {
-      chartelem.destroy();
-    }
-    chartelem = new Chart(id, {
+  generatePieChart(chartData:ChartDataModal,id:any,header:string){
+ 
+    return  new Chart(id, {
       type:'pie',
       options: {
       responsive:true,

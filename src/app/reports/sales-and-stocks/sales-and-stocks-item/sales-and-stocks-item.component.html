@@ -10,7 +10,7 @@
     </select>
   </div>
 
-  <div class="col-md-3 ml-4">
+  <div class="col-md-3 ml-3">
     <label class="label"> Chart Type </label>
     <div class="row shadow-lg p-3 mb-5 bg-white rounded" style="background-color: white">
       <div class="custom-control custom-radio">
@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3 ml-4">
+  <div class="col-md-3 ml-3">
     <label class="label"> Value/Quantity </label>
 
     <div class="row shadow-lg p-3 mb-5 bg-white rounded" style="background-color: white">
@@ -47,8 +47,9 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3 ml-4">
-  <button (click)="generatCharts()" class="btn btn-primary" type="button">Generate</button>
+  <div class="col-md-1 ">
+   
+  <button style="margin-top: 55%;font-size: x-large;" [disabled]="!selectedItem" (click)="generatCharts()" class="btn btn-primary" type="button">Generate</button>
   </div>
 
 </div>
