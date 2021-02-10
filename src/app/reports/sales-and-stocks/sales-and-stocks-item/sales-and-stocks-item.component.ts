@@ -29,13 +29,13 @@ export class SalesAndStocksItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedvalQty = 'val';
-    this.chartType = 'bar';
+    this.chartType = '';
     this.itemsDropDownMenu = _.uniqBy(this.data, "Item name");
     console.log("dropDownMenu", this.itemsDropDownMenu);
   }
 
   changeValueQuantity(e: any) {
-    debugger;
+    
     if (e.target.value === 'val') {
       this.selectedvalQty = 'val';
     }
@@ -119,11 +119,14 @@ export class SalesAndStocksItemComponent implements OnInit {
   }
 
   selectItemChange(item: any) {
+    this.chartType = '';
+
     this.selectedItemStocks = [];
     this.selectedItemSales = [];
     this.selectedItemStocksQty = [];
     this.selectedItemSalesQty = [];
     this.getStockValues(item['Item Code']);
     this.getSalesValues(item['Item Code']);
+
   }
 }
