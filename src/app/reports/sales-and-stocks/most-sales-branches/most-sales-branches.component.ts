@@ -1,5 +1,11 @@
 import { NgSwitch } from '@angular/common';
-import { Component, OnInit, ViewChild, ElementRef, AfterContentInit,  } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterContentInit,
+} from '@angular/core';
 import { Input } from '@angular/core';
 import * as Chart from 'chart.js';
 import html2canvas from 'html2canvas';
@@ -13,12 +19,12 @@ import { IChartModal } from 'src/app/shared/modals/chart.modal';
   styleUrls: ['./most-sales-branches.component.css'],
 })
 export class MostSalesBranchesComponent implements OnInit {
-  header :string= 'Most Top 7 Sales Branches';
+  header: string = 'Most Top 7 Sales Branches';
   chartType = 'bar';
   branchType = '';
-  top7Brnaches: IChartModal[] ;
-  last7Brnaches: IChartModal[] ;
-  chartData: IChartModal[] ;
+  top7Brnaches: IChartModal[];
+  last7Brnaches: IChartModal[];
+  chartData: IChartModal[];
   chart: any;
   pieChart: any;
   ChartColors = [];
@@ -26,22 +32,19 @@ export class MostSalesBranchesComponent implements OnInit {
   itemsValue: any[] = [];
   @Input() data: any = [];
   constructor() {
-    this.top7Brnaches=[];
-    this.last7Brnaches=[];
-    this.chartData=[];
+    this.top7Brnaches = [];
+    this.last7Brnaches = [];
+    this.chartData = [];
   }
 
- 
- 
   ngOnInit(): void {
     this.branchType = 'highest';
     this.getSalesBranches();
-  
   }
 
   getSalesBranches() {
     let allbranchesSales = [];
-    this.top7Brnaches=[];
+    this.top7Brnaches = [];
 
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
     for (let key in dataGroupedByBranch) {
@@ -57,55 +60,45 @@ export class MostSalesBranchesComponent implements OnInit {
       }
     }
 
-      this.top7Brnaches = _.orderBy(allbranchesSales, 'value')
+    this.top7Brnaches = _.orderBy(allbranchesSales, 'value')
       .reverse()
       .slice(0, 7);
 
-      this.last7Brnaches = _.orderBy(allbranchesSales, 'value').slice(0, 7);
+    this.last7Brnaches = _.orderBy(allbranchesSales, 'value').slice(0, 7);
 
     this.onTopOrLowestChange();
-   
-
   }
-  onTopOrLowestChange(){
-
-   
-    if (this.branchType==='highest') {
+  onTopOrLowestChange() {
+    if (this.branchType === 'highest') {
       this.header = 'Most Top 7 Sales Branches';
-     this.chartData=this.top7Brnaches;
+      this.chartData = this.top7Brnaches;
+    } else {
+      this.header = 'Lowest 7 Sales Branches';
+      this.chartData = this.last7Brnaches;
+    }
 
-        }
-        else{
-          this.header = 'Lowest 7 Sales Branches';
-          this.chartData=this.last7Brnaches;
-    
-        }
-
-        this.itemsName=[];
-        this.itemsValue=[];
-        for (var i = 0; i <  this.chartData.length; i++) {
-          this.itemsName.push( this.chartData[i]['name']);
-        }
-        for (var i = 0; i < this.top7Brnaches.length; i++) {
-          this.itemsValue.push( this.chartData[i]['value']);
-          let color = this.generateColors();
-          this.ChartColors.push(color);
-        }
-this.onChartTypeChange();
-
+    this.itemsName = [];
+    this.itemsValue = [];
+    for (var i = 0; i < this.chartData.length; i++) {
+      this.itemsName.push(this.chartData[i]['name']);
+    }
+    for (var i = 0; i < this.top7Brnaches.length; i++) {
+      this.itemsValue.push(this.chartData[i]['value']);
+      let color = this.generateColors();
+      this.ChartColors.push(color);
+    }
+    this.onChartTypeChange();
   }
 
-  onChartTypeChange(){
+  onChartTypeChange() {
     if (this.chart) {
-    this.chart.destroy();
-      
+      this.chart.destroy();
     }
-    if (this.chartType==='bar') {
+    if (this.chartType === 'bar') {
       this.generateBarChart();
-        }
-        else{
-          this.generatePieChart();
-        }
+    } else {
+      this.generatePieChart();
+    }
   }
   generateColors() {
     var r = Math.floor(Math.random() * 255);
@@ -113,9 +106,9 @@ this.onChartTypeChange();
     var b = Math.floor(Math.random() * 255);
     return ('rgb(' + r + ',' + g + ',' + b + ')') as never;
   }
-  generateBarChart(){
-    this.chart = new Chart("chart", {
-      type:'bar',
+  generateBarChart() {
+    this.chart = new Chart('chart', {
+      type: 'bar',
       options: {
         animation: { duration: 1000, easing: 'linear' },
         tooltips: {
@@ -130,66 +123,52 @@ this.onChartTypeChange();
         title: {
           display: true,
           fontSize: 10,
-          text: this.header
+          text: this.header,
         },
         scales: {
           xAxes: [
             {
               gridLines: {
-                display: true
+                display: true,
               },
-
-
-            }
+            },
           ],
 
           yAxes: [
             {
               ticks: {
                 beginAtZero: true,
-                fontColor: "#000",
-                fontSize: 10
-
-              }
-            }
-          ]
+                fontColor: '#000',
+                fontSize: 10,
+              },
+            },
+          ],
         },
-        legend:{
-          align:"center",
-          display:false
-        }
-
+        legend: {
+          align: 'center',
+          display: false,
+        },
       },
 
       data: {
-        labels: this.itemsName.map(s => s.substring(0, 18)),
-
+        labels: this.itemsName.map((s) => s.substring(0, 18)),
 
         datasets: [
           {
             data: this.itemsValue,
             backgroundColor: this.ChartColors,
-            borderColor: "#fff",
-         
-
-
+            borderColor: '#fff',
           },
-
         ],
-
-
       },
-
-
     });
   }
 
-  generatePieChart(){
-  
-    this.chart = new Chart("chart", {
-      type:'pie',
+  generatePieChart() {
+    this.chart = new Chart('chart', {
+      type: 'pie',
       options: {
-      responsive:true,
+        responsive: true,
         tooltips: {
           enabled: true,
           mode: 'single',
@@ -202,37 +181,26 @@ this.onChartTypeChange();
         title: {
           display: true,
           fontSize: 10,
-          text: this.header
+          text: this.header,
         },
-     
-        legend:{
-          align:"center",
-          display:true
-        }
 
+        legend: {
+          align: 'center',
+          display: true,
+        },
       },
 
       data: {
-        labels: this.itemsName.map(s => s.substring(0, 18)),
-
+        labels: this.itemsName.map((s) => s.substring(0, 18)),
 
         datasets: [
           {
             data: this.itemsValue,
             backgroundColor: this.ChartColors,
-            borderColor: "#fff",
- 
-          
-
-
+            borderColor: '#fff',
           },
-
         ],
-
-
       },
-
-
     });
   }
 
