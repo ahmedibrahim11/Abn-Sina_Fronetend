@@ -1,5 +1,11 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 ng2-smart-table-pager{
     justify-content: center !important;
     font-size: larger;
+}
+.ng2-smart-sort-link {
+  color: darkred !important;
+  font-size: 12px;
+  text-align: center;
 }

@@ -20,8 +20,9 @@ export class BarChartComponent implements OnInit {
 
   itemsName: any = [];
   itemsValue: any = [];
+
   ngOnInit(): void {
-    console.log("chartDataaaaa",this.chartData);  
+    console.log('chartDataaaaa', this.chartData);
     for (var i = 0; i < this.chartData.length; i++) {
       this.itemsName.push(this.chartData[i]['name'].substring(0, 18));
     }
@@ -48,6 +49,7 @@ export class BarChartComponent implements OnInit {
     legend: {
       position: 'top',
     },
+
     tooltips: {
       enabled: true,
       mode: 'single',

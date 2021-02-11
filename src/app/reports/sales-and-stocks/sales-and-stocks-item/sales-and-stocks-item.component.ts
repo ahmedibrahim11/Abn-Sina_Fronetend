@@ -5,21 +5,18 @@ import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
-export interface ChartDataModal{
-  labels:string[],
-  values:number[],
-  colors:string[],
-
+export interface ChartDataModal {
+  labels: string[];
+  values: number[];
+  colors: string[];
 }
 @Component({
   selector: 'app-sales-and-stocks-item',
   templateUrl: './sales-and-stocks-item.component.html',
-  styleUrls: ['./sales-and-stocks-item.component.css']
+  styleUrls: ['./sales-and-stocks-item.component.css'],
 })
 export class SalesAndStocksItemComponent implements OnInit {
   @Input() data: any = [];
-
-
 
   selectedvalQty: any;
 
@@ -28,79 +25,72 @@ export class SalesAndStocksItemComponent implements OnInit {
 
   itemsDropDownMenu: any = [];
   selectedItem: any;
-  chartType:string='bar';
+  chartType: string = 'bar';
   chart1: any;
   chart2: any;
   chart1Data: ChartDataModal;
   chart2Data: ChartDataModal;
-  constructor() { 
-    this.chart1Data= {labels:[],colors:[],values:[]};
-    this.chart2Data= {labels:[],colors:[],values:[]};
-    this.chart1=undefined;
-    this.chart2=undefined;
+  generateClicked: any;
+  constructor() {
+    this.chart1Data = { labels: [], colors: [], values: [] };
+    this.chart2Data = { labels: [], colors: [], values: [] };
+    this.chart1 = undefined;
+    this.chart2 = undefined;
   }
 
   ngOnInit(): void {
     this.selectedvalQty = 'val';
     this.chartType = 'bar';
-    this.itemsDropDownMenu = _.uniqBy(this.data, "Item name");
+    this.itemsDropDownMenu = _.uniqBy(this.data, 'Item name');
   }
 
   changeValueQuantity(e: any) {
-    
     if (e.target.value === 'val') {
       this.selectedvalQty = 'val';
       this.stockChartHeader = ' Stock Values';
       this.salesChartHeader = ' Sales Values';
-    }
-    else {
+    } else {
       this.selectedvalQty = 'qty';
       this.stockChartHeader = ' Stock Quantites';
       this.salesChartHeader = ' Sales Quantites';
     }
   }
 
-
   changeType(e: any) {
-   
     if (e.target.value === 'bar') {
       this.chartType = 'bar';
-    }
-    else {
+    } else {
       this.chartType = 'pie';
     }
   }
 
-  getSalesData(itemCode: Number,type:string,chartData:ChartDataModal) {
-    
+  getSalesData(itemCode: Number, type: string, chartData: ChartDataModal) {
     let allbranchesSales = [];
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
     for (let key in dataGroupedByBranch) {
       if (key) {
         let branch = { name: key, value: 0, qty: 0 };
         let values: number[] = [];
-        dataGroupedByBranch[key].filter(s => s['Item Code'] === itemCode).forEach((elm: any) => {
-          values.push(elm[type]);
-        });
+        dataGroupedByBranch[key]
+          .filter((s) => s['Item Code'] === itemCode)
+          .forEach((elm: any) => {
+            values.push(elm[type]);
+          });
         branch.value = _.sum(values);
         allbranchesSales.push(branch);
       }
     }
-  let top7BrnachesSales = _.orderBy(allbranchesSales, 'value')
+    let top7BrnachesSales = _.orderBy(allbranchesSales, 'value')
       .reverse()
       .slice(0, 7);
-      top7BrnachesSales.forEach((branch: any) => {
-
-        chartData.labels.push(branch.name);
-        chartData.values.push(branch.value);
-        chartData.colors.push(this.generateColors());
-  
-      });
-
+    top7BrnachesSales.forEach((branch: any) => {
+      chartData.labels.push(branch.name);
+      chartData.values.push(branch.value);
+      chartData.colors.push(this.generateColors());
+    });
   }
 
-  getStockData(itemCode: Number,type:string,chartData:ChartDataModal) {
-  
+  getStockData(itemCode: Number, type: string, chartData: ChartDataModal) {
     let allbranches = [];
     let dataGroupedByBranch = _.groupBy(this.data, 'Branch Name');
     for (let key in dataGroupedByBranch) {
@@ -108,69 +98,89 @@ export class SalesAndStocksItemComponent implements OnInit {
         let branch = { name: key, value: 0 };
         let values: number[] = [];
 
-        dataGroupedByBranch[key].filter(s => s['Item Code'] === itemCode).forEach((elm: any) => {
-          values.push(elm[type]);
-   
-        });
+        dataGroupedByBranch[key]
+          .filter((s) => s['Item Code'] === itemCode)
+          .forEach((elm: any) => {
+            values.push(elm[type]);
+          });
         branch.value = _.sum(values);
         allbranches.push(branch);
       }
     }
-   let top7BrnachesStock = _.orderBy(allbranches, 'value')
+    let top7BrnachesStock = _.orderBy(allbranches, 'value')
       .reverse()
       .slice(0, 7);
-      top7BrnachesStock.forEach((branch: any) => {
-
+    top7BrnachesStock.forEach((branch: any) => {
       chartData.labels.push(branch.name);
       chartData.values.push(branch.value);
       chartData.colors.push(this.generateColors());
-
     });
-
-
-
   }
 
   generatCharts() {
-    this.chart1Data= {labels:[],colors:[],values:[]};
-    this.chart2Data= {labels:[],colors:[],values:[]};
-    if (this.selectedvalQty==="val") {
-      this.getSalesData(this.selectedItem['Item Code'],'Sales Qty',this.chart1Data);
-      this.getSalesData(this.selectedItem['Item Code'],'Sales Value',this.chart2Data);
+    this.generateClicked = true;
+    this.chart1Data = { labels: [], colors: [], values: [] };
+    this.chart2Data = { labels: [], colors: [], values: [] };
+    if (this.selectedvalQty === 'val') {
+      this.getSalesData(
+        this.selectedItem['Item Code'],
+        'Sales Qty',
+        this.chart1Data
+      );
+      this.getSalesData(
+        this.selectedItem['Item Code'],
+        'Sales Value',
+        this.chart2Data
+      );
+    } else {
+      this.getStockData(
+        this.selectedItem['Item Code'],
+        'Stock',
+        this.chart1Data
+      );
 
- 
-      
-    }else{
-      this.getStockData(this.selectedItem['Item Code'],'Stock',this.chart1Data);
-
-    this.getStockData(this.selectedItem['Item Code'],'Stock Value',this.chart2Data);
-
-
-
+      this.getStockData(
+        this.selectedItem['Item Code'],
+        'Stock Value',
+        this.chart2Data
+      );
     }
 
-    if (this.chart1!==undefined) {
+    if (this.chart1 !== undefined) {
       this.chart1.destroy();
     }
-    if (this.chart2!==undefined) {
+    if (this.chart2 !== undefined) {
       this.chart2.destroy();
     }
     switch (this.chartType) {
       case 'bar':
-     this.chart1=   this.generateBarChart(this.chart1Data,"chart1",this.stockChartHeader);
-     this.chart2=  this.generateBarChart(this.chart2Data,"chart2",this.salesChartHeader);
+        this.chart1 = this.generateBarChart(
+          this.chart1Data,
+          'chart1',
+          this.stockChartHeader
+        );
+        this.chart2 = this.generateBarChart(
+          this.chart2Data,
+          'chart2',
+          this.salesChartHeader
+        );
         break;
-        case 'pie':
-         this.chart1= this.generatePieChart(this.chart1Data,"chart1",this.stockChartHeader);
-         this.chart2= this.generatePieChart(this.chart2Data,"chart2",this.salesChartHeader);
-          break;
-    
+      case 'pie':
+        this.chart1 = this.generatePieChart(
+          this.chart1Data,
+          'chart1',
+          this.stockChartHeader
+        );
+        this.chart2 = this.generatePieChart(
+          this.chart2Data,
+          'chart2',
+          this.salesChartHeader
+        );
+        break;
+
       default:
         break;
     }
-
-
-
   }
 
   generateColors() {
@@ -179,10 +189,9 @@ export class SalesAndStocksItemComponent implements OnInit {
     var b = Math.floor(Math.random() * 255);
     return ('rgb(' + r + ',' + g + ',' + b + ')') as never;
   }
-  generateBarChart(chartData:ChartDataModal,id:any ,header:string){
-   
+  generateBarChart(chartData: ChartDataModal, id: any, header: string) {
     return new Chart(id, {
-      type:'bar',
+      type: 'bar',
       options: {
         animation: { duration: 1000, easing: 'linear' },
         tooltips: {
@@ -197,63 +206,51 @@ export class SalesAndStocksItemComponent implements OnInit {
         title: {
           display: true,
           fontSize: 10,
-          text: header
+          text: header,
         },
         scales: {
           xAxes: [
             {
               gridLines: {
-                display: true
+                display: true,
               },
-            }
+            },
           ],
           yAxes: [
             {
               ticks: {
                 beginAtZero: true,
-                fontColor: "#000",
-                fontSize: 10
-
-              }
-            }
-          ]
+                fontColor: '#000',
+                fontSize: 10,
+              },
+            },
+          ],
         },
-        legend:{
-          align:"center",
-          display:false
-        }
-
+        legend: {
+          align: 'center',
+          display: false,
+        },
       },
 
       data: {
-        labels: chartData.labels.map(s => s.substring(0, 15)),
-
+        labels: chartData.labels.map((s) => s.substring(0, 15)),
 
         datasets: [
           {
             data: chartData.values,
             backgroundColor: chartData.colors,
-            borderColor: "#fff",
-         
-
-
+            borderColor: '#fff',
           },
-
         ],
-
-
       },
-
-
     });
   }
 
-  generatePieChart(chartData:ChartDataModal,id:any,header:string){
- 
-    return  new Chart(id, {
-      type:'pie',
+  generatePieChart(chartData: ChartDataModal, id: any, header: string) {
+    return new Chart(id, {
+      type: 'pie',
       options: {
-      responsive:true,
+        responsive: true,
         tooltips: {
           enabled: true,
           mode: 'single',
@@ -266,48 +263,37 @@ export class SalesAndStocksItemComponent implements OnInit {
         title: {
           display: true,
           fontSize: 10,
-          text:header
+          text: header,
         },
-     
-        legend:{
-          align:"center",
-          display:true
-        }
 
+        legend: {
+          align: 'center',
+          display: true,
+        },
       },
 
       data: {
-        labels: chartData.labels.map(s => s.substring(0, 18)),
-
+        labels: chartData.labels.map((s) => s.substring(0, 18)),
 
         datasets: [
           {
             data: chartData.values,
             backgroundColor: chartData.colors,
-            borderColor: "#fff",
- 
-          
-
-
+            borderColor: '#fff',
           },
-
         ],
-
-
       },
-
-
     });
   }
 
-  openPDF(id:any): void {
+  openPDF(id: any): void {
     var element: any = document.getElementById(id);
 
     html2canvas(element).then((canvas) => {
       var imgData = canvas.toDataURL('image/png');
       let doc = new jsPDF();
       doc.addImage(imgData, 0, 0, 0, 100, 500);
-      doc.save("ss");
+      doc.save('ss');
     });
   }
 }
