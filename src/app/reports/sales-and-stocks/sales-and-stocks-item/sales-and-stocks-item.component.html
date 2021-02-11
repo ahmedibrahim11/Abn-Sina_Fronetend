@@ -96,9 +96,10 @@
 <br />
 <br />
 
-<div class="row" *ngIf="generateClicked === true">
+<div class="row">
   <div class="col-md-6">
     <button
+      *ngIf="generateClicked"
       class="btn btn-danger"
       style="float: right"
       (click)="openPDF('chart1')"
@@ -110,6 +111,7 @@
 
   <div class="col-md-6">
     <button
+      *ngIf="generateClicked"
       class="btn btn-danger"
       style="float: right"
       (click)="openPDF('chart2')"
