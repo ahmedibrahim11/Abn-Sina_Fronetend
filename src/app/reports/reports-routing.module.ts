@@ -11,8 +11,8 @@ const routes: Routes = [
   children: [
     { path: 'sales', component: SalesAndStocksComponent },
     { path: 'salesbyclient', component: SalesbyClientComponent },
-    { path: '', redirectTo:"sales" },
-    { path: '**', redirectTo:"sales" },
+    { path: '', redirectTo:"salesbyclient" },
+    { path: '**', redirectTo:"salesbyclient" },
 
   ] },
 ];

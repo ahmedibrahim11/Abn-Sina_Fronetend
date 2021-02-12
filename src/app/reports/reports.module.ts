@@ -20,13 +20,14 @@ import { GenricSmartTableComponent } from '../shared/genric-smart-table/genric-s
 import { MostSalesCitiesComponent } from './salesby-client/most-sales-cities/most-sales-cities.component';
 import { MostSalesGovsComponent } from './salesby-client/most-sales-govs/most-sales-govs.component';
 import { MostSalesPerSegmentComponent } from './salesby-client/most-sales-per-segment/most-sales-per-segment.component';
+import { SalesAndStockClientItemComponent } from './salesby-client/sales-and-stock-client-item/sales-and-stock-client-item.component';
 
 
 @NgModule({
   declarations: [
     ReportsComponent, SalesAndStocksComponent,GenricSmartTableComponent,
     BarChartComponent,PieChartComponent, MostSalesBranchesComponent, 
-    SalesAndStocksItemComponent, SalesbyClientComponent, MostSalesCitiesComponent, MostSalesGovsComponent, MostSalesPerSegmentComponent],
+    SalesAndStocksItemComponent, SalesbyClientComponent, MostSalesCitiesComponent, MostSalesGovsComponent, MostSalesPerSegmentComponent, SalesAndStockClientItemComponent],
   imports: [
     CommonModule,
     ReportsRoutingModule,
