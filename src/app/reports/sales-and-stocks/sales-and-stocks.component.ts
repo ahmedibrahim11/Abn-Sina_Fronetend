@@ -30,7 +30,8 @@ export class SalesAndStocksComponent implements OnInit {
   }
 
   getExelfile() {
-    this._fileService.downloadFile('testExcel.xlsx', this.url).subscribe({
+    let file={fileName :'testExcel.xlsx',reportType:'stock'};
+    this._fileService.downloadFile(file, this.url).subscribe({
       next: (res) => {
         this.extractDataFromExcel(res);
       },
@@ -112,7 +113,14 @@ export class SalesAndStocksComponent implements OnInit {
       /* find the cell in the first row */
       var hdr = 'UNKNOWN ' + C; // <-- replace with your desired default
       if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
-      this.tableHeaders.push({ name: hdr, title: hdr });
+      if (hdr.search("Item")!==-1||hdr.search("Branch")!==-1) {
+      this.tableHeaders.push({ name: hdr, title: hdr,filter:true });
+        
+      }
+      else{
+      this.tableHeaders.push({ name: hdr, title: hdr,filter:false});
+
+      }
     }
     return this.tableHeaders;
   }

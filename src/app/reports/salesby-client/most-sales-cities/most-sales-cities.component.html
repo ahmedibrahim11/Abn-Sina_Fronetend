@@ -1,0 +1,46 @@
+<div class="row">
+    <div
+      class="col-md-6 mr-5 shadow-lg p-3 mb-5 bg-white rounded"
+      style="background-color: white; margin-left: 15%"
+    >
+      <div class="row">
+        <div class="custom-control custom-radio col-md-4 ml-4">
+          <input
+            type="radio"
+            class="custom-control-input"
+            id="citybar"
+            name="citybar"
+            [(ngModel)]="chartType"
+            value="bar"
+            checked
+            (change)="onChartTypeChange()"
+            mdbInput
+          />
+          <label class="custom-control-label" for="citybar">BarChart</label>
+        </div>
+  
+        <div class="custom-control custom-radio col-md-6">
+          <input
+            type="radio"
+            class="custom-control-input"
+            [(ngModel)]="chartType"
+            id="citypie"
+            name="citypie"
+
+            value="pie"
+            (change)="onChartTypeChange()"
+          />
+          <label class="custom-control-label" for="citypie">PieChart</label>
+        </div>
+      </div>
+    </div>
+
+  
+    <div class="col-md-12">
+      <button class="btn btn-danger" style="float: right" (click)="openPDF()">
+        Export chart PDF
+      </button>
+      <canvas id="citychart"></canvas>
+    </div>
+  </div>
+  

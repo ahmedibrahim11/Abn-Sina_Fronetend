@@ -1,0 +1,21 @@
+<div  style="margin-left: 1%;">
+    <!-- <div class="row mb-4">
+      <input class="form-control"  #search class="search" type="text" placeholder="Search..." (change)="onSearch(search.value)">
+  
+    </div> -->
+    <div class="offset-10 col-md-2">
+      <button (click)="exportoExcel()" class="btn btn-danger" type="button">
+        Export Excel
+      </button>
+    </div>
+    <div class="row mt-3">
+      <ng2-smart-table
+        id="table"
+        [settings]="settings"
+        [source]="source"
+        class="table table-striped  smart-table-design"
+      >
+      </ng2-smart-table>
+    </div>
+  </div>
+  

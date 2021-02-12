@@ -1,0 +1,88 @@
+<div class="row">
+    <div
+      class="col-md-4 mr-5 shadow-lg p-3 mb-5 bg-white rounded"
+      style="background-color: white; margin-left: 15%"
+    >
+      <div class="row">
+        <div class="custom-control custom-radio col-md-4 ml-4">
+          <input
+            type="radio"
+            class="custom-control-input"
+            id="segbar"
+            [(ngModel)]="chartType"
+            value="bar"
+            name="segbar"
+
+            checked
+            (change)="onChartTypeChange()"
+            mdbInput
+          />
+          <label class="custom-control-label" for="segbar">BarChart</label>
+        </div>
+  
+        <div class="custom-control custom-radio col-md-6">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="segpie"
+            [(ngModel)]="chartType"
+            id="segpie"
+            value="pie"
+            (change)="onChartTypeChange()"
+          />
+          <label class="custom-control-label" for="segpie">PieChart</label>
+        </div>
+      </div>
+    </div>
+  
+    <div
+      class="col-md-4 shadow-lg p-3 mb-5 bg-white rounded"
+      style="background-color: white"
+    >
+      <div class="row">
+        <div class="custom-control custom-radio col-md-4 ml-2">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradiosegment"
+            id="btnradio3"
+            [(ngModel)]="segmentType"
+            value="highest"
+            checked
+            mdbInput
+            (change)="onTopOrLowestChange()"
+          />
+          <label class="custom-control-label" for="btnradio3">Highest</label>
+        </div>
+        <div class="custom-control custom-radio col-md-6">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradiosegment"
+            [(ngModel)]="segmentType"
+            id="btnradio4"
+            value="lowest"
+            (change)="onTopOrLowestChange()"
+          />
+          <label class="custom-control-label" for="btnradio4">Lowest</label>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-md-12">
+      <button class="btn btn-danger" style="float: right" (click)="openPDF()">
+        Export chart PDF
+      </button>
+      <table class="table bar-chart-top-values">
+        <tbody>
+          <tr>
+            <!-- <td *ngFor="let item of chartData">
+              {{ item.value.toFixed(2) }}
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+      <canvas id="segchart"></canvas>
+    </div>
+  </div>
+  
