@@ -5,20 +5,20 @@ import { SalesAndStocksComponent } from './sales-and-stocks/sales-and-stocks.com
 import { SalesbyClientComponent } from './salesby-client/salesby-client.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ReportsComponent,
-    children: [
-      { path: 'sales', component: SalesAndStocksComponent },
-      { path: 'salesbyclient', component: SalesbyClientComponent },
-      { path: '', redirectTo: 'sales' },
-      { path: '**', redirectTo: 'sales' },
-    ],
-  },
+
+
+  { path: '', component: ReportsComponent,
+  children: [
+    { path: 'sales', component: SalesAndStocksComponent },
+    { path: 'salesbyclient', component: SalesbyClientComponent },
+    { path: '', redirectTo:"salesbyclient" },
+    { path: '**', redirectTo:"salesbyclient" },
+
+  ] },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class ReportsRoutingModule {}
+export class ReportsRoutingModule { }

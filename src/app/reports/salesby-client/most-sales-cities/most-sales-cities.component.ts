@@ -9,6 +9,8 @@ import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { IChartModal } from 'src/app/shared/modals/chart.modal';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import domtoimage from 'dom-to-image';
 
 @Component({
   selector: 'app-most-sales-cities',
@@ -29,7 +31,7 @@ export class MostSalesCitiesComponent implements OnInit {
   @Input() data: any = [];
   constructor() {
     this.top7Governerats = [];
-   
+
     this.chartData = [];
   }
 
@@ -62,10 +64,10 @@ export class MostSalesCitiesComponent implements OnInit {
     this.onTopOrLowestChange();
   }
   onTopOrLowestChange() {
-   
 
-      this.chartData = this.top7Governerats;
-    
+
+    this.chartData = this.top7Governerats;
+
 
     this.itemsName = [];
     this.itemsValue = [];
@@ -73,7 +75,7 @@ export class MostSalesCitiesComponent implements OnInit {
       this.itemsName.push(this.chartData[i]['name']);
     }
     for (var i = 0; i < this.top7Governerats.length; i++) {
-      this.itemsValue.push(this.chartData[i]['value']);
+      this.itemsValue.push(this.chartData[i]['value'].toFixed(2));
       let color = this.generateColors();
       this.ChartColors.push(color);
     }
@@ -139,7 +141,7 @@ export class MostSalesCitiesComponent implements OnInit {
           display: false,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -179,7 +181,7 @@ export class MostSalesCitiesComponent implements OnInit {
           display: true,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -193,15 +195,13 @@ export class MostSalesCitiesComponent implements OnInit {
       },
     });
   }
-
-  openPDF(): void {
-    var element: any = document.getElementById('chart');
-
-    html2canvas(element).then((canvas) => {
-      var imgData = canvas.toDataURL('image/png');
-      let doc = new jsPDF();
-      doc.addImage(imgData, 0, 0, 0, 100, 500);
-      doc.save(this.header);
-    });
+  openPDF(id: any): void {
+    var element: any = document.getElementById(id);
+    const options = { background: 'white', height: 845, width: 595 };
+    domtoimage.toPng(element, options).then((canvas: any) => {
+      const doc = new jsPDF('p', 'mm', 'a4');
+      doc.addImage(canvas, 'PNG', 0, 0, 100, 100);
+      doc.save(this.header)
+    })
   }
 }

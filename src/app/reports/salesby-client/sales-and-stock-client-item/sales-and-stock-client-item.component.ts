@@ -5,6 +5,9 @@ import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { ChartDataModal } from '../../sales-and-stocks/sales-and-stocks-item/sales-and-stocks-item.component';
+
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 @Component({
   selector: 'app-sales-and-stock-client-item',
   templateUrl: './sales-and-stock-client-item.component.html',
@@ -80,7 +83,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
       .slice(0, 7);
       top7.forEach((branch: any) => {
       chartData.labels.push(branch.name);
-      chartData.values.push(branch.value);
+      chartData.values.push(branch.value.toFixed(2));
       chartData.colors.push(this.generateColors());
     });
   }
@@ -107,7 +110,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
       .slice(0, 7);
     top7BrnachesStock.forEach((branch: any) => {
       chartData.labels.push(branch.name);
-      chartData.values.push(branch.value);
+      chartData.values.push(branch.value.toFixed(2));
       chartData.colors.push(this.generateColors());
     });
   }
@@ -211,7 +214,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
           display: false,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 15)),
 
@@ -251,7 +254,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
           display: true,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 18)),
 

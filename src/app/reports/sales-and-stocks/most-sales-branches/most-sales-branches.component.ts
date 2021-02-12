@@ -13,6 +13,8 @@ import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { IChartModal } from 'src/app/shared/modals/chart.modal';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import domtoimage from 'dom-to-image';
+
 
 @Component({
   selector: 'app-most-sales-branches',
@@ -205,14 +207,13 @@ export class MostSalesBranchesComponent implements OnInit {
     });
   }
 
-  openPDF(): void {
-    var element: any = document.getElementById('chart');
-
-    html2canvas(element).then((canvas) => {
-      var imgData = canvas.toDataURL('image/png');
-      let doc = new jsPDF();
-      doc.addImage(imgData, 0, 0, 0, 100, 500);
-      doc.save(this.header);
-    });
+  openPDF(id:any): void {
+    var element: any = document.getElementById(id);
+    const options = { background: 'white', height: 845, width: 595 };
+    domtoimage.toPng(element, options).then((canvas: any) => {
+      const doc = new jsPDF('p', 'mm', 'a4');
+      doc.addImage(canvas, 'PNG', 0, 0, 100, 100);
+      doc.save(this.header)
+    })
   }
 }
