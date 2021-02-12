@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import * as XLSX from 'xlsx';
 import * as _ from 'lodash';
+import { includes } from 'lodash';
 
 @Component({
   selector: 'app-genric-smart-table',
   templateUrl: './genric-smart-table.component.html',
-  styleUrls: ['./genric-smart-table.component.css']
+  styleUrls: ['./genric-smart-table.component.css'],
 })
 export class GenricSmartTableComponent implements OnInit {
-
   @Input() data: any = [];
   @Input() headers: any[] = [];
 
@@ -34,37 +34,34 @@ export class GenricSmartTableComponent implements OnInit {
   constructor() {}
 
   tableFilters(key: any) {
-    
-  let list:any[]=[]; 
+    let list: any[] = [];
+    _.uniq(
       _.map(this.data, (item) => {
-        if (list.find(s=>s.title==item[key])===undefined) {
-          if (item[key]!=='') {
-          list.push({value:item[key],title:item[key]});
-            
+        if (list.find((s) => s.title === item[key]) === undefined) {
+          if (item[key] !== '') {
+            list.push({ value: item[key], title: item[key] });
           }
-          
         }
       })
-  
-return list;
-  
+    );
+
+    return list;
   }
 
   ceateTableHeaders() {
     this.headers.forEach((column) => {
       if (column.filter) {
-     
         this.settings.columns[column.name] = {
           title: column.title,
           filter: {
             type: 'list',
             config: {
               selectText: 'Select',
-              list:this.tableFilters(column.name),
+              list: this.tableFilters(column.name),
             },
           },
         };
-      }  else {
+      } else {
         this.settings.columns[column.name] = {
           title: column.title,
           filter: false,
@@ -73,10 +70,6 @@ return list;
     });
     this.source.load(this.data);
   }
-
- 
-
- 
 
   exportoExcel(): void {
     /* pass here the table id */
@@ -91,4 +84,3 @@ return list;
     XLSX.writeFile(wb, 'Stocks.xlsx');
   }
 }
-
