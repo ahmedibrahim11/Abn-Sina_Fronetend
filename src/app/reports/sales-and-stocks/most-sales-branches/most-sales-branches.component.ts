@@ -13,6 +13,12 @@ import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { IChartModal } from 'src/app/shared/modals/chart.modal';
 
+import { ExportAsService, ExportAsConfig,SupportedExtensions } from 'ngx-export-as';
+
+
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+
 @Component({
   selector: 'app-most-sales-branches',
   templateUrl: './most-sales-branches.component.html',
@@ -31,7 +37,17 @@ export class MostSalesBranchesComponent implements OnInit {
   itemsName: any[] = [];
   itemsValue: any[] = [];
   @Input() data: any = [];
-  constructor() {
+  config: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: "chart",
+    options: {
+      jsPDF: {
+        orientation: 'landscape'
+      },
+      pdfCallbackFn: this.pdfCallbackFn // to add header and footer
+    }
+  }
+  constructor(private exportAsService: ExportAsService) {
     this.top7Brnaches = [];
     this.last7Brnaches = [];
     this.chartData = [];
@@ -83,7 +99,7 @@ export class MostSalesBranchesComponent implements OnInit {
       this.itemsName.push(this.chartData[i]['name']);
     }
     for (var i = 0; i < this.top7Brnaches.length; i++) {
-      this.itemsValue.push(this.chartData[i]['value']);
+      this.itemsValue.push(this.chartData[i]['value'].toFixed(2));
       let color = this.generateColors();
       this.ChartColors.push(color);
     }
@@ -105,6 +121,32 @@ export class MostSalesBranchesComponent implements OnInit {
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
     return ('rgb(' + r + ',' + g + ',' + b + ')') as never;
+  }
+  pdfCallbackFn (pdf: any) {
+    // example to add page number as footer to every page of pdf
+    const noOfPages = pdf.internal.getNumberOfPages();
+    for (let i = 1; i <= noOfPages; i++) {
+      pdf.setPage(i);
+      pdf.text('Page ' + i + ' of ' + noOfPages, pdf.internal.pageSize.getWidth() - 100, pdf.internal.pageSize.getHeight() - 30);
+    }
+  }
+  
+  exportAsString(type: SupportedExtensions, opt?: string) {
+    this.config.elementIdOrContent = '<div> test string </div>';
+    this.exportAs(type, opt);
+    setTimeout(() => {
+      this.config.elementIdOrContent = 'mytable';
+    }, 1000);
+  }
+
+  exportAs(type: SupportedExtensions, opt?: string) {
+    this.config.type = type;
+    if (opt) {
+      this.config.options.jsPDF.orientation = opt;
+    }
+    this.exportAsService.save(this.config, 'myFile').subscribe(() => {
+    });
+    
   }
   generateBarChart() {
     this.chart = new Chart('chart', {
@@ -149,7 +191,7 @@ export class MostSalesBranchesComponent implements OnInit {
           display: false,
         },
       },
-
+      plugins:[ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -206,11 +248,11 @@ export class MostSalesBranchesComponent implements OnInit {
 
   openPDF(): void {
     var element: any = document.getElementById('chart');
-
+    debugger;
     html2canvas(element).then((canvas) => {
       var imgData = canvas.toDataURL('image/png');
       let doc = new jsPDF();
-      doc.addImage(imgData, 0, 0, 0, 100, 500);
+      doc.addImage(imgData, 0, 10, 10, 100, 500);
       doc.save(this.header);
     });
   }

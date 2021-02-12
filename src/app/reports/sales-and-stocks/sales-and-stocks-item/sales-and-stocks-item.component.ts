@@ -1,9 +1,13 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
+
+import { ExportAsService, ExportAsConfig,SupportedExtensions } from 'ngx-export-as';
+
 
 export interface ChartDataModal {
   labels: string[];
@@ -16,6 +20,17 @@ export interface ChartDataModal {
   styleUrls: ['./sales-and-stocks-item.component.css'],
 })
 export class SalesAndStocksItemComponent implements OnInit {
+
+  config: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: "mytable",
+    options: {
+      jsPDF: {
+        orientation: 'landscape'
+      },
+      pdfCallbackFn: this.pdfCallbackFn // to add header and footer
+    }
+  }
   @Input() data: any = [];
 
   selectedvalQty: any;
@@ -31,7 +46,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   chart1Data: ChartDataModal;
   chart2Data: ChartDataModal;
   generateClicked: any;
-  constructor() {
+  constructor(private exportAsService: ExportAsService) {
     this.chart1Data = { labels: [], colors: [], values: [] };
     this.chart2Data = { labels: [], colors: [], values: [] };
     this.chart1 = undefined;
@@ -115,6 +130,14 @@ export class SalesAndStocksItemComponent implements OnInit {
       chartData.values.push(branch.value);
       chartData.colors.push(this.generateColors());
     });
+  }
+  pdfCallbackFn (pdf: any) {
+    // example to add page number as footer to every page of pdf
+    const noOfPages = pdf.internal.getNumberOfPages();
+    for (let i = 1; i <= noOfPages; i++) {
+      pdf.setPage(i);
+      pdf.text('Page ' + i + ' of ' + noOfPages, pdf.internal.pageSize.getWidth() - 100, pdf.internal.pageSize.getHeight() - 30);
+    }
   }
 
   generatCharts() {
@@ -232,6 +255,7 @@ export class SalesAndStocksItemComponent implements OnInit {
         },
       },
 
+      plugins:[ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 15)),
 
@@ -260,6 +284,7 @@ export class SalesAndStocksItemComponent implements OnInit {
             },
           },
         },
+        plugins:[ChartDataLabels],
         title: {
           display: true,
           fontSize: 10,
@@ -296,4 +321,18 @@ export class SalesAndStocksItemComponent implements OnInit {
       doc.save('ss');
     });
   }
+
+
+  exportAs(type: SupportedExtensions, opt?: string) {
+    debugger;
+    this.config.type = type;
+    if (opt) {
+      this.config.options.jsPDF.orientation = opt;
+    }
+    this.exportAsService.save(this.config, 'myFile').subscribe(() => {
+    });
+
+  }
+
+
 }

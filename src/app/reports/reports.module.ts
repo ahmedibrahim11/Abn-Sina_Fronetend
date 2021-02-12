@@ -16,6 +16,7 @@ import { NgbButtonsModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { MostSalesBranchesComponent } from './sales-and-stocks/most-sales-branches/most-sales-branches.component';
 import { SalesAndStocksItemComponent } from './sales-and-stocks/sales-and-stocks-item/sales-and-stocks-item.component';
+import { ExportAsModule } from 'ngx-export-as';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { SalesAndStocksItemComponent } from './sales-and-stocks/sales-and-stocks
     NgbModule,
     FormsModule,
     NgbButtonsModule,
+    ExportAsModule
   ],
   providers:[FileService,ExcelService]
 })
