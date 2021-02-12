@@ -12,6 +12,7 @@ import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { IChartModal } from 'src/app/shared/modals/chart.modal';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-most-sales-branches',
@@ -83,7 +84,7 @@ export class MostSalesBranchesComponent implements OnInit {
       this.itemsName.push(this.chartData[i]['name']);
     }
     for (var i = 0; i < this.top7Brnaches.length; i++) {
-      this.itemsValue.push(this.chartData[i]['value']);
+      this.itemsValue.push(this.chartData[i]['value'].toFixed(2));
       let color = this.generateColors();
       this.ChartColors.push(color);
     }
@@ -149,7 +150,7 @@ export class MostSalesBranchesComponent implements OnInit {
           display: false,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -189,7 +190,7 @@ export class MostSalesBranchesComponent implements OnInit {
           display: true,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 

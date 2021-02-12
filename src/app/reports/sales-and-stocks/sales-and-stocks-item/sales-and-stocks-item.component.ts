@@ -5,6 +5,12 @@ import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
+import domtoimage from 'dom-to-image';
+
+
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+
 export interface ChartDataModal {
   labels: string[];
   values: number[];
@@ -85,7 +91,7 @@ export class SalesAndStocksItemComponent implements OnInit {
       .slice(0, 7);
     top7BrnachesSales.forEach((branch: any) => {
       chartData.labels.push(branch.name);
-      chartData.values.push(branch.value);
+      chartData.values.push(branch.value.toFixed(2));
       chartData.colors.push(this.generateColors());
     });
   }
@@ -112,7 +118,7 @@ export class SalesAndStocksItemComponent implements OnInit {
       .slice(0, 7);
     top7BrnachesStock.forEach((branch: any) => {
       chartData.labels.push(branch.name);
-      chartData.values.push(branch.value);
+      chartData.values.push(branch.value.toFixed(2));
       chartData.colors.push(this.generateColors());
     });
   }
@@ -231,7 +237,7 @@ export class SalesAndStocksItemComponent implements OnInit {
           display: false,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 15)),
 
@@ -271,7 +277,7 @@ export class SalesAndStocksItemComponent implements OnInit {
           display: true,
         },
       },
-
+      plugins: [ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 18)),
 
@@ -288,12 +294,17 @@ export class SalesAndStocksItemComponent implements OnInit {
 
   openPDF(id: any): void {
     var element: any = document.getElementById(id);
+    const options = { background: 'white', height: 845, width: 595 };
+    domtoimage.toPng(element, options).then((canvas: any) => {
+      const doc = new jsPDF('p', 'mm', 'a4');
+      doc.addImage(canvas, 'PNG', 0, 0, 100, 100);
+      if (id === 'chart1') {
+       doc.save(this.stockChartHeader)
+      }
+      else {
+        doc.save(this.salesChartHeader)
+      }
 
-    html2canvas(element).then((canvas) => {
-      var imgData = canvas.toDataURL('image/png');
-      let doc = new jsPDF();
-      doc.addImage(imgData, 0, 0, 0, 100, 500);
-      doc.save('ss');
-    });
+    })
   }
 }
