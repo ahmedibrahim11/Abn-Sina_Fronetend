@@ -1,0 +1,79 @@
+<div class="row">
+    <div
+      class="col-md-4 mr-5 shadow-lg p-3 mb-5 bg-white rounded"
+      style="background-color: white; margin-left: 15%"
+    >
+      <div class="row">
+        <div class="custom-control custom-radio col-md-4 ml-4">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradio"
+            id="btnradio1"
+            [(ngModel)]="chartType"
+            value="bar"
+            checked
+            (change)="onChartTypeChange()"
+            mdbInput
+          />
+          <label class="custom-control-label" for="btnradio1">BarChart</label>
+        </div>
+  
+        <div class="custom-control custom-radio col-md-6">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradio"
+            [(ngModel)]="chartType"
+            id="btnradio2"
+            value="pie"
+            (change)="onChartTypeChange()"
+          />
+          <label class="custom-control-label" for="btnradio2">PieChart</label>
+        </div>
+      </div>
+    </div>
+  
+    <div
+      class="col-md-4 shadow-lg p-3 mb-5 bg-white rounded"
+      style="background-color: white"
+    >
+      <div class="row">
+        <div class="custom-control custom-radio col-md-4 ml-2">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradioBranch"
+            id="btnradio3"
+            [(ngModel)]="branchType"
+            value="highest"
+            checked
+            mdbInput
+            (change)="onTopOrLowestChange()"
+          />
+          <label class="custom-control-label" for="btnradio3">Highest</label>
+        </div>
+        <div class="custom-control custom-radio col-md-6">
+          <input
+            type="radio"
+            class="custom-control-input"
+            name="btnradioBranch"
+            [(ngModel)]="branchType"
+            id="btnradio4"
+            value="lowest"
+            (change)="onTopOrLowestChange()"
+          />
+          <label class="custom-control-label" for="btnradio4">Lowest</label>
+        </div>
+      </div>
+    </div>
+  
+    
+    <div class="col-md-8 offset-md-2" >
+      <button class="export-btn" style="float: right" (click)="openPDF('chart')">
+        Export PDF <img width="20%" height="20%" src="../../../../assets/PDF_file_icon.svg"/>
+      </button>
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+  

@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-5 ml-5">
+        <label class="label"> Item Name</label>
+
+        <select placeholder="Please Select Item" class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem">
+            <option disabled>--Select Item--</option>
+            <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
+                {{ item["Item  Name"] }}
+            </option>
+        </select>
+    </div>
+
+    <div class="col-md-4 ml-3">
+        <label class="label"> Chart Type </label>
+        <div class="row shadow-lg p-3 mb-5 bg-white rounded" style="background-color: white">
+            <div class="custom-control custom-radio">
+                <input type="radio" (change)="changeType($event)" class="custom-control-input" name="btnradiobar"
+                    id="btnradiobar" checked value="bar" mdbInput />
+                <label class="custom-control-label" for="btnradiobar">BarChart</label>
+            </div>
+
+            <div class="custom-control custom-radio ml-5">
+                <input type="radio" class="custom-control-input" (change)="changeType($event)" name="btnradiobar"
+                    id="btnradiopie" value="pie" />
+                <label class="custom-control-label" for="btnradiopie">PieChart</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <button style="margin-top: 55%; font-size: large" [disabled]="!selectedItem" (click)="generatCharts()"
+            class="btn btn-danger" type="button">
+            Generate
+        </button>
+    </div>
+</div>
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <button *ngIf="generateClicked" class="btn btn-danger" style="float: right" (click)="openPDF('chart1')">
+            Export PDF
+        </button>
+        <canvas id="chart1"> </canvas>
+    </div>
+</div>
