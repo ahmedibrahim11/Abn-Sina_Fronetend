@@ -138,19 +138,17 @@
     <!-- sales stocks items charts -->
 
     <div *ngIf="this.data.length > 0">
-      <app-sales-and-stocks-item [data]="data" > </app-sales-and-stocks-item>
+      <app-sales-and-stocks-item [data]="data"> </app-sales-and-stocks-item>
     </div>
 
     <hr />
     <br />
     <br />
     <br />
-
-   
   </div>
 </div>
- <!--  SmartTable -->
-    <div *ngIf="this.data.length > 0">
-      <app-genric-smart-table [data]="data" [headers]="tableHeaders">
-      </app-genric-smart-table>
-    </div>
+<!--  SmartTable -->
+<div *ngIf="this.data.length > 0">
+  <app-genric-smart-table [data]="data" [headers]="tableHeaders">
+  </app-genric-smart-table>
+</div>

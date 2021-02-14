@@ -30,7 +30,7 @@ export class SalesAndStocksComponent implements OnInit {
   }
 
   getExelfile() {
-    let file={fileName :'testExcel.xlsx',reportType:'stock'};
+    let file = { fileName: 'testExcel.xlsx', reportType: 'stock' };
     this._fileService.downloadFile(file, this.url).subscribe({
       next: (res) => {
         this.extractDataFromExcel(res);
@@ -89,16 +89,14 @@ export class SalesAndStocksComponent implements OnInit {
         var salesValue = _.map(this.data, (item: any) => {
           return item[key];
         });
-        this.totalSales = _.sum(salesValue);
-        this.totalSales = this.totalSales.toFixed(2);
+        this.totalSales = salesValue[salesValue.length - 1].toFixed(2);
         break;
 
       case 'Stock':
         var stocks = _.map(this.data, (item: any) => {
           return item[key];
         });
-        this.totalStocks = _.sum(stocks);
-        this.totalStocks = this.totalStocks.toFixed(2);
+        this.totalStocks = stocks[stocks.length - 1].toFixed(2);
         break;
     }
   }
@@ -113,13 +111,10 @@ export class SalesAndStocksComponent implements OnInit {
       /* find the cell in the first row */
       var hdr = 'UNKNOWN ' + C; // <-- replace with your desired default
       if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
-      if (hdr.search("Item")!==-1||hdr.search("Branch")!==-1) {
-      this.tableHeaders.push({ name: hdr, title: hdr,filter:true });
-        
-      }
-      else{
-      this.tableHeaders.push({ name: hdr, title: hdr,filter:false});
-
+      if (hdr.search('Item') !== -1 || hdr.search('Branch') !== -1) {
+        this.tableHeaders.push({ name: hdr, title: hdr, filter: true });
+      } else {
+        this.tableHeaders.push({ name: hdr, title: hdr, filter: false });
       }
     }
     return this.tableHeaders;

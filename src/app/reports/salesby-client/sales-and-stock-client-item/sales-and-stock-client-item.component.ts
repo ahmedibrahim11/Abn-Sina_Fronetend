@@ -11,7 +11,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 @Component({
   selector: 'app-sales-and-stock-client-item',
   templateUrl: './sales-and-stock-client-item.component.html',
-  styleUrls: ['./sales-and-stock-client-item.component.css']
+  styleUrls: ['./sales-and-stock-client-item.component.css'],
 })
 export class SalesAndStockClientItemComponent implements OnInit {
   @Input() data: any = [];
@@ -22,7 +22,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
   salesChartHeader = ' Sales Values';
 
   itemsDropDownMenu: any = [];
-  selectedItem: any;
+  selectedItem: any = 'Choose Item';
   chartType: string = 'bar';
   chart1: any;
   chart2: any;
@@ -39,7 +39,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
   ngOnInit(): void {
     this.selectedvalQty = 'val';
     this.chartType = 'bar';
-    this.itemsDropDownMenu = _.uniqBy(this.data,'itemName');
+    this.itemsDropDownMenu = _.uniqBy(this.data, 'itemName');
   }
 
   changeValueQuantity(e: any) {
@@ -78,10 +78,8 @@ export class SalesAndStockClientItemComponent implements OnInit {
         allbranchesSales.push(branch);
       }
     }
-    let top7 = _.orderBy(allbranchesSales, 'value')
-      .reverse()
-      .slice(0, 7);
-      top7.forEach((branch: any) => {
+    let top7 = _.orderBy(allbranchesSales, 'value').reverse().slice(0, 7);
+    top7.forEach((branch: any) => {
       chartData.labels.push(branch.name);
       chartData.values.push(branch.value.toFixed(2));
       chartData.colors.push(this.generateColors());
@@ -120,13 +118,20 @@ export class SalesAndStockClientItemComponent implements OnInit {
     this.chart1Data = { labels: [], colors: [], values: [] };
     this.chart2Data = { labels: [], colors: [], values: [] };
     if (this.selectedvalQty === 'val') {
-      this.getSalesData(this.selectedItem['itemCode'],'qty',this.chart1Data);
-      this.getSalesData(this.selectedItem['itemCode'],'value',this.chart2Data);
-
+      this.getSalesData(this.selectedItem['itemCode'], 'qty', this.chart1Data);
+      this.getSalesData(
+        this.selectedItem['itemCode'],
+        'value',
+        this.chart2Data
+      );
     } else {
-      this.getStockData(this.selectedItem['itemCode'],'qty',this.chart1Data);
+      this.getStockData(this.selectedItem['itemCode'], 'qty', this.chart1Data);
 
-      this.getStockData(this.selectedItem['itemCode'],'value',this.chart2Data);
+      this.getStockData(
+        this.selectedItem['itemCode'],
+        'value',
+        this.chart2Data
+      );
     }
 
     if (this.chart1 !== undefined) {

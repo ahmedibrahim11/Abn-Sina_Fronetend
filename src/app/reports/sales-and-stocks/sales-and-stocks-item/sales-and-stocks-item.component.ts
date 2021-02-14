@@ -7,9 +7,7 @@ import * as _ from 'lodash';
 
 import domtoimage from 'dom-to-image';
 
-
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-
 
 export interface ChartDataModal {
   labels: string[];
@@ -30,7 +28,8 @@ export class SalesAndStocksItemComponent implements OnInit {
   salesChartHeader = ' Sales Values';
 
   itemsDropDownMenu: any = [];
-  selectedItem: any;
+  selectedItem: any = 'Choose Item';
+
   chartType: string = 'bar';
   chart1: any;
   chart2: any;
@@ -299,12 +298,10 @@ export class SalesAndStocksItemComponent implements OnInit {
       const doc = new jsPDF('p', 'mm', 'a4');
       doc.addImage(canvas, 'PNG', 0, 0, 100, 100);
       if (id === 'chart1') {
-       doc.save(this.stockChartHeader)
+        doc.save(this.stockChartHeader);
+      } else {
+        doc.save(this.salesChartHeader);
       }
-      else {
-        doc.save(this.salesChartHeader)
-      }
-
-    })
+    });
   }
 }

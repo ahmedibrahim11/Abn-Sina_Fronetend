@@ -18,13 +18,13 @@ export interface ChartDataModal {
 @Component({
   selector: 'app-sales-quantity-brick',
   templateUrl: './sales-quantity-brick.component.html',
-  styleUrls: ['./sales-quantity-brick.component.css']
+  styleUrls: ['./sales-quantity-brick.component.css'],
 })
 export class SalesQuantityBrickComponent implements OnInit {
   @Input() data: any = [];
   brickHeader = ' Bricks Quantites';
   itemsDropDownMenu: any = [];
-  selectedItem: any;
+  selectedItem: any = 'Choose Item';
   chartType: string = 'bar';
   chart1: any;
   chart1Data: ChartDataModal;
@@ -243,7 +243,6 @@ export class SalesQuantityBrickComponent implements OnInit {
       const doc = new jsPDF('p', 'mm', 'a4');
       doc.addImage(canvas, 'PNG', 0, 0, 100, 100);
       doc.save(this.brickHeader);
-    })
+    });
   }
-
 }

@@ -2,14 +2,10 @@
   <div class="col-md-3 ml-5">
     <label class="label"> Item Name</label>
 
-    <select
-      placeholder="Please Select Item"
-      class="btn btn pt-4 shadow-lg"
-      [(ngModel)]="selectedItem"
-    >
-      <option disabled>--Select Item--</option>
+    <select class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem">
+      <option value="Choose Item" selected disabled>Choose Item</option>
       <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
-        {{ item["Item name"] }}
+        {{ item["Item  Name"] }}
       </option>
     </select>
   </div>
@@ -84,7 +80,7 @@
   <div class="col-md-1">
     <button
       style="margin-top: 55%; font-size: x-large"
-      [disabled]="!selectedItem"
+      [disabled]="selectedItem === 'Choose Item'"
       (click)="generatCharts()"
       class="btn btn-danger"
       type="button"
