@@ -1,10 +1,22 @@
 .text-center{
     position: relative;
     /* display: block; */
-    left: 37%;
+    left: 50%;
 }
 .bar-chart-top-values{
     width: 100%;
     margin-left: 9%;
-    color: darkred;
+    color: #0d47a1;
+}
+
+.export-btn{
+    color: white;
+    background-color:#0d47a1;
+    width: 18%;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+}
+.export-btn:hover{
+    cursor: pointer;
 }

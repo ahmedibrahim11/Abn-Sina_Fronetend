@@ -25,6 +25,7 @@ import { SalesAndStockClientItemComponent } from './salesby-client/sales-and-sto
 import { SalesbyBrickComponent } from "./salesby-brick/salesby-brick.component"
 import { MostSalesBricksComponent } from './salesby-brick/most-sales-bricks/most-sales-bricks.component';
 import { SalesQuantityBrickComponent } from './salesby-brick/sales-quantity-brick/sales-quantity-brick.component';
+import { SelectedReportComponent } from './selected-report/selected-report.component';
 @NgModule({
   declarations: [
     ReportsComponent, SalesAndStocksComponent, GenricSmartTableComponent,
@@ -32,7 +33,7 @@ import { SalesQuantityBrickComponent } from './salesby-brick/sales-quantity-bric
     SalesAndStocksItemComponent, SalesbyClientComponent,
     MostSalesCitiesComponent, MostSalesGovsComponent,
     MostSalesPerSegmentComponent, SalesAndStockClientItemComponent,SalesbyBrickComponent,
-    MostSalesBricksComponent,SalesQuantityBrickComponent
+    MostSalesBricksComponent,SalesQuantityBrickComponent, SelectedReportComponent
   ],
   imports: [
     CommonModule,

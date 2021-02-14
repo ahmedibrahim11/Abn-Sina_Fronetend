@@ -5,7 +5,7 @@
     <select class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem">
       <option value="Choose Item" selected disabled>Choose Item</option>
       <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
-        {{ item["Item  Name"] }}
+        {{ item["Item name"] }}
       </option>
     </select>
   </div>
@@ -79,10 +79,9 @@
   </div>
   <div class="col-md-1">
     <button
-      style="margin-top: 55%; font-size: x-large"
       [disabled]="selectedItem === 'Choose Item'"
       (click)="generatCharts()"
-      class="btn btn-danger"
+      class="btn generateButton"
       type="button"
     >
       Generate
@@ -96,11 +95,16 @@
   <div class="col-md-6">
     <button
       *ngIf="generateClicked"
-      class="btn btn-danger"
+      class="export-btn"
       style="float: right"
       (click)="openPDF('chart1')"
     >
-      Export chart PDF
+      Export PDF
+      <img
+        width="20%"
+        height="20%"
+        src="../../../../assets/PDF_file_icon.svg"
+      />
     </button>
     <canvas id="chart1"> </canvas>
   </div>
@@ -108,12 +112,21 @@
   <div class="col-md-6">
     <button
       *ngIf="generateClicked"
-      class="btn btn-danger"
+      class="export-btn"
       style="float: right"
       (click)="openPDF('chart2')"
     >
-      Export chart PDF
+      Export PDF
+      <img
+        width="20%"
+        height="20%"
+        src="../../../../assets/PDF_file_icon.svg"
+      />
     </button>
     <canvas id="chart2"> </canvas>
+  </div>
+
+  <div class="col-md-8 offset-md-2">
+    <canvas id="chart"></canvas>
   </div>
 </div>
