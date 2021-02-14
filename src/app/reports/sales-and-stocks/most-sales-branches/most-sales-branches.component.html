@@ -68,19 +68,10 @@
     </div>
   </div>
 
-  <div class="col-md-12">
-    <button class="btn btn-danger" style="float: right" (click)="openPDF('chart')">
-      Export chart PDF
+  <div class="col-md-8 offset-md-2" >
+    <button class="export-btn" style="float: right" (click)="openPDF('chart')">
+      Export PDF <img width="20%" height="20%" src="../../../../assets/PDF_file_icon.svg"/>
     </button>
-    <table class="table bar-chart-top-values">
-      <tbody>
-        <tr>
-          <!-- <td *ngFor="let item of chartData">
-            {{ item.value.toFixed(2) }}
-          </td> -->
-        </tr>
-      </tbody>
-    </table>
     <canvas id="chart"></canvas>
   </div>
 </div>

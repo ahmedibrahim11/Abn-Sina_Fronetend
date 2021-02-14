@@ -83,10 +83,9 @@
   </div>
   <div class="col-md-1">
     <button
-      style="margin-top: 55%; font-size: x-large"
       [disabled]="!selectedItem"
       (click)="generatCharts()"
-      class="btn btn-danger"
+      class="btn generateButton"
       type="button"
     >
       Generate
@@ -98,26 +97,23 @@
 
 <div class="row">
   <div class="col-md-6">
-    <button
-      *ngIf="generateClicked"
-      class="btn btn-danger"
-      style="float: right"
-      (click)="openPDF('chart1')"
-    >
-      Export chart PDF
+    <button  *ngIf="generateClicked" class="export-btn" style="float: right" (click)="openPDF('chart1')">
+      Export PDF <img width="20%" height="20%" src="../../../../assets/PDF_file_icon.svg"/>
     </button>
     <canvas id="chart1"> </canvas>
   </div>
 
   <div class="col-md-6">
-    <button
-      *ngIf="generateClicked"
-      class="btn btn-danger"
-      style="float: right"
-      (click)="openPDF('chart2')"
-    >
-      Export chart PDF
+    <button  *ngIf="generateClicked" class="export-btn" style="float: right" (click)="openPDF('chart2')">
+      Export PDF <img width="20%" height="20%" src="../../../../assets/PDF_file_icon.svg"/>
     </button>
     <canvas id="chart2"> </canvas>
   </div>
+
+  <div class="col-md-8 offset-md-2" >
+   
+    <canvas id="chart"></canvas>
+  </div>
+
+  
 </div>

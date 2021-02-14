@@ -13,10 +13,7 @@ const routes: Routes = [
     { path: 'sales', component: SalesAndStocksComponent },
     { path: 'salesbyclient', component: SalesbyClientComponent },
     { path: 'salesbyBrick', component: SalesbyBrickComponent },
-    { path: '', redirectTo:"salesbyBrick" },
-    { path: '**', redirectTo:"salesbyBrick" },
-
-
+    { path: '', redirectTo:"sales" },
   ] },
 ];
 

@@ -3,3 +3,19 @@
     width: 83%;
     margin-left: 8%;
 }
+
+.export-btn{
+    color: white;
+    background-color: #0d47a1;
+     width:70%;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+}
+.export-btn:hover{
+    cursor: pointer;
+}
+
+img {
+filter: brightness(0) invert(1);
+  }

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SelectedReportComponent } from './reports/selected-report/selected-report.component';
 
 const routes: Routes = [
 
-  { path: '', redirectTo: 'reports', pathMatch: "full" },
-
-  { path: '**', redirectTo: 'reports', pathMatch: "full", },
+  { path: '', redirectTo: 'selectedReport', pathMatch: "full" },
+  { path: 'selectedReport',component:SelectedReportComponent},
   { path: 'reports', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) }
 ];
 
