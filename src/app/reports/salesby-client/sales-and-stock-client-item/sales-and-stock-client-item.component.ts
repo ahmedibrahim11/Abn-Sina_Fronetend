@@ -18,8 +18,8 @@ export class SalesAndStockClientItemComponent implements OnInit {
 
   selectedvalQty: any;
 
-  stockChartHeader = ' Stock Values';
-  salesChartHeader = ' Sales Values';
+  qtyChartHeader:string;
+ valChartHeader:string;
 
   itemsDropDownMenu: any = [];
   selectedItem: any = 'Choose Item';
@@ -34,25 +34,17 @@ export class SalesAndStockClientItemComponent implements OnInit {
     this.chart2Data = { labels: [], colors: [], values: [] };
     this.chart1 = undefined;
     this.chart2 = undefined;
+    this.qtyChartHeader = ' Quantities';
+    this.valChartHeader = ' Values';
   }
 
   ngOnInit(): void {
-    this.selectedvalQty = 'val';
+
     this.chartType = 'bar';
     this.itemsDropDownMenu = _.uniqBy(this.data, 'itemName');
   }
 
-  changeValueQuantity(e: any) {
-    if (e.target.value === 'val') {
-      this.selectedvalQty = 'val';
-      this.stockChartHeader = ' Stock Values';
-      this.salesChartHeader = ' Sales Values';
-    } else {
-      this.selectedvalQty = 'qty';
-      this.stockChartHeader = ' Stock Quantites';
-      this.salesChartHeader = ' Sales Quantites';
-    }
-  }
+ 
 
   changeType(e: any) {
     if (e.target.value === 'bar') {
@@ -62,7 +54,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
     }
   }
 
-  getSalesData(itemCode: Number, type: string, chartData: ChartDataModal) {
+  getValueData(itemCode: Number, type: string, chartData: ChartDataModal) {
     let allbranchesSales = [];
     let dataGroupedByBranch = _.groupBy(this.data, 'clientCode');
     for (let key in dataGroupedByBranch) {
@@ -86,7 +78,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
     });
   }
 
-  getStockData(itemCode: Number, type: string, chartData: ChartDataModal) {
+  getQTyData(itemCode: Number, type: string, chartData: ChartDataModal) {
     let allbranches = [];
     let dataGroupedByclientCode = _.groupBy(this.data, 'clientCode');
     for (let key in dataGroupedByclientCode) {
@@ -117,22 +109,11 @@ export class SalesAndStockClientItemComponent implements OnInit {
     this.generateClicked = true;
     this.chart1Data = { labels: [], colors: [], values: [] };
     this.chart2Data = { labels: [], colors: [], values: [] };
-    if (this.selectedvalQty === 'val') {
-      this.getSalesData(this.selectedItem['itemCode'], 'qty', this.chart1Data);
-      this.getSalesData(
-        this.selectedItem['itemCode'],
-        'value',
-        this.chart2Data
-      );
-    } else {
-      this.getStockData(this.selectedItem['itemCode'], 'qty', this.chart1Data);
 
-      this.getStockData(
-        this.selectedItem['itemCode'],
-        'value',
-        this.chart2Data
-      );
-    }
+      this.getQTyData(this.selectedItem['itemCode'], 'qty', this.chart1Data);
+      this.getValueData(this.selectedItem['itemCode'], 'value', this.chart2Data);
+ 
+   
 
     if (this.chart1 !== undefined) {
       this.chart1.destroy();
@@ -145,24 +126,24 @@ export class SalesAndStockClientItemComponent implements OnInit {
         this.chart1 = this.generateBarChart(
           this.chart1Data,
           'chart1',
-          this.stockChartHeader
+          this.qtyChartHeader
         );
         this.chart2 = this.generateBarChart(
           this.chart2Data,
           'chart2',
-          this.salesChartHeader
+          this.valChartHeader
         );
         break;
       case 'pie':
         this.chart1 = this.generatePieChart(
           this.chart1Data,
           'chart1',
-          this.stockChartHeader
+          this.qtyChartHeader
         );
         this.chart2 = this.generatePieChart(
           this.chart2Data,
           'chart2',
-          this.salesChartHeader
+          this.valChartHeader
         );
         break;
 

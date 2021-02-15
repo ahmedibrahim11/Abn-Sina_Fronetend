@@ -4,8 +4,8 @@
 
     <select class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem">
       <option value="Choose Item" selected disabled>Choose Item</option>
-      <option *ngFor="let item of selectedItem" [ngValue]="item">
-        {{ item["Item Name"] }}
+      <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
+        {{ item["itemName"] }}
       </option>
     </select>
   </div>
@@ -43,40 +43,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3 ml-3">
-    <label class="label"> Value/Quantity </label>
 
-    <div
-      class="row shadow-lg p-3 mb-5 bg-white rounded"
-      style="background-color: white"
-    >
-      <div class="custom-control custom-radio">
-        <input
-          type="radio"
-          class="custom-control-input"
-          id="btnr1"
-          name="btnr1"
-          value="val"
-          (change)="changeValueQuantity($event)"
-          checked
-          mdbInput
-        />
-        <label class="custom-control-label" for="btnr1">Value</label>
-      </div>
-
-      <div class="custom-control custom-radio ml-5">
-        <input
-          type="radio"
-          class="custom-control-input"
-          id="btnr2"
-          name="btnr1"
-          (change)="changeValueQuantity($event)"
-          value="qty"
-        />
-        <label class="custom-control-label" for="btnr2">Quantity</label>
-      </div>
-    </div>
-  </div>
   <div class="col-md-1">
     <button
       [disabled]="selectedItem === 'Choose Item'"
