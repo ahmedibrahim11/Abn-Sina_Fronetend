@@ -159,12 +159,13 @@
       <br />
       <br />
   
-    
+
     </div>
+
   </div>
   
-    <!--  SmartTable -->
-  <div style="margin-left: 10%;" *ngIf="this.data.length > 0">
-    <app-genric-smart-table [data]="data" [headers]="tableHeaders">
-    </app-genric-smart-table>
-  </div>
+            <!--  SmartTable -->
+            <div  *ngIf="this.data.length > 0">
+              <app-genric-smart-table [data]="data" [headers]="tableHeaders">
+              </app-genric-smart-table>
+            </div>
