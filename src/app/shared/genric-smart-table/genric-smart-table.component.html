@@ -4,18 +4,17 @@
   
     </div> -->
     
-  <div class="offset-10 col-md-2">
+  <div class="offset-8 col-md-4">
     <button class="export-btn"  (click)="exportoExcel()">
       Export Excel <img width="20%" height="20%" src="../../../assets/excel.svg"/>
     </button>
-    
   </div>  
   <div class="row mt-3">
     <ng2-smart-table
       id="table"
       [settings]="settings"
       [source]="source"
-      class="table table-striped  smart-table-design"
+      class="table table-striped smart-table-design"
     >
     </ng2-smart-table>
   </div>

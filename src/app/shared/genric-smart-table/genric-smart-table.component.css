@@ -1,13 +1,14 @@
 .smart-table-design{
     color: black;
     width: 83%;
+    overflow-x: scroll;
 }
-
+th, td { min-width: 200px; }
 .export-btn{
     color: white;
     background-color: #0d47a1;
-     width:70%;
-    border: none;
+    width: 40%;
+     border: none;
     border-radius: 3px;
     padding: 5px;
 }
