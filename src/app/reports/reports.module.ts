@@ -8,8 +8,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FileService } from '../core/file.Service';
 import { ExcelService } from '../core/excelService';
 import { HttpClientModule } from '@angular/common/http';
-import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.component';
-import { PieChartComponent } from '../shared/charts/pie-chart/pie-chart.component';
+
 import { ChartsModule } from 'ng2-charts';
 import { NgbButtonsModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
@@ -28,8 +27,7 @@ import { SalesQuantityBrickComponent } from './salesby-brick/sales-quantity-bric
 import { SelectedReportComponent } from './selected-report/selected-report.component';
 @NgModule({
   declarations: [
-    ReportsComponent, SalesAndStocksComponent, GenricSmartTableComponent,
-    BarChartComponent, PieChartComponent, MostSalesBranchesComponent,
+    ReportsComponent, SalesAndStocksComponent, GenricSmartTableComponent, MostSalesBranchesComponent,
     SalesAndStocksItemComponent, SalesbyClientComponent,
     MostSalesCitiesComponent, MostSalesGovsComponent,
     MostSalesPerSegmentComponent, SalesAndStockClientItemComponent,SalesbyBrickComponent,

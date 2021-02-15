@@ -126,10 +126,10 @@ export class SalesbyClientComponent implements OnInit {
   get_header_row(ws: any) {
     this.tableHeaders = [
       { name: 'date', title: 'Date', filter: false },
-      { name: 'branchCode', title: 'Branch Code', filter: true },
+      { name: 'branchCode', title: 'Branch Code', filter: false },
       // { name: 'suppCode', title: 'Supp Code' },
       { name: 'suppName', title: 'Supp Name' },
-      { name: 'itemCode', title: 'Item Code', filter: true },
+      { name: 'itemCode', title: 'Item Code',filter: false},
       { name: 'itemName', title: 'Item Name', filter: true },
       // { name: 'brickCode', title: 'Brick Code', filter: true },
       { name: 'gov', title: 'Gov' },

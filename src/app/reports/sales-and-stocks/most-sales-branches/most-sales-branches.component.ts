@@ -12,7 +12,7 @@ import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { IChartModal } from 'src/app/shared/modals/chart.modal';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import datalabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
 
 
@@ -132,7 +132,7 @@ export class MostSalesBranchesComponent implements OnInit {
           xAxes: [
             {
               gridLines: {
-                display: true,
+                display: true
               },
             },
           ],
@@ -151,8 +151,21 @@ export class MostSalesBranchesComponent implements OnInit {
           align: 'center',
           display: false,
         },
+        plugins: {
+          // Change options for ALL labels of THIS CHART
+          datalabels: {
+            color: 'black',
+            labels: {
+              title: {
+                font: {
+                  weight: 'bold',
+                  size: 10
+                },
+              }
+            }
+          }
+        }
       },
-      plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -166,7 +179,6 @@ export class MostSalesBranchesComponent implements OnInit {
       },
     });
   }
-
   generatePieChart() {
     this.chart = new Chart('chart', {
       type: 'pie',
@@ -181,18 +193,30 @@ export class MostSalesBranchesComponent implements OnInit {
             },
           },
         },
-        title: {
+         title: {
           display: true,
           fontSize: 10,
           text: this.header,
         },
-
         legend: {
           align: 'center',
           display: true,
         },
+        plugins: {
+          // Change options for ALL labels of THIS CHART
+          datalabels: {
+            color: 'black',
+            labels: {
+              title: {
+                font: {
+                  weight: 'bold',
+                  size: 10
+                }
+              }
+            }
+          }
+        }
       },
-      plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -207,7 +231,7 @@ export class MostSalesBranchesComponent implements OnInit {
     });
   }
 
-  openPDF(id:any): void {
+  openPDF(id: any): void {
     var element: any = document.getElementById(id);
     const options = { background: 'white', height: 845, width: 595 };
     domtoimage.toPng(element, options).then((canvas: any) => {

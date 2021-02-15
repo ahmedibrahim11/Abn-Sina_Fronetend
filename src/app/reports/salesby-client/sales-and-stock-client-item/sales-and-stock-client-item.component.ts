@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { ChartDataModal } from '../../sales-and-stocks/sales-and-stocks-item/sales-and-stocks-item.component';
 
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import domtoimage from 'dom-to-image';
 
 @Component({
   selector: 'app-sales-and-stock-client-item',
@@ -263,6 +264,18 @@ export class SalesAndStockClientItemComponent implements OnInit {
       let doc = new jsPDF();
       doc.addImage(imgData, 0, 0, 0, 100, 500);
       doc.save('ss');
+    });
+
+    var element: any = document.getElementById(id);
+    const options = { background: 'white', height: 845, width: 595 };
+    domtoimage.toPng(element, options).then((canvas: any) => {
+      const doc = new jsPDF('p', 'mm', 'a4');
+      doc.addImage(canvas, 'PNG', 0, 0, 100, 100);
+      if (id === 'chart1') {
+        doc.save(this.qtyChartHeader);
+      } else {
+        doc.save(this.valChartHeader);
+      }
     });
   }
 }

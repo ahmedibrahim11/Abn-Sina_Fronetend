@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import * as XLSX from 'xlsx';
 import * as _ from 'lodash';
-import { includes } from 'lodash';
 
 @Component({
   selector: 'app-genric-smart-table',

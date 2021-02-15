@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 
 import domtoimage from 'dom-to-image';
 
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import datalabels from 'chartjs-plugin-datalabels';
 
 export interface ChartDataModal {
   labels: string[];
@@ -235,8 +235,21 @@ export class SalesAndStocksItemComponent implements OnInit {
           align: 'center',
           display: false,
         },
+        plugins: {
+          // Change options for ALL labels of THIS CHART
+          datalabels: {
+            color: 'black',
+            labels: {
+              title: {
+                font: {
+                  weight: 'bold',
+                  size: 10
+                }
+              }
+            }
+          }
+        }
       },
-      plugins: [ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 15)),
 
@@ -270,13 +283,25 @@ export class SalesAndStocksItemComponent implements OnInit {
           fontSize: 10,
           text: header,
         },
-
+        plugins: {
+          // Change options for ALL labels of THIS CHART
+          datalabels: {
+            color: 'black',
+            labels: {
+              title: {
+                font: {
+                  weight: 'bold',
+                  size: 10
+                }
+              }
+            }
+          }
+        },
         legend: {
           align: 'center',
           display: true,
         },
       },
-      plugins: [ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 18)),
 

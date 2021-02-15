@@ -9,8 +9,13 @@
     align-content: center;
     text-align: center;
     margin-top: 25%;
-
 }
 .card-value{
     color:#0d47a1;
+}
+.top-space{
+    margin-top: 5%;
+}
+.table-layout{
+    margin-left: 1%;
 }

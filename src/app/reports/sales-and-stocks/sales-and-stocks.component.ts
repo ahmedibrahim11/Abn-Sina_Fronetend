@@ -111,7 +111,7 @@ export class SalesAndStocksComponent implements OnInit {
       /* find the cell in the first row */
       var hdr = 'UNKNOWN ' + C; // <-- replace with your desired default
       if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
-      if (hdr.search('Item') !== -1 || hdr.search('Branch') !== -1) {
+      if (hdr.search('Item name') !== -1 || hdr.search('Branch Name') !== -1) {
         this.tableHeaders.push({ name: hdr, title: hdr, filter: true });
       } else {
         this.tableHeaders.push({ name: hdr, title: hdr, filter: false });

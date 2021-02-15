@@ -2,8 +2,8 @@
   <div class="col-md-3 ml-5">
     <label class="label"> Item Name</label>
 
-    <select class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem">
-      <option value="Choose Item" selected disabled>Choose Item</option>
+    <select class="btn btn pt-4 shadow-lg" style="width: 100%" [(ngModel)]="selectedItem">
+      <option value="Choose Item" style="margin-top: -1%;" selected disabled>Choose Item</option>
       <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
         {{ item["Item name"] }}
       </option>
@@ -43,6 +43,7 @@
       </div>
     </div>
   </div>
+  
   <div class="col-md-3 ml-3">
     <label class="label"> Value/Quantity </label>
 
