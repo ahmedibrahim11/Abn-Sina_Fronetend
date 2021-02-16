@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-3 ml-5">
-    <label class="label"> Item Name</label>
-    <input id="typeahead-basic" type="text" class="form-control"  [editable]='false'   [inputFormatter]="formatter"
+    <label class="label">Search By Drug Name</label>
+    <input id="typeahead-basic" type="text" class="form-control search-inbut"  [editable]='false'   [inputFormatter]="formatter"
     [resultFormatter]="formatter" (change)="generatCharts()"
     [(ngModel)]="selectedItem" [ngbTypeahead]="search"/>
 

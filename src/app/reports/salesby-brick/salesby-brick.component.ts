@@ -16,7 +16,7 @@ export class SalesbyBrickComponent implements OnInit {
   loader = true;
 
   branchesName: any;
-  itemsCode: any = [];
+  totalItems: any = [];
   totalBricks: any = [];
   totalQuantity: any = [];
 
@@ -55,11 +55,10 @@ export class SalesbyBrickComponent implements OnInit {
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
-
       this.selectedChart = 'BarChart';
       this.selectedChart2 = 'BarChart';
 
-      this.getAllCardsValue('Item Code');
+      this.getAllCardsValue('Item Name');
       this.getAllCardsValue('Brick');
       this.getAllCardsValue('Total Qty');
 
@@ -69,10 +68,12 @@ export class SalesbyBrickComponent implements OnInit {
 
   getAllCardsValue(key: any) {
     switch (key) {
-      case 'Item Code':
-        _.map(this.data, (item) => {
-          this.itemsCode += _.sum(item[key]);
-        });
+      case 'Item Name':
+          let uniqueData=_.uniqBy(this.data,key);
+      
+          _.map(uniqueData, (item) => {
+            this.totalItems += _.sum(item[key]);
+          });
         break;
       case 'Brick':
         var bricks = _.uniq(
@@ -95,7 +96,6 @@ export class SalesbyBrickComponent implements OnInit {
 
   get_header_row(ws: any) {
     var range = XLSX.utils.decode_range(ws['!ref']);
-    debugger;
     var C,
       R = range.s.r;
     /* walk every column in the range */

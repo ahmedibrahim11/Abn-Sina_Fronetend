@@ -5,7 +5,8 @@ import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { ChartDataModal } from '../../sales-and-stocks/sales-and-stocks-item/sales-and-stocks-item.component';
-
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, filter} from 'rxjs/operators';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
 
@@ -23,7 +24,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
  valChartHeader:string;
 
   itemsDropDownMenu: any = [];
-  selectedItem: any = 'Choose Item';
+  selectedItem: any;
   chartType: string = 'bar';
   chart1: any;
   chart2: any;
@@ -45,6 +46,14 @@ export class SalesAndStockClientItemComponent implements OnInit {
     this.itemsDropDownMenu = _.uniqBy(this.data, 'itemName');
   }
 
+  formatter = (item: any) => item['itemName'];
+  
+  search = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    filter(term => term.length >= 1),
+    map(term =>  this.itemsDropDownMenu.filter((item:any) => new RegExp(term, 'mi').test(item['itemName'])))
+  )
  
 
   changeType(e: any) {
@@ -52,6 +61,10 @@ export class SalesAndStockClientItemComponent implements OnInit {
       this.chartType = 'bar';
     } else {
       this.chartType = 'pie';
+    }
+    if (this.chart1Data.values.length>0&&this.chart2Data.values.length>0) {
+    this.generatCharts();
+      
     }
   }
 

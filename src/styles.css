@@ -8,3 +8,6 @@ ng2-smart-table-pager{
     justify-content: center !important;
     font-size: larger;
 }
+.search-inbut{
+  height: 7.4vh;
+}

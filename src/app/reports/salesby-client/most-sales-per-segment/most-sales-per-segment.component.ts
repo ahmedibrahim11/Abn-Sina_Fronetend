@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { Input } from '@angular/core';
 import * as Chart from 'chart.js';
-import html2canvas from 'html2canvas';
+
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 import { IChartModal } from 'src/app/shared/modals/chart.modal';

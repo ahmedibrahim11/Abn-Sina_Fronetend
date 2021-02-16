@@ -40,7 +40,6 @@ export class MostSalesBricksComponent implements OnInit {
     this.top7Bricks = [];
 
     let dataGroupedByBranch = _.groupBy(this.data, 'Brick Name');
-    console.log("Bricks",dataGroupedByBranch);
     for (let key in dataGroupedByBranch) {
       if (key) {
         let branch = { name: key, value: 0 };
@@ -83,7 +82,7 @@ export class MostSalesBricksComponent implements OnInit {
       this.itemsName.push(this.chartData[i]['name']);
     }
     for (var i = 0; i < this.top7Bricks.length; i++) {
-      this.itemsValue.push(this.chartData[i]['value'].toFixed(2));
+      this.itemsValue.push( this.chartData[i]['value']?this.chartData[i]['value'].toFixed(2):0);
       let color = this.generateColors();
       this.ChartColors.push(color);
     }
