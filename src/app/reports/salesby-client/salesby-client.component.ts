@@ -15,7 +15,7 @@ export class SalesbyClientComponent implements OnInit {
   loader = true;
 
   branchesName: any;
-  itemsCode: any = [];
+  totalItems: any = [];
   totalClients: any = [];
   totalSales: any = [];
   totalStocks: any = [];
@@ -99,8 +99,10 @@ export class SalesbyClientComponent implements OnInit {
   getAllCardsValue(key: any) {
     switch (key) {
       case 'itemCode':
-        _.map(this.data, (item) => {
-          this.itemsCode += _.sum(item[key]);
+       let itmesUnique= _.uniqBy(this.data,key);
+
+        _.map(itmesUnique, (item) => {
+          this.totalItems += _.sum(item[key]);
         });
         break;
       case 'clientCode':
