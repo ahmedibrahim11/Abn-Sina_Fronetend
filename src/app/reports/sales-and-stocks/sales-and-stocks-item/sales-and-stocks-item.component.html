@@ -1,13 +1,16 @@
 <div class="row">
   <div class="col-md-3 ml-5">
     <label class="label"> Item Name</label>
+    <input id="typeahead-basic" type="text" class="form-control"  [editable]='false'   [inputFormatter]="formatter"
+    [resultFormatter]="formatter" (change)="generatCharts()"
+    [(ngModel)]="selectedItem" [ngbTypeahead]="search"/>
 
-    <select class="btn btn pt-4 shadow-lg" style="width: 100%" [(ngModel)]="selectedItem">
+    <!-- <select class="btn btn pt-4 shadow-lg" style="width: 100%" (change)="generatCharts()" [(ngModel)]="selectedItem">
       <option value="Choose Item" style="margin-top: -1%;" selected disabled>Choose Item</option>
       <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
         {{ item["Item name"] }}
       </option>
-    </select>
+    </select> -->
   </div>
 
   <div class="col-md-3 ml-3">
@@ -78,16 +81,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-1">
-    <button
-      [disabled]="selectedItem === 'Choose Item'"
-      (click)="generatCharts()"
-      class="btn generateButton"
-      type="button"
-    >
-      Generate
-    </button>
-  </div>
+
 </div>
 <br />
 <br />

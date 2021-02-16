@@ -15,7 +15,7 @@ export class SalesAndStocksComponent implements OnInit {
   loader = true;
 
   branchesName: any;
-  itemsCode: any = [];
+  totalItems: any = [];
   branchesCode: any = [];
   totalSales: any = [];
   totalStocks: any = [];
@@ -71,8 +71,9 @@ export class SalesAndStocksComponent implements OnInit {
   getAllCardsValue(key: any) {
     switch (key) {
       case 'Item Code':
-        _.map(this.data, (item) => {
-          this.itemsCode += _.sum(item[key]);
+        let uniqueData=_.uniqBy(this.data,key);
+        _.map(uniqueData, (item) => {
+          this.totalItems += _.sum(item[key]);
         });
         break;
       case 'Branch Code':

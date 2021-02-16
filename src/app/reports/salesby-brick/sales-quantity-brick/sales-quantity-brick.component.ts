@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-
 import domtoimage from 'dom-to-image';
-
 import * as Chart from 'chart.js';
-
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, filter} from 'rxjs/operators';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
@@ -38,6 +37,14 @@ export class SalesQuantityBrickComponent implements OnInit {
     this.chartType = 'bar';
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
   }
+  formatter = (item: any) => item['Item name'];
+
+  search = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    filter(term => term.length >= 1),
+    map(term =>  this.itemsDropDownMenu.filter((item:any) => new RegExp(term, 'mi').test(item['Item name'])))
+  )
 
   changeType(e: any) {
     if (e.target.value === 'bar') {

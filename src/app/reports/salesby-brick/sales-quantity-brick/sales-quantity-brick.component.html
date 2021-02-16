@@ -2,12 +2,9 @@
   <div class="col-md-5 ml-5">
     <label class="label"> Item Name</label>
 
-    <select class="btn btn pt-4 shadow-lg" [(ngModel)]="selectedItem">
-      <option value="Choose Item" selected disabled>Choose Item</option>
-      <option *ngFor="let item of itemsDropDownMenu" [ngValue]="item">
-        {{ item["Item  Name"] }}
-      </option>
-    </select>
+    <input id="typeahead-basic" type="text" class="form-control"  [editable]='false'   [inputFormatter]="formatter"
+    [resultFormatter]="formatter" (change)="generatCharts()"
+    [(ngModel)]="selectedItem" [ngbTypeahead]="search"/>
   </div>
 
   <div class="col-md-4 ml-3">

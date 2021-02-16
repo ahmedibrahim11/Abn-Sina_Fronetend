@@ -1,13 +1,13 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
-import html2canvas from 'html2canvas';
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, filter} from 'rxjs/operators';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
 import domtoimage from 'dom-to-image';
 
-import datalabels from 'chartjs-plugin-datalabels';
 
 export interface ChartDataModal {
   labels: string[];
@@ -48,7 +48,14 @@ export class SalesAndStocksItemComponent implements OnInit {
     this.chartType = 'bar';
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item name');
   }
+  formatter = (item: any) => item['Item name'];
 
+  search = (text$: Observable<string>) => text$.pipe(
+    debounceTime(200),
+    distinctUntilChanged(),
+    filter(term => term.length >= 1),
+    map(term =>  this.itemsDropDownMenu.filter((item:any) => new RegExp(term, 'mi').test(item['Item name'])))
+  )
   changeValueQuantity(e: any) {
     if (e.target.value === 'val') {
       this.selectedvalQty = 'val';
@@ -59,6 +66,7 @@ export class SalesAndStocksItemComponent implements OnInit {
       this.stockChartHeader = ' Stock Quantites';
       this.salesChartHeader = ' Sales Quantites';
     }
+    this.generatCharts();
   }
 
   changeType(e: any) {
@@ -67,6 +75,7 @@ export class SalesAndStocksItemComponent implements OnInit {
     } else {
       this.chartType = 'pie';
     }
+    this.generatCharts()
   }
 
   getSalesData(itemCode: Number, type: string, chartData: ChartDataModal) {
@@ -123,6 +132,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   }
 
   generatCharts() {
+    debugger;
     this.generateClicked = true;
     this.chart1Data = { labels: [], colors: [], values: [] };
     this.chart2Data = { labels: [], colors: [], values: [] };
