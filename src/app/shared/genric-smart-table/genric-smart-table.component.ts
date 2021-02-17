@@ -55,14 +55,12 @@ export class GenricSmartTableComponent implements OnInit {
   }
 
   ceateTableHeaders() {
-    // this.source.setFilter([{ field: 'id', search: 'foobar' }, { field: 'name', search: 'foobar' }]);
     this.headers.forEach((column) => {
       if (column.filter) {
         this.settings.columns[column.name] = {
           title: column.title,
           filter: {
             type: 'list',
-            position:"top",
             config: {
               selectText: 'Select',
               list: this.tableFilters(column.name),
