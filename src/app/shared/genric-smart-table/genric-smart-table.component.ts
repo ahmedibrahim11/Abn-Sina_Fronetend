@@ -31,13 +31,7 @@ export class GenricSmartTableComponent implements OnInit {
   };
 
   constructor() {}
-  onSearch(query: string = '') {
-    let filterArr: any = [];
-    this.headers.forEach((columnname) => {
-      filterArr.push({ field: columnname, search: query });
-    });
-    this.source.setFilter(filterArr, false);
-  }
+
 
   tableFilters(key: any) {
     let list: any[] = [];

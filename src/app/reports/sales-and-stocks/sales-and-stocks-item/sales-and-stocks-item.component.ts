@@ -7,6 +7,7 @@ import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
 import domtoimage from 'dom-to-image';
+import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
 
 
 export interface ChartDataModal {
@@ -132,7 +133,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   }
 
   generatCharts() {
-    debugger;
+
     this.generateClicked = true;
     this.chart1Data = { labels: [], colors: [], values: [] };
     this.chart2Data = { labels: [], colors: [], values: [] };
@@ -207,59 +208,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   generateBarChart(chartData: ChartDataModal, id: any, header: string) {
     return new Chart(id, {
       type: 'bar',
-      options: {
-        animation: { duration: 1000, easing: 'linear' },
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: header,
-        },
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: true,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontColor: '#000',
-                fontSize: 10,
-              },
-            },
-          ],
-        },
-        legend: {
-          align: 'center',
-          display: false,
-        },
-        plugins: {
-          // Change options for ALL labels of THIS CHART
-          datalabels: {
-            color: 'black',
-            labels: {
-              title: {
-                font: {
-                  weight: 'bold',
-                  size: 10
-                }
-              }
-            }
-          }
-        }
-      },
+      options:BarChartConfig,
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 15)),
 
@@ -284,7 +233,7 @@ export class SalesAndStocksItemComponent implements OnInit {
           mode: 'single',
           callbacks: {
             label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
+              return data.datasets[0].data[tooltipItems.index] .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
           },
         },
@@ -297,6 +246,9 @@ export class SalesAndStocksItemComponent implements OnInit {
           // Change options for ALL labels of THIS CHART
           datalabels: {
             color: 'black',
+            formatter(label){
+              return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             labels: {
               title: {
                 font: {

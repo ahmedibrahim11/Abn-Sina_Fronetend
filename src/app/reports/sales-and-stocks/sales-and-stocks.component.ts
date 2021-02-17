@@ -90,14 +90,16 @@ export class SalesAndStocksComponent implements OnInit {
         var salesValue = _.map(this.data, (item: any) => {
           return item[key];
         });
-        this.totalSales = salesValue[salesValue.length - 1].toFixed(2);
+        this.totalSales = salesValue[salesValue.length - 1]
+        .toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         break;
 
       case 'Stock':
         var stocks = _.map(this.data, (item: any) => {
           return item[key];
         });
-        this.totalStocks = stocks[stocks.length - 1].toFixed(2);
+        this.totalStocks = stocks[stocks.length - 1].toFixed(2)
+        .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         break;
     }
   }

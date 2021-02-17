@@ -1,4 +1,4 @@
-import { NgSwitch } from '@angular/common';
+import { CurrencyPipe, NgSwitch } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import { IChartModal } from 'src/app/shared/modals/chart.modal';
 import datalabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
+import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
 
 
 @Component({
@@ -66,8 +67,8 @@ export class MostSalesBranchesComponent implements OnInit {
     this.top7Brnaches = _.orderBy(allbranchesSales, 'value')
       .reverse()
       .slice(0, 7);
-
-    this.last7Brnaches = _.orderBy(allbranchesSales, 'value').slice(0, 7);
+let lowestData=_.remove(allbranchesSales,s=>s.value==0);
+    this.last7Brnaches = _.orderBy(lowestData, 'value').slice(0, 7);
 
     this.onTopOrLowestChange();
   }
@@ -112,60 +113,7 @@ export class MostSalesBranchesComponent implements OnInit {
   generateBarChart() {
     this.chart = new Chart('chart', {
       type: 'bar',
-      options: {
-        animation: { duration: 1000, easing: 'linear' },
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: this.header,
-        },
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: true
-              },
-            },
-          ],
-
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontColor: '#000',
-                fontSize: 10,
-              },
-            },
-          ],
-        },
-        legend: {
-          align: 'center',
-          display: false,
-        },
-        plugins: {
-          // Change options for ALL labels of THIS CHART
-          datalabels: {
-            color: 'black',
-            labels: {
-              title: {
-                font: {
-                  weight: 'bold',
-                  size: 10
-                },
-              }
-            }
-          }
-        }
-      },
+      options: BarChartConfig,
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -189,14 +137,14 @@ export class MostSalesBranchesComponent implements OnInit {
           mode: 'single',
           callbacks: {
             label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
+              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
           },
         },
          title: {
           display: true,
           fontSize: 10,
-          text: this.header,
+          text: '',
         },
         legend: {
           align: 'center',
@@ -206,6 +154,9 @@ export class MostSalesBranchesComponent implements OnInit {
           // Change options for ALL labels of THIS CHART
           datalabels: {
             color: 'black',
+            formatter(label){
+              return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
             labels: {
               title: {
                 font: {

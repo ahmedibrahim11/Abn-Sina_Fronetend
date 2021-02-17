@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, filter} from 'rxjs/operators';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
+import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
 
 @Component({
   selector: 'app-sales-and-stock-client-item',
@@ -175,46 +176,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
   generateBarChart(chartData: ChartDataModal, id: any, header: string) {
     return new Chart(id, {
       type: 'bar',
-      options: {
-        animation: { duration: 1000, easing: 'linear' },
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: header,
-        },
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: true,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontColor: '#000',
-                fontSize: 10,
-              },
-            },
-          ],
-        },
-        legend: {
-          align: 'center',
-          display: false,
-        },
-      },
-      plugins: [ChartDataLabels],
+      options: BarChartConfig,
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 15)),
 
@@ -239,7 +201,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
           mode: 'single',
           callbacks: {
             label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
+              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
           },
         },

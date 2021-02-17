@@ -5,6 +5,7 @@ import * as Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as jsPDF from 'jspdf';
 import domtoimage from 'dom-to-image';
+import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
 @Component({
   selector: 'app-most-sales-bricks',
   templateUrl: './most-sales-bricks.component.html',
@@ -104,47 +105,8 @@ export class MostSalesBricksComponent implements OnInit {
   generateBarChart() {
     this.chart = new Chart('chart', {
       type: 'bar',
-      options: {
-        animation: { duration: 1000, easing: 'linear' },
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: this.header,
-        },
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: true,
-              },
-            },
-          ],
-
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                fontColor: '#000',
-                fontSize: 10,
-              },
-            },
-          ],
-        },
-        legend: {
-          align: 'center',
-          display: false,
-        },
-      },
-      plugins: [ChartDataLabels],
+      options: BarChartConfig,
+    
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 
@@ -169,7 +131,7 @@ export class MostSalesBricksComponent implements OnInit {
           mode: 'single',
           callbacks: {
             label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] + 'LE';
+              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
           },
         },
