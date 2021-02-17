@@ -12,6 +12,7 @@ import { IChartModal } from 'src/app/shared/modals/chart.modal';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
 import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
+import { PieChartConfig } from 'src/app/shared/charts/piechart.options';
 @Component({
   selector: 'app-most-sales-per-segment',
   templateUrl: './most-sales-per-segment.component.html',
@@ -126,28 +127,7 @@ export class MostSalesPerSegmentComponent implements OnInit {
   generatePieChart() {
     this.chart = new Chart('segchart', {
       type: 'pie',
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: this.header,
-        },
-
-        legend: {
-          align: 'center',
-          display: true,
-        },
-      },
+      options: PieChartConfig,
       plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),

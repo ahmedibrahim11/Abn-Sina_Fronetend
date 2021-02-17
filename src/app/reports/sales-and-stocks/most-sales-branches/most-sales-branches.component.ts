@@ -15,6 +15,7 @@ import { IChartModal } from 'src/app/shared/modals/chart.modal';
 import datalabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
 import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
+import { PieChartConfig } from 'src/app/shared/charts/piechart.options';
 
 
 @Component({
@@ -132,44 +133,7 @@ export class MostSalesBranchesComponent implements OnInit {
   generatePieChart() {
     this.chart = new Chart('chart', {
       type: 'pie',
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-          },
-        },
-         title: {
-          display: true,
-          fontSize: 10,
-          text: '',
-        },
-        legend: {
-          align: 'center',
-          display: true,
-        },
-        plugins: {
-          // Change options for ALL labels of THIS CHART
-          datalabels: {
-            color: 'black',
-            formatter(label){
-              return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-            labels: {
-              title: {
-                font: {
-                  weight: 'bold',
-                  size: 10
-                }
-              }
-            }
-          }
-        }
-      },
+      options: PieChartConfig,
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
 

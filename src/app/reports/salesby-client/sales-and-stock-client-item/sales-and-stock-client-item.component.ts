@@ -9,6 +9,7 @@ import {debounceTime, distinctUntilChanged, map, filter} from 'rxjs/operators';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
 import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
+import { PieChartConfig } from 'src/app/shared/charts/piechart.options';
 
 @Component({
   selector: 'app-sales-and-stock-client-item',
@@ -190,28 +191,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
   generatePieChart(chartData: ChartDataModal, id: any, header: string) {
     return new Chart(id, {
       type: 'pie',
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: header,
-        },
-
-        legend: {
-          align: 'center',
-          display: true,
-        },
-      },
+      options: PieChartConfig,
       plugins: [ChartDataLabels],
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 18)),
