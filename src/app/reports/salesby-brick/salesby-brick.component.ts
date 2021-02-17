@@ -89,7 +89,7 @@ export class SalesbyBrickComponent implements OnInit {
         var sum = _.map(this.data, (item) => {
           return item[key];
         });
-        this.totalQuantity = sum[sum.length - 1];
+        this.totalQuantity = sum[sum.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         break;
     }
   }

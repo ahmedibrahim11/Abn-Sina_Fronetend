@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import domtoimage from 'dom-to-image';
 import * as Chart from 'chart.js';
-import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, filter} from 'rxjs/operators';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
@@ -24,7 +22,7 @@ export class SalesQuantityBrickComponent implements OnInit {
   @Input() data: any = [];
   brickHeader = ' Bricks Quantites';
   itemsDropDownMenu: any = [];
-  selectedItem: any = 'Choose Item';
+  selectedItem: any;
   chartType: string = 'bar';
   chart1: any;
   chart1Data: ChartDataModal;
@@ -38,15 +36,9 @@ export class SalesQuantityBrickComponent implements OnInit {
     this.chartType = 'bar';
     debugger;
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
+    this.selectedItem=this.itemsDropDownMenu[0];
+    this.generatCharts();
   }
-  formatter = (item: any) => item['Item name'];
-
-  search = (text$: Observable<string>) => text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    filter(term => term.length >= 1),
-    map(term =>  this.itemsDropDownMenu.filter((item:any) => new RegExp(term, 'mi').test(item['Item name'])))
-  )
 
   changeType(e: any) {
     if (e.target.value === 'bar') {
@@ -54,6 +46,7 @@ export class SalesQuantityBrickComponent implements OnInit {
     } else {
       this.chartType = 'pie';
     }
+    this.generatCharts();
   }
 
   getSalesData(itemCode: Number, type: string, chartData: ChartDataModal) {

@@ -53,7 +53,7 @@ export class MostSalesBricksComponent implements OnInit {
         allBricksSales.push(branch);
       }
     }
-
+    _.remove(allBricksSales,s=>s['value']<=0);
     this.top7Bricks = _.orderBy(allBricksSales, 'value')
       .reverse()
       .slice(0, 7);

@@ -1,74 +1,33 @@
 <div class="row">
-  <div class="col-md-5 ml-5">
-    <label class="label">Search By Drug Name</label>
-
-    <input id="typeahead-basic" type="text" class="form-control search-inbut"  [editable]='false'   [inputFormatter]="formatter"
-    [resultFormatter]="formatter" (change)="generatCharts()"
-    [(ngModel)]="selectedItem" [ngbTypeahead]="search"/>
+  <div class="col-md-4" style="margin-left: 15%;">
+    <label class="label">Item Name</label>
+    <ng-select style="height: 40%;" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="itemsDropDownMenu"
+      [(ngModel)]="selectedItem" (change)="generatCharts()" bindLabel="Item Name" placeholder="Select item"
+      appendTo="body">
+    </ng-select>
   </div>
-
-  <div class="col-md-4 ml-3">
+  <div class="col-md-4">
     <label class="label"> Chart Type </label>
-    <div
-      class="row shadow-lg p-3 mb-5 bg-white rounded"
-      style="background-color: white"
-    >
+    <div class="row shadow-lg p-3 mb-5 bg-white rounded" style="background-color: white">
       <div class="custom-control custom-radio">
-        <input
-          type="radio"
-          (change)="changeType($event)"
-          class="custom-control-input"
-          name="btnradiobar"
-          id="btnradiobar"
-          checked
-          value="bar"
-          mdbInput
-        />
+        <input type="radio" (change)="changeType($event)" class="custom-control-input" name="btnradiobar"
+          id="btnradiobar" checked value="bar" mdbInput />
         <label class="custom-control-label" for="btnradiobar">BarChart</label>
       </div>
 
       <div class="custom-control custom-radio ml-5">
-        <input
-          type="radio"
-          class="custom-control-input"
-          (change)="changeType($event)"
-          name="btnradiobar"
-          id="btnradiopie"
-          value="pie"
-        />
+        <input type="radio" class="custom-control-input" (change)="changeType($event)" name="btnradiobar"
+          id="btnradiopie" value="pie" />
         <label class="custom-control-label" for="btnradiopie">PieChart</label>
       </div>
     </div>
   </div>
-  <div class="col-md-1">
-    <button
-      [disabled]="selectedItem === 'Choose Item'"
-      (click)="generatCharts()"
-      class="btn generateButton"
-      type="button"
-    >
-      Generate
-    </button>
-  </div>
 </div>
-
-<br />
-<br />
-
 <div class="row">
   <div class="col-md-8 offset-md-2">
-    <button
-      *ngIf="generateClicked"
-      class="export-btn"
-      style="float: right"
-      (click)="openPDF('chart1')"
-    >
+    <button *ngIf="generateClicked" class="export-btn" style="float: right" (click)="openPDF('chart1')">
       Export PDF
-      <img
-        width="20%"
-        height="20%"
-        src="../../../../assets/PDF_file_icon.svg"
-      />
+      <img width="20%" height="20%" src="../../../../assets/PDF_file_icon.svg" />
     </button>
     <canvas id="chart1"> </canvas>
   </div>

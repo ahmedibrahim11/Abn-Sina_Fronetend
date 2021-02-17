@@ -39,7 +39,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   salesChartHeader = ' Sales Values';
 
   itemsDropDownMenu: any = [];
-  selectedItem: any = 'Choose Item';
+  selectedItem: any ;
 
   chartType: string = 'bar';
   chart1: any;
@@ -58,15 +58,9 @@ export class SalesAndStocksItemComponent implements OnInit {
     this.selectedvalQty = 'val';
     this.chartType = 'bar';
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item name');
+    this.selectedItem=this.itemsDropDownMenu[0];
+    this.generatCharts();
   }
-  formatter = (item: any) => item['Item name'];
-
-  search = (text$: Observable<string>) => text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    filter(term => term.length >= 1),
-    map(term => this.itemsDropDownMenu.filter((item: any) => new RegExp(term, 'mi').test(item['Item name'])))
-  )
   changeValueQuantity(e: any) {
     if (e.target.value === 'val') {
       this.selectedvalQty = 'val';
@@ -143,7 +137,6 @@ export class SalesAndStocksItemComponent implements OnInit {
   }
 
   generatCharts() {
-
     this.generateClicked = true;
     this.chart1Data = { labels: [], colors: [], values: [] };
     this.chart2Data = { labels: [], colors: [], values: [] };
@@ -293,7 +286,7 @@ export class SalesAndStocksItemComponent implements OnInit {
     const options = { background: 'white', height: 845, width: 595 };
     domtoimage.toPng(element, options).then((canvas: any) => {
       const doc = new jsPDF('p', 'mm', 'a4');
-      doc.addImage(canvas, 'PNG', 0, 0, 100, 100);
+      doc.addImage(canvas, 'PNG', 0, 0, 150, 100);
       if (id === 'chart1') {
         doc.save(this.stockChartHeader);
       } else {
