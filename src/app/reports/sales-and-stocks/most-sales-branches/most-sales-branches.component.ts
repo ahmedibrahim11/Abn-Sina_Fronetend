@@ -44,6 +44,7 @@ export class MostSalesBranchesComponent implements OnInit {
   ngOnInit(): void {
     this.branchType = 'highest';
     this.getSalesBranches();
+    
   }
 
   getSalesBranches() {
@@ -63,12 +64,13 @@ export class MostSalesBranchesComponent implements OnInit {
         allbranchesSales.push(branch);
       }
     }
+    _.remove(allbranchesSales,s=>s['value']<=0);
 
     this.top7Brnaches = _.orderBy(allbranchesSales, 'value')
       .reverse()
       .slice(0, 7);
-let lowestData=_.remove(allbranchesSales,s=>s.value==0);
-    this.last7Brnaches = _.orderBy(lowestData, 'value').slice(0, 7);
+
+    this.last7Brnaches = _.orderBy(allbranchesSales, 'value').slice(0, 7);
 
     this.onTopOrLowestChange();
   }
