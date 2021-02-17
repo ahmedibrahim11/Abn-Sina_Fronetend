@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
 import html2canvas from 'html2canvas';
@@ -18,12 +17,9 @@ import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
 })
 export class SalesAndStockClientItemComponent implements OnInit {
   @Input() data: any = [];
-
   selectedvalQty: any;
-
   qtyChartHeader:string;
- valChartHeader:string;
-
+  valChartHeader:string;
   itemsDropDownMenu: any = [];
   selectedItem: any;
   chartType: string = 'bar';
