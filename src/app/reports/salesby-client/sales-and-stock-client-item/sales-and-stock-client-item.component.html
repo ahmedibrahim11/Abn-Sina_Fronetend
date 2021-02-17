@@ -61,6 +61,10 @@
         src="../../../../assets/PDF_file_icon.svg"
       />
     </button>
+    <div  class=" offset-md-4 col-md-4" *ngIf="generateClicked">
+      <h4>{{qtyChartHeader}}</h4>
+  
+    </div>
     <canvas id="chart1"> </canvas>
   </div>
 
@@ -78,6 +82,10 @@
         src="../../../../assets/PDF_file_icon.svg"
       />
     </button>
+    <div  class=" offset-md-4 col-md-4" *ngIf="generateClicked">
+      <h4>{{valChartHeader}}</h4>
+  
+    </div>
     <canvas id="chart2"> </canvas>
   </div>
 </div>

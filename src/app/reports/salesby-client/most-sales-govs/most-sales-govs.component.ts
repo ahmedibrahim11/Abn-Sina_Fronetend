@@ -57,6 +57,7 @@ export class MostSalesGovsComponent implements OnInit {
         allgovsSales.push(segment);
       }
     }
+  
 
     this.top7Governerats = _.orderBy(allgovsSales, 'value')
       .reverse()

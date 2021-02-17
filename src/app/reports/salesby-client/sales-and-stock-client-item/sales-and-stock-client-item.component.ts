@@ -68,7 +68,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
 
   getValueData(itemCode: Number, type: string, chartData: ChartDataModal) {
     let allbranchesSales = [];
-    let dataGroupedByBranch = _.groupBy(this.data, 'clientCode');
+    let dataGroupedByBranch = _.groupBy(this.data, 'clientName');
     for (let key in dataGroupedByBranch) {
       if (key) {
         let branch = { name: key, value: 0, qty: 0 };
@@ -92,7 +92,7 @@ export class SalesAndStockClientItemComponent implements OnInit {
 
   getQTyData(itemCode: Number, type: string, chartData: ChartDataModal) {
     let allbranches = [];
-    let dataGroupedByclientCode = _.groupBy(this.data, 'clientCode');
+    let dataGroupedByclientCode = _.groupBy(this.data, 'clientName');
     for (let key in dataGroupedByclientCode) {
       if (key) {
         let branch = { name: key, value: 0 };

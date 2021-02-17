@@ -8,7 +8,16 @@ export const PieChartConfig:ChartOptions={
     mode: 'single',
     callbacks: {
       label: function (tooltipItems: any, data: any) {
-        return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+       
+          let sum = 0;
+          let dataArr:any = data.datasets[0].data;
+          dataArr.map((data:any) => {
+              sum += parseInt(data);
+          });
+          let percentage = (data.datasets[0].data[tooltipItems.index]*100 / sum).toFixed(2)+"%";
+          return percentage;
+      
+    
       },
     },
   },
