@@ -1,8 +1,8 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
-import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, filter} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import * as jsPDF from 'jspdf';
 import * as _ from 'lodash';
 
@@ -24,6 +24,16 @@ export class SalesAndStocksItemComponent implements OnInit {
   @Input() data: any = [];
 
   selectedvalQty: any;
+  players = [
+    { id: 1, playerName: 'Cristiano Ronaldo' },
+    { id: 2, playerName: 'Lionel Messi' },
+    { id: 3, playerName: 'Neymar Jr' },
+    { id: 4, playerName: 'Toni Kroos' },
+    { id: 5, playerName: 'Luiz Suarez', disabled: true },
+    { id: 6, playerName: 'Karim Benzema' },
+    { id: 7, playerName: 'Eden Hazard' },
+  ];
+
 
   stockChartHeader = ' Stock Values';
   salesChartHeader = ' Sales Values';
@@ -55,7 +65,7 @@ export class SalesAndStocksItemComponent implements OnInit {
     debounceTime(200),
     distinctUntilChanged(),
     filter(term => term.length >= 1),
-    map(term =>  this.itemsDropDownMenu.filter((item:any) => new RegExp(term, 'mi').test(item['Item name'])))
+    map(term => this.itemsDropDownMenu.filter((item: any) => new RegExp(term, 'mi').test(item['Item name'])))
   )
   changeValueQuantity(e: any) {
     if (e.target.value === 'val') {
@@ -208,7 +218,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   generateBarChart(chartData: ChartDataModal, id: any, header: string) {
     return new Chart(id, {
       type: 'bar',
-      options:BarChartConfig,
+      options: BarChartConfig,
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 15)),
 
@@ -233,7 +243,7 @@ export class SalesAndStocksItemComponent implements OnInit {
           mode: 'single',
           callbacks: {
             label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index] .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
           },
         },
@@ -246,7 +256,7 @@ export class SalesAndStocksItemComponent implements OnInit {
           // Change options for ALL labels of THIS CHART
           datalabels: {
             color: 'black',
-            formatter(label){
+            formatter(label) {
               return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
             labels: {

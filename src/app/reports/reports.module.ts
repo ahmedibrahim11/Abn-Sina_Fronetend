@@ -25,6 +25,9 @@ import { SalesbyBrickComponent } from "./salesby-brick/salesby-brick.component"
 import { MostSalesBricksComponent } from './salesby-brick/most-sales-bricks/most-sales-bricks.component';
 import { SalesQuantityBrickComponent } from './salesby-brick/sales-quantity-brick/sales-quantity-brick.component';
 import { SelectedReportComponent } from './selected-report/selected-report.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   declarations: [
     ReportsComponent, SalesAndStocksComponent, GenricSmartTableComponent, MostSalesBranchesComponent,
@@ -42,6 +45,7 @@ import { SelectedReportComponent } from './selected-report/selected-report.compo
     NgbModule,
     FormsModule,
     NgbButtonsModule,
+    NgSelectModule,
   ],
   providers: [FileService, ExcelService]
 })
