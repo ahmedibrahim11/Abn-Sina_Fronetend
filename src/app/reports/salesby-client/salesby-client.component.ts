@@ -85,7 +85,6 @@ export class SalesbyClientComponent implements OnInit {
 
       this.selectedChart = 'BarChart';
       this.selectedChart2 = 'BarChart';
-      debugger;
       console.log('SalesByClientData', this.data);
 
       this.getAllCardsValue('itemCode');
@@ -130,15 +129,15 @@ export class SalesbyClientComponent implements OnInit {
     this.tableHeaders = [
       { name: 'date', title: 'Date', filter: false },
       { name: 'branchCode', title: 'Branch Code', filter: false },
-      // { name: 'suppCode', title: 'Supp Code' },
+     { name: 'suppCode', title: 'Supp Code' },
       { name: 'suppName', title: 'Supp Name' },
-      { name: 'itemCode', title: 'Item Code',filter: false},
+      { name: 'itemCode', title: 'Item Code',filter: true},
       { name: 'itemName', title: 'Item Name', filter: true },
-      // { name: 'brickCode', title: 'Brick Code', filter: true },
+      { name: 'brickCode', title: 'Brick Code', filter: true },
+      { name: 'brickName', title: 'Brick Name', filter: true },
+
       { name: 'gov', title: 'Gov' },
       { name: 'terName', title: 'TerName' },
-      { name: 'brickName', title: 'Brick Name', filter: true },
-      // { name: 'maincustomerCode', title: 'Main Customer Code' },
       { name: 'clientCode', title: 'Client Code' },
       { name: 'clientName', title: 'Client Name' },
       { name: 'segment', title: 'Segment' },
