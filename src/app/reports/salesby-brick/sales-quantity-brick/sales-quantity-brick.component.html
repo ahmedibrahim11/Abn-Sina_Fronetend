@@ -29,6 +29,10 @@
       Export PDF
       <img width="20%" height="20%" src="../../../../assets/PDF_file_icon.svg" />
     </button>
+    <div  *ngIf="generateClicked" class=" offset-md-4 col-md-4" >
+      <h4>{{brickHeader}}</h4>
+  
+    </div>
     <canvas id="chart1"> </canvas>
   </div>
 </div>

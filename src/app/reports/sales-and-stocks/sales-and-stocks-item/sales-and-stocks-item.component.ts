@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 
 import domtoimage from 'dom-to-image';
 import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
+import { PieChartConfig } from 'src/app/shared/charts/piechart.options';
 
 
 export interface ChartDataModal {
@@ -229,44 +230,7 @@ export class SalesAndStocksItemComponent implements OnInit {
   generatePieChart(chartData: ChartDataModal, id: any, header: string) {
     return new Chart(id, {
       type: 'pie',
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: header,
-        },
-        plugins: {
-          // Change options for ALL labels of THIS CHART
-          datalabels: {
-            color: 'black',
-            formatter(label) {
-              return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-            labels: {
-              title: {
-                font: {
-                  weight: 'bold',
-                  size: 10
-                }
-              }
-            }
-          }
-        },
-        legend: {
-          align: 'center',
-          display: true,
-        },
-      },
+      options: PieChartConfig,
       data: {
         labels: chartData.labels.map((s) => s.substring(0, 18)),
 

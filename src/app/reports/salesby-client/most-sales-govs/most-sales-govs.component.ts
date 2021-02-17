@@ -12,6 +12,7 @@ import { IChartModal } from 'src/app/shared/modals/chart.modal';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import domtoimage from 'dom-to-image';
 import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
+import { PieChartConfig } from 'src/app/shared/charts/piechart.options';
 @Component({
   selector: 'app-most-sales-govs',
   templateUrl: './most-sales-govs.component.html',
@@ -56,6 +57,7 @@ export class MostSalesGovsComponent implements OnInit {
         allgovsSales.push(segment);
       }
     }
+  
 
     this.top7Governerats = _.orderBy(allgovsSales, 'value')
       .reverse()
@@ -119,28 +121,7 @@ export class MostSalesGovsComponent implements OnInit {
   generatePieChart() {
     this.chart = new Chart('govchart', {
       type: 'pie',
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: this.header,
-        },
-
-        legend: {
-          align: 'center',
-          display: true,
-        },
-      },
+      options: PieChartConfig,
       plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),

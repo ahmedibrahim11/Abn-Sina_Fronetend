@@ -6,6 +6,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as jsPDF from 'jspdf';
 import domtoimage from 'dom-to-image';
 import { BarChartConfig } from 'src/app/shared/charts/barchart.options';
+import { PieChartConfig } from 'src/app/shared/charts/piechart.options';
 @Component({
   selector: 'app-most-sales-bricks',
   templateUrl: './most-sales-bricks.component.html',
@@ -124,28 +125,7 @@ export class MostSalesBricksComponent implements OnInit {
   generatePieChart() {
     this.chart = new Chart('chart', {
       type: 'pie',
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: true,
-          mode: 'single',
-          callbacks: {
-            label: function (tooltipItems: any, data: any) {
-              return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            },
-          },
-        },
-        title: {
-          display: true,
-          fontSize: 10,
-          text: this.header,
-        },
-
-        legend: {
-          align: 'center',
-          display: true,
-        },
-      },
+      options: PieChartConfig,
       plugins: [ChartDataLabels],
       data: {
         labels: this.itemsName.map((s) => s.substring(0, 18)),
