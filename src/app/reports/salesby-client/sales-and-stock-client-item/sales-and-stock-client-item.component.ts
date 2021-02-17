@@ -42,17 +42,9 @@ export class SalesAndStockClientItemComponent implements OnInit {
 
     this.chartType = 'bar';
     this.itemsDropDownMenu = _.uniqBy(this.data, 'itemName');
+    this.selectedItem=this.itemsDropDownMenu[0];
+    this.generatCharts();
   }
-
-  formatter = (item: any) => item['itemName'];
-  
-  search = (text$: Observable<string>) => text$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    filter(term => term.length >= 1),
-    map(term =>  this.itemsDropDownMenu.filter((item:any) => new RegExp(term, 'mi').test(item['itemName'])))
-  )
- 
 
   changeType(e: any) {
     if (e.target.value === 'bar') {
