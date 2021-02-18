@@ -66,6 +66,7 @@ export class SalesQuantityBrickComponent implements OnInit {
         allbranchesSales.push(branch);
       }
     }
+    // _.remove(allbranchesSales,s=>s['value']<=0);
     let top7BrnachesSales = _.orderBy(allbranchesSales, 'value')
       .reverse()
       .slice(0, 7);

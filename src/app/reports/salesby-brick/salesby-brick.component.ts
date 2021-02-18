@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { FileService } from 'src/app/core/file.Service';
 
 import * as XLSX from 'xlsx';
@@ -14,6 +14,9 @@ export class SalesbyBrickComponent implements OnInit {
   data: any[] = [];
   tableHeaders: any[] = [];
   loader = true;
+
+
+
 
   branchesName: any;
   totalItems: any = [];

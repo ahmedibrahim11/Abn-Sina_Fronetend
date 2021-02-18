@@ -1,0 +1,67 @@
+  <div class="row" *ngIf="selectedType==='stock'">
+    <div class="col-md-3 ml-3">
+      <label class="label">Item Name</label>
+      <ng-select style="height: 40%" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="itemsDropDownMenu"
+        [(ngModel)]="selectedItem" (change)="getValues()" bindLabel="Item name" placeholder="Select item"
+        appendTo="body">
+      </ng-select>
+    </div>
+
+    <div class="col-md-3 ml-3">
+      <label class="label">Branch Name</label>
+      <ng-select style="height: 40%" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="branchesDropDownMenu"
+        [(ngModel)]="selectedBranch" (change)="getBranches()" bindLabel="Branch Name" placeholder="Select Branch"
+        appendTo="body">
+      </ng-select>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="selectedType==='Brick'">
+    <div class="col-md-3 ml-5">
+      <label class="label">Item Name</label>
+      <ng-select style="height: 40%" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="itemsDropDownMenu"
+        [(ngModel)]="selectedItem" (change)="getValues()" bindLabel="Item Name" placeholder="Select item"
+        appendTo="body">
+      </ng-select>
+    </div>
+    <div class="col-md-3 ml-5">
+      <label class="label">BrickName</label>
+      <ng-select style="height: 40%" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="bricksDropDownMenu"
+        [(ngModel)]="selectedBrick" (change)="getBricks()" bindLabel="Brick Name" appendTo="body">
+      </ng-select>
+    </div>
+  </div>
+
+  <div class="export-btn-layout">
+    <button class="export-btn"  (click)="exportoExcel()">
+      Export Excel <img width="20%" height="20%" src="../../../assets/excel.svg"/>
+    </button>
+  </div>
+
+<table id="table" class="table table-striped table-bordered" style=" margin-top: 3%;">
+  <thead>
+    <tr>
+      <td *ngFor="let header of headers">{{ header.name }}</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of dataPagination">
+      <td *ngFor="let key of objectKeys(row)">
+        {{ row[key] }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshData()"
+    [maxSize]="15">
+  </ngb-pagination>
+
+  <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshData()">
+    <option [ngValue]="2">2 items per page</option>
+    <option [ngValue]="4">4 items per page</option>
+    <option [ngValue]="6">6 items per page</option>
+  </select>
+</div>

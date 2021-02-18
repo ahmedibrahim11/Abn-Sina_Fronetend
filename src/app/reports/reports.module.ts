@@ -27,6 +27,7 @@ import { SalesQuantityBrickComponent } from './salesby-brick/sales-quantity-bric
 import { SelectedReportComponent } from './selected-report/selected-report.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { TableComponent } from '../shared/table/table.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     SalesAndStocksItemComponent, SalesbyClientComponent,
     MostSalesCitiesComponent, MostSalesGovsComponent,
     MostSalesPerSegmentComponent, SalesAndStockClientItemComponent,SalesbyBrickComponent,
-    MostSalesBricksComponent,SalesQuantityBrickComponent, SelectedReportComponent
+    MostSalesBricksComponent,SalesQuantityBrickComponent, SelectedReportComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,

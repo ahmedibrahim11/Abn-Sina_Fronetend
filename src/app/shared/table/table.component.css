@@ -1,24 +1,23 @@
-.smart-table-design{
-    color: black;
-    max-width: 100%;
-    overflow-x: scroll;
-}
-.export-btn{
+thead {
+    background-color: #0d47a1;
+    color: white;
+    width: 300px;
+  }
+
+  .export-btn{
     color: white;
     background-color: #0d47a1;
      border: none;
     border-radius: 3px;
     padding: 5px;
-    margin-top: 10px;
 }
 .export-btn:hover{
     cursor: pointer;
 }
 .export-btn-layout{
-    margin-left: 87%;
+    margin-left: 85%;
     width: 14%;
 }
-
 img {
-filter: brightness(0) invert(1);
-  }
+    filter: brightness(0) invert(1);
+      }
