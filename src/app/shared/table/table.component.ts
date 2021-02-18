@@ -17,24 +17,31 @@ export class TableComponent implements OnInit {
   @Input() headers: any = [];
   tableHeaders: any = [];
   tableData: any = [];
-
   page: any = 1;
   pageSize: any = 10;
   collectionSize: any;
 
+
   ngOnInit(): void {
-    this.getTableHeader();
+    console.log("heades",this.headers);
     this.getTableData();
     this.collectionSize = this.tableData.length;
     this.refreshData();
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item name');
+    this.branchesDropDownMenu=_.uniqBy(this.data,'Branch Name');
   }
+
+  objectKeys(obj:any) {
+    return Object.keys(obj);
+}
 
   constructor(pipe: DecimalPipe) {}
 
   dataPagination: any = [];
   itemsDropDownMenu: any = [];
+  branchesDropDownMenu:any=[];
   selectedItem: any = 'Choose Item';
+  selectedBranch:any='Choose Branch';
   refreshData() {
     this.dataPagination = this.tableData
       .map((item: any, i: any) => ({
@@ -45,20 +52,23 @@ export class TableComponent implements OnInit {
         (this.page - 1) * this.pageSize + this.pageSize
       );
   }
-  getTableHeader() {
-    this.tableHeaders = Object.keys(this.data[0]);
-  }
 
   getTableData() {
     this.tableData = _.map(this.data, function (item: any) {
-      return Object.values(item);
+      return item;
     });
   }
 
   getValues() {
     this.dataPagination = this.tableData.filter((item: any) => {
       console.log('item', item);
-      return item[4] === this.selectedItem['Item name'];
+      return item['Item name'] === this.selectedItem['Item name'];
+    });
+  }
+  getBranches(){
+    this.dataPagination = this.tableData.filter((branch: any) => {
+      console.log('branch', branch);
+      return branch['Branch Name'] === this.selectedBranch['Branch Name'];
     });
   }
 }
