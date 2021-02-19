@@ -118,8 +118,9 @@
     <hr />
     <!--  SmartTable -->
     <div class="table-layout top-space" *ngIf="this.data.length > 0">
-      <app-genric-smart-table [data]="data" [headers]="tableHeaders">
-      </app-genric-smart-table>
+      <!-- <app-genric-smart-table [data]="data" [headers]="tableHeaders">
+      </app-genric-smart-table> -->
+      <app-table [data]="data" selectedType="client" [headers]="tableHeaders"></app-table>
     </div>
   </div>
 </div>

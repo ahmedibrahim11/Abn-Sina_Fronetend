@@ -58,9 +58,10 @@ export class SalesbyClientComponent implements OnInit {
       excelData.splice(0, 1);
       console.log(excelData);
       this.data = excelData.map((row) => {
+        debugger;
         return {
           date: row['NEXT PHARMA (PAS) Sales By Client Report'],
-           branchCode: row['__EMPTY'],
+          branchCode: row['__EMPTY'],
           branchName: row['__EMPTY_1'],
           suppCode: row['__EMPTY_2'],
           suppName: row['__EMPTY_3'],
@@ -128,18 +129,20 @@ export class SalesbyClientComponent implements OnInit {
     }
   }
   get_header_row(ws: any) {
+    debugger;
     this.tableHeaders = [
       { name: 'date', title: 'Date', filter: false },
       { name: 'branchCode', title: 'Branch Code', filter: false },
-     { name: 'suppCode', title: 'Supp Code' },
+      { name: 'branchName', title: 'Branch Name', filter: false },
+      { name: 'suppCode', title: 'Supp Code' },
       { name: 'suppName', title: 'Supp Name' },
       { name: 'itemCode', title: 'Item Code',filter: true},
       { name: 'itemName', title: 'Item Name', filter: true },
       { name: 'brickCode', title: 'Brick Code', filter: true },
-      { name: 'brickName', title: 'Brick Name', filter: true },
-
       { name: 'gov', title: 'Gov' },
       { name: 'terName', title: 'TerName' },
+      { name: 'brickName', title: 'Brick Name', filter: true },
+      { name: 'mainCustomerCode', title: 'Main CustomerCode', filter: true },
       { name: 'clientCode', title: 'Client Code' },
       { name: 'clientName', title: 'Client Name' },
       { name: 'segment', title: 'Segment' },

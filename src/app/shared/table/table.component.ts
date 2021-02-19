@@ -2,6 +2,7 @@ import { Component, PipeTransform, Input, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import * as _ from 'lodash';
 import * as XLSX from 'xlsx';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class TableComponent implements OnInit {
   @Input() formControl: any = [];
   @Input() data: any = [];
   @Input() headers: any = [];
-  @Input() selectedType:any='';
+  @Input() selectedType: any = '';
   tableHeaders: any = [];
   tableData: any = [];
   page: any = 1;
@@ -21,11 +22,11 @@ export class TableComponent implements OnInit {
   collectionSize: any;
   dataPagination: any = [];
   itemsDropDownMenu: any = [];
-  branchesDropDownMenu:any=[];
-  bricksDropDownMenu:any=[];
+  branchesDropDownMenu: any = [];
+  bricksDropDownMenu: any = [];
   selectedItem: any = '';
-  selectedBranch:any='';
-  selectedBrick:any=''
+  selectedBranch: any = '';
+  selectedBrick: any = ''
   refreshData() {
     this.dataPagination = this.tableData
       .map((item: any, i: any) => ({
@@ -38,65 +39,109 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger;
-    if(this.selectedType==="stock"){
+    if (this.selectedType === "stock") {
       this.selectedItem = 'Choose Item';
-      this.selectedBranch='Choose Branch';
-     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item name');
-     this.branchesDropDownMenu=_.uniqBy(this.data,'Branch Name');
+      this.selectedBranch = 'Choose Branch';
+      this.itemsDropDownMenu = _.uniqBy(this.data, 'Item name');
+      this.branchesDropDownMenu = _.uniqBy(this.data, 'Branch Name');
     }
-    else if(this.selectedType==='Brick'){
+    else if (this.selectedType === 'client') {
       this.selectedItem = 'Choose Item';
-      this.selectedBrick='Choose Brick';
-      this.bricksDropDownMenu=_.uniqBy(this.data,'Brick Name');
-      this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
+      this.selectedBrick = 'Choose Brick';
+      this.bricksDropDownMenu = _.uniqBy(this.data, 'brickName');
+      this.itemsDropDownMenu = _.uniqBy(this.data, 'itemName');
       debugger;
     }
-    
-
-    console.log("heades",this.headers);
     this.getTableData();
     this.collectionSize = this.tableData.length;
     this.refreshData();
-
-
-
   }
 
-  objectKeys(obj:any) {
+  objectKeys(obj: any) {
     return Object.keys(obj);
-}
+  }
 
-  constructor(pipe: DecimalPipe) {}
+  constructor(pipe: DecimalPipe) { }
 
- 
+
   getTableData() {
     this.tableData = _.map(this.data, function (item: any) {
       return item;
     });
+    console.log("tableData",this.tableData);
   }
 
-  getValues() {
-    this.dataPagination = this.tableData.filter((item: any) => {
-      console.log('item', item);
-      return item['Item name'] === this.selectedItem['Item name'];
-    });
-  }
-  getBranches(){
-    this.dataPagination = this.tableData.filter((branch: any) => {
-      console.log('branch', branch);
-      return branch['Branch Name'] === this.selectedBranch['Branch Name'];
-    });
+  getStockValues() {
+    debugger;
+    if (this.selectedBranch!='Choose Branch') {
+      this.dataPagination = this.tableData.filter((item: any) => {
+        console.log('item', item);
+        return item['Item name'] === this.selectedItem['Item name'] && item['Branch Name'] === this.selectedBranch['Branch Name'];
+      });
+    }
+    else {
+      this.dataPagination = this.tableData.filter((item: any) => {
+        console.log('item', item);
+        return item['Item name'] === this.selectedItem['Item name'];
+      });
+    }
+
   }
 
-  getBricks(){
-    this.dataPagination = this.tableData.filter((branch: any) => {
-      console.log('Brick', branch);
-      return branch['Brick Name'] === this.selectedBranch['Brick Name'];
-    });
+  getBranches() {
+    debugger;
+    if (this.selectedItem!='Choose Item') {
+      this.dataPagination = this.tableData.filter((branch: any) => {
+        console.log('branch', branch);
+        return branch['Branch Name'] === this.selectedBranch['Branch Name'] && branch['Item name'] === this.selectedItem['Item name'];
+      });
+    }
+    else {
+      if (this.selectedItem) {
+        this.dataPagination = this.tableData.filter((branch: any) => {
+          console.log('branch', branch);
+          return branch['Branch Name'] === this.selectedBranch['Branch Name'];
+        });
+      }
+    }
+  }
+
+  getBricks() {
+    debugger;
+    if(this.selectedItem!='Choose Item'){
+      this.dataPagination = this.tableData.filter((branch: any) => {
+        console.log('Brick', branch);
+        return branch['brickName'] === this.selectedBrick['brickName'] &&branch['itemName'] === this.selectedItem['itemName'];
+      });
+    }
+    else{
+      this.dataPagination = this.tableData.filter((branch: any) => {
+        console.log('Brick', branch);
+        return branch['brickName'] === this.selectedBrick['brickName'];
+      });
+    }
+  
   }
 
   
+  getCleintValues() {
+    debugger;
+    if (this.selectedBrick!='Choose Brick') {
+      this.dataPagination = this.tableData.filter((item: any) => {
+        console.log('item', item);
+        return item['itemName'] === this.selectedItem['itemName'] && item['branchName'] === this.selectedBrick['branchName'];
+      });
+    }
+    else {
+      this.dataPagination = this.tableData.filter((item: any) => {
+        console.log('item', item);
+        return item['itemName'] === this.selectedItem['itemName'];
+      });
+    }
+
+  }
+
+
   exportoExcel(): void {
     /* pass here the table id */
     let element = document.getElementById('table');

@@ -21,3 +21,10 @@ thead {
 img {
     filter: brightness(0) invert(1);
       }
+
+.table-wrapper{
+max-width: 100%;
+ overflow-x: scroll;
+ }
+  th, td { min-width: 150px; }
+
