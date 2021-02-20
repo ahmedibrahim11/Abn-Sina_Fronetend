@@ -9,7 +9,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./salesby-client.component.css'],
 })
 export class SalesbyClientComponent implements OnInit {
-  url: string = 'Report/downloadFile';
+  url: string = 'assets/files/client';
   data: any[] = [];
   tableHeaders: any[] = [];
   loader = true;
@@ -31,7 +31,7 @@ export class SalesbyClientComponent implements OnInit {
 
   getExelfile() {
     let file = { fileName: 'salesbyclient.xlsx', reportType: 'client' };
-    this._fileService.downloadFile(file, this.url).subscribe({
+    this._fileService.downloadFile(file.fileName, this.url).subscribe({
       next: (res) => {
         this.extractDataFromExcel(res);
       },

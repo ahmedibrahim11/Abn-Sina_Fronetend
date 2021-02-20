@@ -9,7 +9,7 @@ import * as _ from 'lodash';
   styleUrls: ['./sales-and-stocks.component.css'],
 })
 export class SalesAndStocksComponent implements OnInit {
-  url: string = 'Report/downloadFile';
+  url: string = 'assets/files/stock';
   data: any[] = [];
   tableHeaders: any[] = [];
   loader = true;
@@ -31,7 +31,7 @@ export class SalesAndStocksComponent implements OnInit {
 
   getExelfile() {
     let file = { fileName: 'testExcel.xlsx', reportType: 'stock' };
-    this._fileService.downloadFile(file, this.url).subscribe({
+    this._fileService.downloadFile('testExcel.xlsx', this.url).subscribe({
       next: (res) => {
         this.extractDataFromExcel(res);
       },

@@ -10,7 +10,7 @@ import * as _ from 'lodash';
   styleUrls: ['./salesby-brick.component.css'],
 })
 export class SalesbyBrickComponent implements OnInit {
-  url: string = 'Report/downloadFile';
+  url: string = 'assets/files/brick';
   data: any[] = [];
   tableHeaders: any[] = [];
   loader = true;
@@ -34,7 +34,7 @@ export class SalesbyBrickComponent implements OnInit {
 
   getExelfile() {
     let file = { fileName: 'testBrick.xlsx', reportType: 'brick' };
-    this._fileService.downloadFile(file, this.url).subscribe({
+    this._fileService.downloadFile(file.fileName, this.url).subscribe({
       next: (res) => {
         this.extractDataFromExcel(res);
       },
