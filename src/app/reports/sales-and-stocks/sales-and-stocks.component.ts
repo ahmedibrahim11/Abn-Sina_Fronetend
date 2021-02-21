@@ -23,15 +23,15 @@ export class SalesAndStocksComponent implements OnInit {
   selectedChart = '';
   selectedChart2 = '';
 
-  constructor(private _fileService: FileService) {}
+  constructor(private _fileService: FileService) { }
 
   ngOnInit(): void {
     this.getExelfile();
   }
 
   getExelfile() {
-    let file = { fileName: 'testExcel.xlsx', reportType: 'stock' };
-    this._fileService.downloadFile('testExcel.xlsx', this.url).subscribe({
+    let file = { fileName: 'stock.xlsx', reportType: 'stock' };
+    this._fileService.downloadFile('stock.xlsx', this.url).subscribe({
       next: (res) => {
         this.extractDataFromExcel(res);
       },
@@ -39,6 +39,21 @@ export class SalesAndStocksComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  ec(r: any, c: any) {
+    return XLSX.utils.encode_cell({ r: r, c: c });
+  }
+
+  delete_row(ws:any, row_index:any) {
+    var variable = XLSX.utils.decode_range(ws["!ref"])
+    for (var R = row_index; R < variable.e.r; ++R) {
+      for (var C = variable.s.c; C <= variable.e.c; ++C) {
+        ws[this.ec(R, C)] = ws[this.ec(R + 1, C)];
+      }
+    }
+    variable.e.r--
+    ws['!ref'] = XLSX.utils.encode_range(variable.s, variable.e);
   }
 
   extractDataFromExcel(file: any) {
@@ -52,6 +67,7 @@ export class SalesAndStocksComponent implements OnInit {
       /* selected the first sheet */
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      this.delete_row(ws,0);
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
@@ -71,7 +87,7 @@ export class SalesAndStocksComponent implements OnInit {
   getAllCardsValue(key: any) {
     switch (key) {
       case 'Item Code':
-        let uniqueData=_.uniqBy(this.data,key);
+        let uniqueData = _.uniqBy(this.data, key);
         _.map(uniqueData, (item) => {
           this.totalItems += _.sum(item[key]);
         });
@@ -91,7 +107,7 @@ export class SalesAndStocksComponent implements OnInit {
           return item[key];
         });
         this.totalSales = salesValue[salesValue.length - 1]
-        .toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          .toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         break;
 
       case 'Stock':
@@ -99,7 +115,7 @@ export class SalesAndStocksComponent implements OnInit {
           return item[key];
         });
         this.totalStocks = stocks[stocks.length - 1].toFixed(2)
-        .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         break;
     }
   }
@@ -114,11 +130,7 @@ export class SalesAndStocksComponent implements OnInit {
       /* find the cell in the first row */
       var hdr = 'UNKNOWN ' + C; // <-- replace with your desired default
       if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
-      if (hdr.search('Item name') !== -1 || hdr.search('Branch Name') !== -1) {
-        this.tableHeaders.push({ name: hdr, title: hdr, filter: true });
-      } else {
-        this.tableHeaders.push({ name: hdr, title: hdr, filter: false });
-      }
+      this.tableHeaders.push({ name: hdr, title: hdr });
     }
     return this.tableHeaders;
   }
