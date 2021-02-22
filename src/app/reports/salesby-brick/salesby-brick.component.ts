@@ -47,12 +47,11 @@ export class SalesbyBrickComponent implements OnInit {
     debugger;
     this.hideme[i] = !this.hideme[i];
 
-    this.getSpecificItemData(e.target.innerText);
+    this.getSpecificItemData(e.target.innerText, i);
     if (!this.isCollapsed) this.isCollapsed = true;
     else {
       this.isCollapsed = false;
     }
-    console.log(this.dataWithoutItemName);
   }
 
   separateWithItemName: any = [];
@@ -66,6 +65,7 @@ export class SalesbyBrickComponent implements OnInit {
         this.separateWithItemName.push(item);
       }
     });
+    console.log('without', this.separateWithoutItemName);
     this.separateWithItemName = _.uniqBy(
       this.separateWithItemName,
       (item: any) => {
@@ -74,18 +74,52 @@ export class SalesbyBrickComponent implements OnInit {
     );
   }
 
-  getSpecificItemData(selectedValue: any) {
-    this.dataWithoutItemName = _.filter(this.tableData, (item: any) => {
-      if (
-        item['Item Name'] !== undefined &&
-        item['Item Name'].toLowerCase().includes(selectedValue.toLowerCase())
-      ) {
-        console.log(item);
-        return item;
+  dataGrouped: any = [];
+  getSpecificItemData(selectedValue: any, i: any) {
+    let itemName = selectedValue;
+    let itemCode = selectedValue['item Code'];
+    debugger;
+
+    for (let index = i; index < this.tableData.length; index++) {
+      const item = this.tableData[index];
+      debugger;
+      if (Object.keys(item).includes('Item Name')) {
+        debugger;
+        var x = item['Item Name'].replaceAll(/\s/g, '');
+        debugger;
+
+        if (
+          item['Item Name'].replaceAll(/\s/g, '') ===
+          itemName.replaceAll(/\s/g, '')
+        ) {
+          itemCode = item['item Code'];
+          this.dataGrouped.push(item);
+        } else {
+          break;
+        }
       } else {
-        console.log('noo');
+        debugger;
+        var object: any = {};
+        object['item Code'] = itemCode;
+        object['Brick Name'] = item['Brick Name'];
+        object['Total Qty'] = item['Total Qty'];
+        this.dataGrouped.push(object);
       }
-    });
+    }
+
+    console.log('a7aaaa', this.dataGrouped);
+
+    // this.dataWithoutItemName = _.filter(this.tableData, (item: any) => {
+    //   if (
+    //     item['Item Name'] !== undefined &&
+    //     item['Item Name'].toLowerCase().includes(selectedValue.toLowerCase())
+    //   ) {
+    //     console.log(item);
+    //     return item;
+    //   } else {
+    //     console.log('noo');
+    //   }
+    // });
   }
 
   branchesName: any;
@@ -149,7 +183,6 @@ export class SalesbyBrickComponent implements OnInit {
       this.checkItems();
       this.refreshData();
       this.collectionSize = this.separateWithItemName.length;
-
       this.loader = false;
     };
   }
