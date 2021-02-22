@@ -128,7 +128,12 @@ export class SalesbyBrickComponent implements OnInit {
       else {
         var hdr = 'UNKNOWN ' + C;
         if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
-        this.tableHeaders.push({ name: hdr, title: hdr, filter: false });
+        if (hdr.search("Brick Name") != -1) {
+          this.tableHeaders.push({ name: hdr, title: hdr, filter: true });
+        }
+        else {
+          this.tableHeaders.push({ name: hdr, title: hdr, filter: false });
+        } 
       }
 
     }

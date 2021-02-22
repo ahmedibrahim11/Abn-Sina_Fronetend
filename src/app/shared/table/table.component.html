@@ -9,7 +9,7 @@
   <div class="col-md-3 ml-3">
     <label class="label">Branch Name</label>
     <ng-select style="height: 40%" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="branchesDropDownMenu"
-      [(ngModel)]="selectedBranch" (change)="getBranches()" bindLabel="Branch Name" appendTo="body">
+      [(ngModel)]="selectedBranch" (change)="getBranches()" bindLabel="Branch Name"  placeholder="Choose Branch" appendTo="body">
     </ng-select>
   </div>
 </div>
@@ -19,13 +19,13 @@
   <div class="col-md-3 ml-5">
     <label class="label">Item Name</label>
     <ng-select style="height: 40%" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="itemsDropDownMenu"
-      [(ngModel)]="selectedItem" (change)="getCleintValues()" bindLabel="itemName" appendTo="body">
+      [(ngModel)]="selectedItem" (change)="getCleintValues()" bindLabel="itemName" placeholder="Choose Item" appendTo="body">
     </ng-select>
   </div>
   <div class="col-md-3 ml-5">
     <label class="label">BrickName</label>
     <ng-select style="height: 40%" class="shadow-lg p-3 mb-5 bg-white rounded" [items]="bricksDropDownMenu"
-      [(ngModel)]="selectedBrick" (change)="getBricks()" bindLabel="brickName" appendTo="body">
+      [(ngModel)]="selectedBrick" (change)="getBricks()" bindLabel="brickName" placeholder="Choose Brick" appendTo="body">
     </ng-select>
   </div>
 </div>
