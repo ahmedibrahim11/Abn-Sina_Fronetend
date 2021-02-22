@@ -20,3 +20,20 @@
 .table-layout{
     margin-left: 1%;
 }
+.hiddenRow {
+  padding: 0 !important;
+}
+thead {
+  background-color: #0d47a1;
+  color: white;
+  width: 300px;
+}
+.table-wrapper {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+th,
+td {
+  min-width: 150px;
+}

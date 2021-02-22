@@ -35,9 +35,8 @@ export class SalesQuantityBrickComponent implements OnInit {
 
   ngOnInit(): void {
     this.chartType = 'bar';
-    debugger;
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
-    this.selectedItem=this.itemsDropDownMenu[0];
+    this.selectedItem = this.itemsDropDownMenu[0];
     this.generatCharts();
   }
 
