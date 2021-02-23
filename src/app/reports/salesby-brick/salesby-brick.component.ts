@@ -47,7 +47,7 @@ export class SalesbyBrickComponent implements OnInit {
     debugger;
     this.hideme[i] = !this.hideme[i];
 
-    this.getSpecificItemData(e.target.innerText, i);
+    this.getSpecificItemData(e, i);
     if (!this.isCollapsed) this.isCollapsed = true;
     else {
       this.isCollapsed = false;
@@ -76,11 +76,15 @@ export class SalesbyBrickComponent implements OnInit {
 
   dataGrouped: any = [];
   getSpecificItemData(selectedValue: any, i: any) {
-    let itemName = selectedValue;
+    this.dataGrouped=[]
+    let itemName = selectedValue['Item Name'];
     let itemCode = selectedValue['item Code'];
     debugger;
 
-    for (let index = i; index < this.tableData.length; index++) {
+    let startIndex=this.tableData.findIndex((x:any) => x['Item Name']=== selectedValue['Item Name']);
+    debugger;
+
+    for (let index = startIndex; index < this.tableData.length; index++) {
       const item = this.tableData[index];
       debugger;
       if (Object.keys(item).includes('Item Name')) {
@@ -106,20 +110,7 @@ export class SalesbyBrickComponent implements OnInit {
         this.dataGrouped.push(object);
       }
     }
-
     console.log('a7aaaa', this.dataGrouped);
-
-    // this.dataWithoutItemName = _.filter(this.tableData, (item: any) => {
-    //   if (
-    //     item['Item Name'] !== undefined &&
-    //     item['Item Name'].toLowerCase().includes(selectedValue.toLowerCase())
-    //   ) {
-    //     console.log(item);
-    //     return item;
-    //   } else {
-    //     console.log('noo');
-    //   }
-    // });
   }
 
   branchesName: any;

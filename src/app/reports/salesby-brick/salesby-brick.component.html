@@ -118,7 +118,7 @@
       <tr
         *ngIf="i === 0 && page === 1"
         class="accordion-toggle"
-        (click)="collapsedCheck($event, i)"
+        (click)="collapsedCheck(row, i)"
       >
         <td *ngFor="let key of objectKeys(row) | slice: 3">
           {{ row[key] }}
@@ -130,7 +130,7 @@
       <tr
         *ngIf="i >= 1"
         class="accordion-toggle"
-        (click)="collapsedCheck($event, i)"
+        (click)="collapsedCheck(row, i)"
       >
         <td *ngFor="let key of objectKeys(row)">
           {{ row[key] }}
