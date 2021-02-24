@@ -37,7 +37,7 @@ export class SalesbyBrickComponent implements OnInit {
   // }
 
   getItems() {
-    this.dataPagination = this.tableData.filter((item: any) => {
+    this.dataPagination = this.dataGrouped.filter((item: any) => {
       return item['Item Name'] === this.selectedItem['Item Name'];
     });
   }
@@ -67,21 +67,59 @@ export class SalesbyBrickComponent implements OnInit {
   separateWithoutItemName: any = [];
 
   checkItems() {
-    _.map(this.tableData, (item) => {
-      if (item['Item Name'] === undefined) {
-        this.separateWithoutItemName.push(item);
-      } else {
-        this.separateWithItemName.push(item);
+    let dict = new Map();
+    let date='';
+    let suppCode='';
+    let supperName='';
+    let itemCode = '';
+    let itemName = '';
+    let dataGroup: any = [];
+    this.tableData.forEach((element: any) => {
+      debugger;
+      if (Object.keys(element).includes('Item Name')) {
+        debugger;
+        if (itemName === element['Item Name']) {
+          dataGroup.push(element);
+        }
+        else {
+          var firstItem: any = {}
+          firstItem['date'] = element['Date'];
+          firstItem['Supp Code']=element['Supp Code'];
+          firstItem['Supp Name']=element['Supp Name'];
+          firstItem['Item Code'] = element['Item Code'];
+          firstItem['Item Name'] = element['Item Name'];
+          firstItem['Brick'] = element['Brick'];
+          firstItem['Brick Name'] = element['Brick Name'];
+          firstItem['total'] = element['Total Qty'];
+          dataGroup.push(firstItem);
+          date=element['Date'];
+          suppCode=element['Supp Code'];
+          supperName=element['Supp Name'];
+          itemCode = element['Item Code'];
+          itemName = element['Item Name'];
+          dict.set(element['Item Name'], dataGroup);
+          dataGroup=[];
+        }
+
+      }
+      else {
+        debugger;
+        var object: any = {};
+        object['date']=date;
+        object['Supp Code']=suppCode;
+        object['Supp Name']=supperName;
+        object['Item Code'] = itemCode;
+        object['Item Name'] = itemName;
+        object['Brick'] = element['Brick'];
+        object['Brick Name'] = element['Brick Name'];
+        object['Total Qty'] = element['Total Qty'];
+        var valeues = dict.get(itemName)
+        valeues.push(object);
       }
     });
-    console.log('without', this.separateWithoutItemName);
-    this.separateWithItemName = _.uniqBy(
-      this.separateWithItemName,
-      (item: any) => {
-        return item['Item Name'];
-      }
-    );
+    console.log("aaaaa", dict);
   }
+  
 
   dataGrouped: any = [];
   getSpecificItemData(selectedValue: any, i: any) {
@@ -102,7 +140,6 @@ export class SalesbyBrickComponent implements OnInit {
         debugger;
         var x = item['Item Name'].replaceAll(/\s/g, '');
         debugger;
-
         if (
           item['Item Name'].replaceAll(/\s/g, '') ===
           itemName.replaceAll(/\s/g, '')
@@ -148,7 +185,7 @@ export class SalesbyBrickComponent implements OnInit {
   filterItems() {
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
   }
-  constructor(private _fileService: FileService) {}
+  constructor(private _fileService: FileService) { }
 
   ngOnInit(): void {
     this.getExelfile();
