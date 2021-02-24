@@ -106,6 +106,22 @@
     <hr />
   </div>
 
+  <div class="row">
+    <label class="label ml-3">Item Name</label>
+    <div class="col-md-4">
+      <ng-select
+        style="height: 60%"
+        class="shadow-lg p-3 mb-5 bg-white rounded"
+        [items]="itemsDropDownMenu"
+        [(ngModel)]="selectedItem"
+        (change)="getItems()"
+        bindLabel="Item Name"
+        appendTo="body"
+      >
+      </ng-select>
+    </div>
+  </div>
+
   <table class="table table-bordered heading-hvr">
     <thead>
       <tr>
@@ -139,9 +155,9 @@
 
       <tr [hidden]="!hideme[i]" class="sub-table no-bg">
         <td colspan="4" class="p-0">
-          <table class="table table-secondary">
+          <table *ngIf="isCollapsed" class="table table-secondary">
             <tbody>
-              <tr *ngFor="let row of dataWithoutItemName">
+              <tr *ngFor="let row of dataGrouped">
                 <td *ngFor="let key of objectKeys(row)">
                   {{ row[key] }}
                 </td>

@@ -3,6 +3,7 @@ import { FileService } from 'src/app/core/file.Service';
 
 import * as XLSX from 'xlsx';
 import * as _ from 'lodash';
+import { uniqBy } from 'lodash';
 
 @Component({
   selector: 'app-salesby-brick',
@@ -22,8 +23,10 @@ export class SalesbyBrickComponent implements OnInit {
   pageSize: any = 10;
   collectionSize: any;
   dataPagination: any = [];
-  dataWithItemName: any = [];
   dataWithoutItemName: any = [];
+
+  itemsDropDownMenu: any = [];
+  selectedItem: any = '';
 
   // public showProductCountryInfo(index, productId) {
   //   this._productService.countryInfo(productId).subscribe((res: any) => {
@@ -32,6 +35,12 @@ export class SalesbyBrickComponent implements OnInit {
   //   this.hideme[index] = !this.hideme[index];
   //   this.Index = index;
   // }
+
+  getItems() {
+    this.dataPagination = this.tableData.filter((item: any) => {
+      return item['Item Name'] === this.selectedItem['Item Name'];
+    });
+  }
   refreshData() {
     this.dataPagination = this.separateWithItemName
       .map((item: any, i: any) => ({
@@ -76,15 +85,17 @@ export class SalesbyBrickComponent implements OnInit {
 
   dataGrouped: any = [];
   getSpecificItemData(selectedValue: any, i: any) {
-    this.dataGrouped=[]
+    this.dataGrouped = [];
     let itemName = selectedValue['Item Name'];
-    let itemCode = selectedValue['item Code'];
+    let itemCode = selectedValue['Item Code'];
     debugger;
 
-    let startIndex=this.tableData.findIndex((x:any) => x['Item Name']=== selectedValue['Item Name']);
+    let startIndex = this.tableData.findIndex(
+      (x: any) => x['Item Name'] === selectedValue['Item Name']
+    );
     debugger;
 
-    for (let index = startIndex; index < this.tableData.length; index++) {
+    for (let index = startIndex + 1; index < this.tableData.length; index++) {
       const item = this.tableData[index];
       debugger;
       if (Object.keys(item).includes('Item Name')) {
@@ -96,7 +107,7 @@ export class SalesbyBrickComponent implements OnInit {
           item['Item Name'].replaceAll(/\s/g, '') ===
           itemName.replaceAll(/\s/g, '')
         ) {
-          itemCode = item['item Code'];
+          itemName = item['Item Name'];
           this.dataGrouped.push(item);
         } else {
           break;
@@ -104,10 +115,13 @@ export class SalesbyBrickComponent implements OnInit {
       } else {
         debugger;
         var object: any = {};
-        object['item Code'] = itemCode;
+        object['Item Code'] = itemCode;
+        object['Item Name'] = itemName;
+        object['Brick'] = item['Brick'];
         object['Brick Name'] = item['Brick Name'];
         object['Total Qty'] = item['Total Qty'];
         this.dataGrouped.push(object);
+        console.log('hna', this.dataGrouped);
       }
     }
     console.log('a7aaaa', this.dataGrouped);
@@ -125,11 +139,14 @@ export class SalesbyBrickComponent implements OnInit {
     this.tableData = _.map(this.data, function (item: any) {
       return item;
     });
-    console.log('tableData', this.tableData);
   }
 
   objectKeys(obj: any) {
     return Object.keys(obj);
+  }
+
+  filterItems() {
+    this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
   }
   constructor(private _fileService: FileService) {}
 
@@ -163,17 +180,20 @@ export class SalesbyBrickComponent implements OnInit {
       this.get_header_row(ws);
       /* save data */
       this.data = XLSX.utils.sheet_to_json(ws);
+
       this.selectedChart = 'BarChart';
       this.selectedChart2 = 'BarChart';
+
+      this.filterItems();
 
       this.getAllCardsValue('Item Name');
       this.getAllCardsValue('Brick');
       this.getAllCardsValue('Total Qty');
       this.getTableData();
-
       this.checkItems();
       this.refreshData();
       this.collectionSize = this.separateWithItemName.length;
+
       this.loader = false;
     };
   }
