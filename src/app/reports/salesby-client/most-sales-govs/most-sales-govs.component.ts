@@ -43,8 +43,7 @@ export class MostSalesGovsComponent implements OnInit {
   getSalesgovs() {
     let allgovsSales = [];
     this.top7Governerats = [];
-
-    let dataGroupedBysegment = _.groupBy(this.data, 'city');
+    let dataGroupedBysegment = _.groupBy(this.data, 'gov');
     for (let key in dataGroupedBysegment) {
       if (key) {
         let segment = { name: key, value: 0 };

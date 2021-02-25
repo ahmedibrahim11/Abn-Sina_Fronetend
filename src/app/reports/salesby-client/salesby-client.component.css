@@ -21,3 +21,16 @@
     margin-left: 1%;
 }
 
+
+@media (min-width: 768px){
+.icon {
+    max-width: 33%;
+}
+}
+@media (max-width: 767px){
+    .icon {
+        left: 30%;
+        max-width: 40%;
+        position: relative;
+    }
+    }
