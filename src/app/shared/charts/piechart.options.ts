@@ -29,6 +29,9 @@ export const PieChartConfig:ChartOptions={
   legend: {
     align: 'center',
     display: true,
+    labels:{fontSize:12},
+    
+ 
   },
   plugins: {
     // Change options for ALL labels of THIS CHART
