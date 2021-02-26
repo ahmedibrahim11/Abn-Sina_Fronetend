@@ -59,11 +59,8 @@ export class MostSalesBricksComponent implements OnInit {
       .reverse()
       .slice(0, 7);
 
-      console.log("top7Bricks",this.top7Bricks);
-
     this.last7Bricks = _.orderBy(allBricksSales, 'value').slice(0, 7);
 
-    console.log("last",this.last7Bricks);
 
 
     this.onTopOrLowestChange();

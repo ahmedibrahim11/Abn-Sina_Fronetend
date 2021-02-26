@@ -114,14 +114,14 @@ export class SalesbyBrickComponent implements OnInit {
   }
 
   get_header_row(ws: any) {
-    debugger;
+   
     var range = XLSX.utils.decode_range(ws['!ref']);
     var C,
       R = range.s.r;
     /* walk every column in the range */
     for (C = range.s.c; C <= range.e.c; ++C) {
       var cell = ws[XLSX.utils.encode_cell({ c: C, r: R })];
-      debugger;
+     
       if (cell === undefined) {
         break;
       }

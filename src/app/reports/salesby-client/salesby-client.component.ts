@@ -56,9 +56,8 @@ export class SalesbyClientComponent implements OnInit {
       /* save data */
       let excelData: any[] = XLSX.utils.sheet_to_json(ws);
       excelData.splice(0, 1);
-      console.log(excelData);
       this.data = excelData.map((row) => {
-        debugger;
+       
         return {
           date: row['NEXT PHARMA (PAS) Sales By Client Report'],
           branchCode: row['__EMPTY'],
@@ -86,7 +85,6 @@ export class SalesbyClientComponent implements OnInit {
 
       this.selectedChart = 'BarChart';
       this.selectedChart2 = 'BarChart';
-      console.log('SalesByClientData', this.data);
 
       this.getAllCardsValue('itemCode');
       this.getAllCardsValue('clientCode');
@@ -129,7 +127,7 @@ export class SalesbyClientComponent implements OnInit {
     }
   }
   get_header_row(ws: any) {
-    debugger;
+   
     this.tableHeaders = [
       { name: 'date', title: 'Date', filter: false },
       { name: 'branchCode', title: 'Branch Code', filter: false },

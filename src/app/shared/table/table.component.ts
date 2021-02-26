@@ -50,7 +50,7 @@ export class TableComponent implements OnInit {
       this.selectedBrick = 'Choose Brick';
       this.bricksDropDownMenu = _.uniqBy(this.data, 'brickName');
       this.itemsDropDownMenu = _.uniqBy(this.data, 'itemName');
-      debugger;
+     
     }
     this.getTableData();
     this.collectionSize = this.tableData.length;
@@ -68,21 +68,19 @@ export class TableComponent implements OnInit {
     this.tableData = _.map(this.data, function (item: any) {
       return item;
     });
-    console.log("tableData", this.tableData);
   }
 
   getStockValues() {
-    debugger;
+   
     if (this.selectedBranch != 'Choose Branch' && this.selectedBranch != null) {
       if (this.selectedItem) {
         this.dataPagination = this.tableData.filter((item: any) => {
-          console.log('item', item);
           return item['Item name'] === this.selectedItem['Item name'] && item['Branch Name'] === this.selectedBranch['Branch Name'];
         });
       }
       else {
         this.dataPagination = this.tableData.filter((item: any) => {
-          console.log('item', item);
+          
           return item['Branch Name'] === this.selectedBranch['Branch Name'];
         });
       }
@@ -90,30 +88,30 @@ export class TableComponent implements OnInit {
     }
     else {
       if (this.selectedItem) {
-        debugger;
+       
         this.dataPagination = this.tableData.filter((item: any) => {
-          console.log('item', item);
+          
           return item['Item name'] === this.selectedItem['Item name'];
         });
       }
       else {
-        debugger;
+       
         this.refreshData();
       }
     }
   }
   getBranches() {
-    debugger;
+   
     if (this.selectedItem != 'Choose Item' && this.selectedItem != null) {
       if (this.selectedBranch) {
         this.dataPagination = this.tableData.filter((branch: any) => {
-          console.log('branch', branch);
+          
           return branch['Branch Name'] === this.selectedBranch['Branch Name'] && branch['Item name'] === this.selectedItem['Item name'];
         });
       }
       else {
         this.dataPagination = this.tableData.filter((branch: any) => {
-          console.log('branch', branch);
+          
           return branch['Item name'] === this.selectedItem['Item name'];
         });
       }
@@ -122,7 +120,7 @@ export class TableComponent implements OnInit {
     else {
       if (this.selectedBranch) {
         this.dataPagination = this.tableData.filter((branch: any) => {
-          console.log('branch', branch);
+          
           return branch['Branch Name'] === this.selectedBranch['Branch Name'];
         });
       }
@@ -133,17 +131,17 @@ export class TableComponent implements OnInit {
   }
 
   getBricks() {
-    debugger;
+   
     if (this.selectedItem != 'Choose Item' && this.selectedItem != null) {
       if (this.selectedBrick) {
         this.dataPagination = this.tableData.filter((branch: any) => {
-          console.log('Brick', branch);
+          
           return branch['brickName'] === this.selectedBrick['brickName'] && branch['itemName'] === this.selectedItem['itemName'];
         });
       }
       else {
         this.dataPagination = this.tableData.filter((branch: any) => {
-          console.log('Brick', branch);
+          
           return branch['itemName'] === this.selectedItem['itemName'];
         });
       }
@@ -152,7 +150,7 @@ export class TableComponent implements OnInit {
     else {
       if (this.selectedBrick) {
         this.dataPagination = this.tableData.filter((branch: any) => {
-          console.log('Brick', branch);
+          
           return branch['brickName'] === this.selectedBrick['brickName'];
         });
       }
@@ -166,17 +164,17 @@ export class TableComponent implements OnInit {
 
 
   getCleintValues() {
-    debugger;
+   
     if (this.selectedBrick != 'Choose Brick' && this.selectedBrick != null) {
       if (this.selectedItem) {
         this.dataPagination = this.tableData.filter((item: any) => {
-          console.log('item', item);
+          
           return item['itemName'] === this.selectedItem['itemName'] && item['branchName'] === this.selectedBrick['branchName'];
         });
       }
       else {
         this.dataPagination = this.tableData.filter((item: any) => {
-          console.log('item', item);
+          
           return item['branchName'] === this.selectedBrick['branchName'];
         });
       }
@@ -185,7 +183,7 @@ export class TableComponent implements OnInit {
     else {
       if (this.selectedItem) {
         this.dataPagination = this.tableData.filter((item: any) => {
-          console.log('item', item);
+          
           return item['itemName'] === this.selectedItem['itemName'];
         });
       }

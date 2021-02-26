@@ -1,12 +1,14 @@
 import { ChartOptions } from "chart.js";
 
 export const BarChartConfig:ChartOptions={
+  responsive: true,
   animation: { duration: 1000, easing: 'linear' },
   tooltips: {
     enabled: true,
     mode: 'single',
     callbacks: {
       label: function (tooltipItems: any, data: any) {
+     
         return data.datasets[0].data[tooltipItems.index].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       },
     },

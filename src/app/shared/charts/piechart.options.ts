@@ -8,14 +8,15 @@ export const PieChartConfig:ChartOptions={
     mode: 'single',
     callbacks: {
       label: function (tooltipItems: any, data: any) {
-       
+        console.log("tooltipItems",data);
           let sum = 0;
           let dataArr:any = data.datasets[0].data;
           dataArr.map((data:any) => {
               sum += parseInt(data);
           });
           let percentage = (data.datasets[0].data[tooltipItems.index]*100 / sum).toFixed(2)+"%";
-          return percentage;
+          let name=data.labels[tooltipItems.index] as string;
+          return   name.trim() +": "+ percentage ;
       
     
       },
