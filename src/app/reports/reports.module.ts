@@ -21,22 +21,34 @@ import { MostSalesGovsComponent } from './salesby-client/most-sales-govs/most-sa
 import { MostSalesPerSegmentComponent } from './salesby-client/most-sales-per-segment/most-sales-per-segment.component';
 import { SalesAndStockClientItemComponent } from './salesby-client/sales-and-stock-client-item/sales-and-stock-client-item.component';
 
-import { SalesbyBrickComponent } from "./salesby-brick/salesby-brick.component"
+import { SalesbyBrickComponent } from './salesby-brick/salesby-brick.component';
 import { MostSalesBricksComponent } from './salesby-brick/most-sales-bricks/most-sales-bricks.component';
 import { SalesQuantityBrickComponent } from './salesby-brick/sales-quantity-brick/sales-quantity-brick.component';
 import { SelectedReportComponent } from './selected-report/selected-report.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TableComponent } from '../shared/table/table.component';
+import { CollapsedTableComponent } from '../shared/collapsed-table/collapsed-table.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
-    ReportsComponent, SalesAndStocksComponent, GenricSmartTableComponent, MostSalesBranchesComponent,
-    SalesAndStocksItemComponent, SalesbyClientComponent,
-    MostSalesCitiesComponent, MostSalesGovsComponent,
-    MostSalesPerSegmentComponent, SalesAndStockClientItemComponent,SalesbyBrickComponent,
-    MostSalesBricksComponent,SalesQuantityBrickComponent, SelectedReportComponent,
-    TableComponent
+    ReportsComponent,
+    SalesAndStocksComponent,
+    GenricSmartTableComponent,
+    MostSalesBranchesComponent,
+    SalesAndStocksItemComponent,
+    SalesbyClientComponent,
+    MostSalesCitiesComponent,
+    MostSalesGovsComponent,
+    MostSalesPerSegmentComponent,
+    SalesAndStockClientItemComponent,
+    SalesbyBrickComponent,
+    MostSalesBricksComponent,
+    SalesQuantityBrickComponent,
+    SelectedReportComponent,
+    TableComponent,
+    CollapsedTableComponent,
   ],
   imports: [
     CommonModule,
@@ -48,7 +60,8 @@ import { TableComponent } from '../shared/table/table.component';
     FormsModule,
     NgbButtonsModule,
     NgSelectModule,
+    MatTableModule,
   ],
-  providers: [FileService, ExcelService]
+  providers: [FileService, ExcelService],
 })
-export class ReportsModule { }
+export class ReportsModule {}

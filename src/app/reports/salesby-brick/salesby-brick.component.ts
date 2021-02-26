@@ -53,7 +53,6 @@ export class SalesbyBrickComponent implements OnInit {
   }
 
   collapsedCheck(e: any, i: number) {
-    debugger;
     this.hideme[i] = !this.hideme[i];
 
     this.getSpecificItemData(e, i);
@@ -68,78 +67,66 @@ export class SalesbyBrickComponent implements OnInit {
 
   checkItems() {
     let dict = new Map();
-    let date='';
-    let suppCode='';
-    let supperName='';
+    let date = '';
+    let suppCode = '';
+    let supperName = '';
     let itemCode = '';
     let itemName = '';
     let dataGroup: any = [];
     this.tableData.forEach((element: any) => {
-      debugger;
       if (Object.keys(element).includes('Item Name')) {
-        debugger;
         if (itemName === element['Item Name']) {
           dataGroup.push(element);
-        }
-        else {
-          var firstItem: any = {}
+        } else {
+          var firstItem: any = {};
           firstItem['date'] = element['Date'];
-          firstItem['Supp Code']=element['Supp Code'];
-          firstItem['Supp Name']=element['Supp Name'];
+          firstItem['Supp Code'] = element['Supp Code'];
+          firstItem['Supp Name'] = element['Supp Name'];
           firstItem['Item Code'] = element['Item Code'];
           firstItem['Item Name'] = element['Item Name'];
           firstItem['Brick'] = element['Brick'];
           firstItem['Brick Name'] = element['Brick Name'];
           firstItem['total'] = element['Total Qty'];
           dataGroup.push(firstItem);
-          date=element['Date'];
-          suppCode=element['Supp Code'];
-          supperName=element['Supp Name'];
+          date = element['Date'];
+          suppCode = element['Supp Code'];
+          supperName = element['Supp Name'];
           itemCode = element['Item Code'];
           itemName = element['Item Name'];
           dict.set(element['Item Name'], dataGroup);
-          dataGroup=[];
+          dataGroup = [];
         }
-
-      }
-      else {
-        debugger;
+      } else {
         var object: any = {};
-        object['date']=date;
-        object['Supp Code']=suppCode;
-        object['Supp Name']=supperName;
+        object['date'] = date;
+        object['Supp Code'] = suppCode;
+        object['Supp Name'] = supperName;
         object['Item Code'] = itemCode;
         object['Item Name'] = itemName;
         object['Brick'] = element['Brick'];
         object['Brick Name'] = element['Brick Name'];
         object['Total Qty'] = element['Total Qty'];
-        var valeues = dict.get(itemName)
+        var valeues = dict.get(itemName);
         valeues.push(object);
       }
     });
-    console.log("aaaaa", dict);
+    console.log('aaaaa', dict);
   }
-  
 
   dataGrouped: any = [];
   getSpecificItemData(selectedValue: any, i: any) {
     this.dataGrouped = [];
     let itemName = selectedValue['Item Name'];
     let itemCode = selectedValue['Item Code'];
-    debugger;
 
     let startIndex = this.tableData.findIndex(
       (x: any) => x['Item Name'] === selectedValue['Item Name']
     );
-    debugger;
 
     for (let index = startIndex + 1; index < this.tableData.length; index++) {
       const item = this.tableData[index];
-      debugger;
       if (Object.keys(item).includes('Item Name')) {
-        debugger;
         var x = item['Item Name'].replaceAll(/\s/g, '');
-        debugger;
         if (
           item['Item Name'].replaceAll(/\s/g, '') ===
           itemName.replaceAll(/\s/g, '')
@@ -150,7 +137,6 @@ export class SalesbyBrickComponent implements OnInit {
           break;
         }
       } else {
-        debugger;
         var object: any = {};
         object['Item Code'] = itemCode;
         object['Item Name'] = itemName;
@@ -185,7 +171,7 @@ export class SalesbyBrickComponent implements OnInit {
   filterItems() {
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
   }
-  constructor(private _fileService: FileService) { }
+  constructor(private _fileService: FileService) {}
 
   ngOnInit(): void {
     this.getExelfile();
@@ -202,6 +188,10 @@ export class SalesbyBrickComponent implements OnInit {
       },
     });
   }
+
+  dataSource: any;
+  columnsToDisplay: any;
+  expandedElement: any | null;
 
   extractDataFromExcel(file: any) {
     /* wire up file reader */
@@ -229,6 +219,8 @@ export class SalesbyBrickComponent implements OnInit {
       this.getTableData();
       this.checkItems();
       this.refreshData();
+      this.dataSource = this.dataPagination;
+      this.columnsToDisplay = this.tableHeaders;
       this.collectionSize = this.separateWithItemName.length;
 
       this.loader = false;
