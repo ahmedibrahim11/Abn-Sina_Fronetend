@@ -36,6 +36,20 @@ export class SalesbyBrickComponent implements OnInit {
   //   this.Index = index;
   // }
 
+  bricksDropDownMenu: any = [];
+  specificItemBricks: any = [];
+  brickFilter: any = false;
+  filterBricks() {
+    this.bricksDropDownMenu = _.uniqBy(this.data, 'Brick Name');
+  }
+
+  getBricks(selectedBrick: any) {
+    console.log(selectedBrick);
+    this.specificItemBricks = this.dataGrouped.filter((item: any) => {
+      return item['Brick Name'] === selectedBrick['Brick Name'];
+    });
+    console.log('speeeeeeec', this.specificItemBricks);
+  }
   getItems() {
     this.dataPagination = this.dataGrouped.filter((item: any) => {
       return item['Item Name'] === this.selectedItem['Item Name'];
@@ -55,22 +69,36 @@ export class SalesbyBrickComponent implements OnInit {
   collapsedCheck(e: any, i: number) {
     debugger;
     this.hideme[i] = !this.hideme[i];
-
+    console.log(this.hideme[i]);
     this.getSpecificItemData(e, i);
-    if (!this.isCollapsed) this.isCollapsed = true;
-    else {
+
+    if (!this.isCollapsed) {
+      this.isCollapsed = true;
+      this.brickFilter = true;
+    } else {
       this.isCollapsed = false;
+      this.brickFilter = false;
     }
   }
 
   separateWithItemName: any = [];
   separateWithoutItemName: any = [];
 
+  getUniqueItems() {
+    this.separateWithItemName = _.filter(this.tableData, (item: any) => {
+      return item['Item Name'];
+    });
+    this.separateWithItemName = _.uniqBy(
+      this.separateWithItemName,
+      'Item Name'
+    );
+  }
+
   checkItems() {
     let dict = new Map();
-    let date='';
-    let suppCode='';
-    let supperName='';
+    let date = '';
+    let suppCode = '';
+    let supperName = '';
     let itemCode = '';
     let itemName = '';
     let dataGroup: any = [];
@@ -80,46 +108,42 @@ export class SalesbyBrickComponent implements OnInit {
         debugger;
         if (itemName === element['Item Name']) {
           dataGroup.push(element);
-        }
-        else {
-          var firstItem: any = {}
+        } else {
+          var firstItem: any = {};
           firstItem['date'] = element['Date'];
-          firstItem['Supp Code']=element['Supp Code'];
-          firstItem['Supp Name']=element['Supp Name'];
+          firstItem['Supp Code'] = element['Supp Code'];
+          firstItem['Supp Name'] = element['Supp Name'];
           firstItem['Item Code'] = element['Item Code'];
           firstItem['Item Name'] = element['Item Name'];
           firstItem['Brick'] = element['Brick'];
           firstItem['Brick Name'] = element['Brick Name'];
           firstItem['total'] = element['Total Qty'];
           dataGroup.push(firstItem);
-          date=element['Date'];
-          suppCode=element['Supp Code'];
-          supperName=element['Supp Name'];
+          date = element['Date'];
+          suppCode = element['Supp Code'];
+          supperName = element['Supp Name'];
           itemCode = element['Item Code'];
           itemName = element['Item Name'];
           dict.set(element['Item Name'], dataGroup);
-          dataGroup=[];
+          dataGroup = [];
         }
-
-      }
-      else {
+      } else {
         debugger;
         var object: any = {};
-        object['date']=date;
-        object['Supp Code']=suppCode;
-        object['Supp Name']=supperName;
+        object['date'] = date;
+        object['Supp Code'] = suppCode;
+        object['Supp Name'] = supperName;
         object['Item Code'] = itemCode;
         object['Item Name'] = itemName;
         object['Brick'] = element['Brick'];
         object['Brick Name'] = element['Brick Name'];
         object['Total Qty'] = element['Total Qty'];
-        var valeues = dict.get(itemName)
+        var valeues = dict.get(itemName);
         valeues.push(object);
       }
     });
-    console.log("aaaaa", dict);
+    console.log('aaaaa', dict);
   }
-  
 
   dataGrouped: any = [];
   getSpecificItemData(selectedValue: any, i: any) {
@@ -146,6 +170,7 @@ export class SalesbyBrickComponent implements OnInit {
         ) {
           itemName = item['Item Name'];
           this.dataGrouped.push(item);
+          this.getBricks(selectedValue);
         } else {
           break;
         }
@@ -185,7 +210,7 @@ export class SalesbyBrickComponent implements OnInit {
   filterItems() {
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
   }
-  constructor(private _fileService: FileService) { }
+  constructor(private _fileService: FileService) {}
 
   ngOnInit(): void {
     this.getExelfile();
@@ -222,11 +247,13 @@ export class SalesbyBrickComponent implements OnInit {
       this.selectedChart2 = 'BarChart';
 
       this.filterItems();
+      this.filterBricks();
 
       this.getAllCardsValue('Item Name');
       this.getAllCardsValue('Brick');
       this.getAllCardsValue('Total Qty');
       this.getTableData();
+      this.getUniqueItems();
       this.checkItems();
       this.refreshData();
       this.collectionSize = this.separateWithItemName.length;
