@@ -59,23 +59,34 @@ export class SalesbyBrickComponent implements OnInit {
       return item['Brick Name'] === selectedItem['Brick Name'];
     });
   }
+  checkBrickName: any = false;
   getBricks(DDLBrickName: any) {
-    this.checkBricks(this.selectedBrick);
-    this.openScrollableContent(DDLBrickName, 0, 0);
+    if (this.selectedBrick !== null) {
+      this.checkBrickName = true;
+      this.checkBricks(this.selectedBrick);
+      //this.openScrollableContent(DDLBrickName, 0, 0);
 
-    this.specificItemBricks = this.dataGrouped.filter((item: any) => {
-      return item['Brick Name'] === this.selectedBrick['Brick Name'];
-    });
+      this.specificItemBricks = this.dataGrouped.filter((item: any) => {
+        return item['Brick Name'] === this.selectedBrick['Brick Name'];
+      });
+    } else {
+      this.specificItemBricks = this.dataGrouped;
+    }
+
     console.log('speeeeeeec', this.specificItemBricks);
   }
   itemNameDropDown: any = [];
   getItems(item: any, DDLItemName: any) {
-    this.openScrollableContent(DDLItemName, 0, 0);
-    console.log('ahoooooo', item.__rowNum__);
-    this.getSpecificItemData(this.selectedItem, item.__rowNum__);
-    this.itemNameDropDown = this.dataGrouped.filter((item: any) => {
-      return item['Item Name'] === this.selectedItem['Item Name'];
-    });
+    if (this.selectedItem !== null) {
+      //this.openScrollableContent(DDLItemName, 0, 0);
+      console.log('ahoooooo', item.__rowNum__);
+      //this.getSpecificItemData(this.selectedItem, item.__rowNum__);
+      this.dataPagination = this.tableData.filter((item: any) => {
+        return item['Item Name'] === this.selectedItem['Item Name'];
+      });
+    } else {
+      this.dataPagination = this.separateWithItemName;
+    }
   }
   refreshData() {
     this.dataPagination = this.separateWithItemName

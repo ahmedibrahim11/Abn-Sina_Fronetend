@@ -152,6 +152,7 @@
         </tr>
       </tbody>
     </table>
+
     <div class="d-flex justify-content-between p-2">
       <ngb-pagination
         [collectionSize]="collectionSize"
@@ -302,7 +303,7 @@
           appendTo="body"
         >
         </ng-select>
-        <table>
+        <table *ngIf="!checkBrickName">
           <tbody>
             <tr
               *ngIf="isCollapsed && specificItemBricks.length === 0"
@@ -322,7 +323,7 @@
             </tr>
           </tbody>
         </table>
-        <table>
+        <table *ngIf="checkBrickName">
           <tbody>
             <tr
               *ngIf="isCollapsed && specificItemBricks.length > 0"
