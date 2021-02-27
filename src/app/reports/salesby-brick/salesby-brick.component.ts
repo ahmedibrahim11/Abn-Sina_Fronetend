@@ -42,6 +42,9 @@ export class SalesbyBrickComponent implements OnInit {
   specificItemBricks: any = [];
   brickFilter: any = false;
 
+  removeItems() {
+    location.reload();
+  }
   openScrollableContent(longContent: any, row: any, i: any) {
     if (row !== 0) this.collapsedCheck(row, i);
     this.modalService.open(longContent, { scrollable: true });

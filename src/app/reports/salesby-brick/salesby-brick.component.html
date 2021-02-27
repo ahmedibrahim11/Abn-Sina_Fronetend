@@ -174,7 +174,7 @@
     </div>
 
     <!-- ////////////////////////////////////////////////////////// -->
-    <ng-template #content let-modal class="modal-style">
+    <ng-template #content let-modal>
       <div class="modal-header">
         <h4 class="modal-title">Modal title</h4>
         <button
@@ -189,7 +189,7 @@
       <div class="modal-body">
         <p>One fine body&hellip;</p>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" (click)="removeItems()">
         <button
           type="button"
           class="btn btn-light"
@@ -201,7 +201,7 @@
     </ng-template>
 
     <ng-template #DDLItemName let-modal>
-      <div class="modal-header">
+      <div class="modal-header" (click)="removeItems()">
         <h4 class="modal-title">Item Data</h4>
         <button
           type="button"
@@ -234,7 +234,7 @@
           </tbody>
         </table>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" (click)="removeItems()">
         <button
           type="button"
           class="btn btn-light"
@@ -252,7 +252,7 @@
     <!-- ////////////////////////////////////////////////////////// -->
 
     <ng-template #content let-modal>
-      <div class="modal-header">
+      <div class="modal-header" (click)="removeItems()">
         <h4 class="modal-title">Modal title</h4>
         <button
           type="button"
@@ -278,7 +278,7 @@
     </ng-template>
 
     <ng-template #collapsedTable let-modal>
-      <div class="modal-header">
+      <div class="modal-header" (click)="removeItems()">
         <h4 class="modal-title">Item Data</h4>
         <button
           type="button"
@@ -343,7 +343,7 @@
           </tbody>
         </table>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" (click)="removeItems()">
         <button
           type="button"
           class="btn btn-light"

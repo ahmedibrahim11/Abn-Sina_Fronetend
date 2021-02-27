@@ -37,6 +37,7 @@ th,
 td {
   min-width: 150px;
 }
-.modal-content{
-  background-color: black !important;
+.modal-content {
+position: fixed;
+width: 50%;
 }
