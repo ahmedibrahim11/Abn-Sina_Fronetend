@@ -56,8 +56,11 @@ export class SalesbyBrickComponent implements OnInit {
     });
     console.log('speeeeeeec', this.specificItemBricks);
   }
-  getItems() {
-    this.dataPagination = this.dataGrouped.filter((item: any) => {
+  itemNameDropDown: any = [];
+  getItems(item: any) {
+    console.log('ahoooooo', item.__rowNum__);
+    this.getSpecificItemData(this.selectedItem, item.__rowNum__);
+    this.itemNameDropDown = this.dataGrouped.filter((item: any) => {
       return item['Item Name'] === this.selectedItem['Item Name'];
     });
   }
