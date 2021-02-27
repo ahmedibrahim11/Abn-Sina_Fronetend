@@ -47,7 +47,8 @@ export const BarChartConfig:ChartOptions={
   plugins: {
     // Change options for ALL labels of THIS CHART
     datalabels: {
-      color: 'black',
+      color: '#0d47a1',
+      backgroundColor:"#fff",
       labels: {
         title: {
         formatter:function(text:string){
