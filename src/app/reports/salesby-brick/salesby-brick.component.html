@@ -169,46 +169,6 @@
       </tr>
     </tbody>
   </table>
-  <table>
-    <tbody>
-      <tr
-        *ngIf="isCollapsed && specificItemBricks.length === 0"
-        class="sub-table no-bg"
-      >
-        <td colspan="4" class="p-0">
-          <table class="table table-secondary">
-            <tbody>
-              <tr *ngFor="let row of dataGrouped">
-                <td *ngFor="let key of objectKeys(row)">
-                  {{ row[key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table>
-    <tbody>
-      <tr
-        *ngIf="isCollapsed && specificItemBricks.length > 0"
-        class="sub-table no-bg"
-      >
-        <td colspan="4" class="p-0">
-          <table class="table table-secondary">
-            <tbody>
-              <tr *ngFor="let row of specificItemBricks">
-                <td *ngFor="let key of objectKeys(row)">
-                  {{ row[key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
   <div class="d-flex justify-content-between p-2">
     <ngb-pagination
       [collectionSize]="collectionSize"
@@ -229,4 +189,45 @@
       <option [ngValue]="6">6 items per page</option>
     </select>
   </div>
+  <table>
+    <tbody>
+      <tr
+        *ngIf="isCollapsed && specificItemBricks.length === 0"
+        class="sub-table no-bg"
+      >
+        <td colspan="4" class="p-0">
+          <table class="table table-secondary">
+            <tbody>
+              <tr *ngFor="let row of dataGrouped">
+                <td *ngFor="let key of objectKeys(row)">
+                  {{ row[key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table>
+    <tbody>
+      <tr
+        *ngIf="isCollapsed && specificItemBricks.length > 0"
+        class="sub-table no-bg"
+      >
+        <td colspan="4" class="p-0">
+          <table class="table table-secondary">
+            <tbody>
+              <tr *ngFor="let row of specificItemBricks">
+                <td *ngFor="let key of objectKeys(row)">
+                  {{ row[key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
