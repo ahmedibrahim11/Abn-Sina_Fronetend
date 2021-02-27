@@ -27,6 +27,7 @@ export class SalesbyBrickComponent implements OnInit {
 
   itemsDropDownMenu: any = [];
   selectedItem: any = '';
+  selectedBrick: any = '';
 
   // public showProductCountryInfo(index, productId) {
   //   this._productService.countryInfo(productId).subscribe((res: any) => {
@@ -43,10 +44,15 @@ export class SalesbyBrickComponent implements OnInit {
     this.bricksDropDownMenu = _.uniqBy(this.data, 'Brick Name');
   }
 
-  getBricks(selectedBrick: any) {
-    console.log(selectedBrick);
+  checkBricks(selectedItem: any) {
     this.specificItemBricks = this.dataGrouped.filter((item: any) => {
-      return item['Brick Name'] === selectedBrick['Brick Name'];
+      return item['Brick Name'] === selectedItem['Brick Name'];
+    });
+  }
+  getBricks() {
+    this.checkBricks(this.selectedBrick);
+    this.specificItemBricks = this.dataGrouped.filter((item: any) => {
+      return item['Brick Name'] === this.selectedBrick['Brick Name'];
     });
     console.log('speeeeeeec', this.specificItemBricks);
   }
@@ -170,7 +176,7 @@ export class SalesbyBrickComponent implements OnInit {
         ) {
           itemName = item['Item Name'];
           this.dataGrouped.push(item);
-          this.getBricks(selectedValue);
+          this.checkBricks(selectedValue);
         } else {
           break;
         }
