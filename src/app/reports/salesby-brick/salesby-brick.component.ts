@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { FileService } from 'src/app/core/file.Service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,7 +16,6 @@ export class SalesbyBrickComponent implements OnInit {
   data: any[] = [];
   tableHeaders: any[] = [];
   loader = true;
-
   hideme: any[] = [];
   isCollapsed = false;
   tableData: any = [];
@@ -25,29 +24,91 @@ export class SalesbyBrickComponent implements OnInit {
   collectionSize: any;
   dataPagination: any = [];
   dataWithoutItemName: any = [];
-
   itemsDropDownMenu: any = [];
   selectedItem: any = '';
   selectedBrick: any = '';
-
-  // public showProductCountryInfo(index, productId) {
-  //   this._productService.countryInfo(productId).subscribe((res: any) => {
-  //     this.productCountryInformation[index] = res;
-  //   });
-  //   this.hideme[index] = !this.hideme[index];
-  //   this.Index = index;
-  // }
-
+  fliterData: any = [];
   bricksDropDownMenu: any = [];
   specificItemBricks: any = [];
   brickFilter: any = false;
+  checkBrickName: any = false;
+  separateWithItemName: any = [];
+  separateWithoutItemName: any = [];
+  dataGrouped: any = [];
+  branchesName: any;
+  totalItems: any = [];
+  totalBricks: any = [];
+  totalQuantity: any = [];
+  selectedChart = '';
+  selectedChart2 = '';
+  closeResult: any;
 
-  removeItems() {
-    location.reload();
+  constructor(
+    private _fileService: FileService,
+    private modalService: NgbModal
+  ) {}
+
+  ngOnInit(): void {
+    this.selectedItem = 'Choose Item';
+    this.getExelfile();
   }
+
+  getExelfile() {
+    let file = { fileName: 'testBrick.xlsx', reportType: 'brick' };
+    this._fileService.downloadFile(file, this.url).subscribe({
+      next: (res) => {
+        this.extractDataFromExcel(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  extractDataFromExcel(file: any) {
+    /* wire up file reader */
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (e: any) => {
+      /* create workbook */
+      const binarystr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
+      /* selected the first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      this.get_header_row(ws);
+      /* save data */
+      this.data = XLSX.utils.sheet_to_json(ws);
+
+      this.selectedChart = 'BarChart';
+      this.selectedChart2 = 'BarChart';
+
+      this.filterItems();
+      this.filterBricks();
+
+      this.getAllCardsValue('Item Name');
+      this.getAllCardsValue('Brick');
+      this.getAllCardsValue('Total Qty');
+      this.getTableData();
+      this.getUniqueItems();
+      this.checkItems();
+      this.refreshData();
+      this.collectionSize = this.separateWithItemName.length;
+
+      this.loader = false;
+    };
+  }
+
+  removeItems() {}
+
   openScrollableContent(longContent: any, row: any, i: any) {
-    if (row !== 0) this.collapsedCheck(row, i);
-    this.modalService.open(longContent, { scrollable: true });
+    this.selectedBrick = 'Choose Brick';
+    this.modalService.open(longContent, {
+      scrollable: true,
+      size: 'lg',
+      backdrop: 'static',
+    });
+    this.collapsedCheck(row, i);
   }
 
   filterBricks() {
@@ -59,24 +120,20 @@ export class SalesbyBrickComponent implements OnInit {
       return item['Brick Name'] === selectedItem['Brick Name'];
     });
   }
-  checkBrickName: any = false;
-  getBricks(DDLBrickName: any) {
+  getBricks() {
+    debugger;
     if (this.selectedBrick !== null) {
-      this.checkBrickName = true;
-      this.checkBricks(this.selectedBrick);
-      //this.openScrollableContent(DDLBrickName, 0, 0);
-
-      this.specificItemBricks = this.dataGrouped.filter((item: any) => {
+      this.fliterData = this.dataGrouped.filter((item: any) => {
         return item['Brick Name'] === this.selectedBrick['Brick Name'];
       });
     } else {
-      this.specificItemBricks = this.dataGrouped;
+      this.fliterData = this.dataGrouped;
     }
 
     console.log('speeeeeeec', this.specificItemBricks);
   }
   itemNameDropDown: any = [];
-  getItems(item: any, DDLItemName: any) {
+  getItems(item: any) {
     if (this.selectedItem !== null) {
       //this.openScrollableContent(DDLItemName, 0, 0);
       console.log('ahoooooo', item.__rowNum__);
@@ -104,18 +161,7 @@ export class SalesbyBrickComponent implements OnInit {
     this.hideme[i] = !this.hideme[i];
     console.log(this.hideme[i]);
     this.getSpecificItemData(e, i);
-
-    if (!this.isCollapsed) {
-      this.isCollapsed = true;
-      this.brickFilter = true;
-    } else {
-      this.isCollapsed = false;
-      this.brickFilter = false;
-    }
   }
-
-  separateWithItemName: any = [];
-  separateWithoutItemName: any = [];
 
   getUniqueItems() {
     this.separateWithItemName = _.filter(this.tableData, (item: any) => {
@@ -178,12 +224,10 @@ export class SalesbyBrickComponent implements OnInit {
     console.log('aaaaa', dict);
   }
 
-  dataGrouped: any = [];
   getSpecificItemData(selectedValue: any, i: any) {
     this.dataGrouped = [];
     let itemName = selectedValue['Item Name'];
     let itemCode = selectedValue['Item Code'];
-    debugger;
 
     let startIndex = this.tableData.findIndex(
       (x: any) => x['Item Name'] === selectedValue['Item Name']
@@ -220,17 +264,8 @@ export class SalesbyBrickComponent implements OnInit {
       }
     }
     console.log('a7aaaa', this.dataGrouped);
+    this.fliterData = this.dataGrouped;
   }
-
-  branchesName: any;
-  totalItems: any = [];
-  totalBricks: any = [];
-  totalQuantity: any = [];
-
-  selectedChart = '';
-  selectedChart2 = '';
-
-  closeResult: any;
 
   getTableData() {
     this.tableData = _.map(this.data, function (item: any) {
@@ -244,60 +279,6 @@ export class SalesbyBrickComponent implements OnInit {
 
   filterItems() {
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
-  }
-  constructor(
-    private _fileService: FileService,
-    private modalService: NgbModal
-  ) {}
-
-  ngOnInit(): void {
-    this.getExelfile();
-  }
-
-  getExelfile() {
-    let file = { fileName: 'testBrick.xlsx', reportType: 'brick' };
-    this._fileService.downloadFile(file, this.url).subscribe({
-      next: (res) => {
-        this.extractDataFromExcel(res);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-
-  extractDataFromExcel(file: any) {
-    /* wire up file reader */
-    const reader: FileReader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = (e: any) => {
-      /* create workbook */
-      const binarystr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
-      /* selected the first sheet */
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-      this.get_header_row(ws);
-      /* save data */
-      this.data = XLSX.utils.sheet_to_json(ws);
-
-      this.selectedChart = 'BarChart';
-      this.selectedChart2 = 'BarChart';
-
-      this.filterItems();
-      this.filterBricks();
-
-      this.getAllCardsValue('Item Name');
-      this.getAllCardsValue('Brick');
-      this.getAllCardsValue('Total Qty');
-      this.getTableData();
-      this.getUniqueItems();
-      this.checkItems();
-      this.refreshData();
-      this.collectionSize = this.separateWithItemName.length;
-
-      this.loader = false;
-    };
   }
 
   getAllCardsValue(key: any) {

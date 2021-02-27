@@ -15,8 +15,3 @@ ng2-smart-table-pager{
 .search-inbut{
   height: 7.4vh;
 }
-.modal-content{
-  position: fixed;
-  width: 80%;
-  left: 15%;
-}
