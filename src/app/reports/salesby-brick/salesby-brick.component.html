@@ -114,141 +114,248 @@
         class="shadow-lg p-3 mb-5 bg-white rounded"
         [items]="itemsDropDownMenu"
         [(ngModel)]="selectedItem"
-        (change)="getItems($event)"
+        (change)="getItems($event, DDLItemName)"
         bindLabel="Item Name"
         appendTo="body"
       >
       </ng-select>
     </div>
-    <div class="col-md-3"></div>
-    <div class="col-md-4">
-      <label class="label ml-3">Brick Name</label>
-      <ng-select
-        style="height: 60%"
-        class="shadow-lg p-3 mb-5 bg-white rounded"
-        [items]="bricksDropDownMenu"
-        [(ngModel)]="selectedBrick"
-        (change)="getBricks()"
-        [disabled]="!brickFilter"
-        bindLabel="Brick Name"
-        appendTo="body"
+    <table class="table table-bordered heading-hvr">
+      <thead>
+        <tr>
+          <td *ngFor="let header of tableHeaders">
+            {{ header.name }}
+          </td>
+        </tr>
+      </thead>
+      <tbody *ngFor="let row of dataPagination; let i = index">
+        <tr
+          *ngIf="i === 0 && page === 1"
+          class="accordion-toggle"
+          (click)="openScrollableContent(collapsedTable, row, i)"
+        >
+          <td *ngFor="let key of objectKeys(row) | slice: 3">
+            {{ row[key] }}
+          </td>
+        </tr>
+      </tbody>
+
+      <tbody *ngFor="let row of dataPagination; let i = index">
+        <tr
+          *ngIf="i >= 1"
+          class="accordion-toggle"
+          (click)="openScrollableContent(collapsedTable, row, i)"
+        >
+          <td *ngFor="let key of objectKeys(row)">
+            {{ row[key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshData()"
+        [maxSize]="15"
       >
-      </ng-select>
+      </ngb-pagination>
+      <select
+        class="custom-select"
+        style="width: auto"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="refreshData()"
+      >
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
     </div>
+
+    <!-- ////////////////////////////////////////////////////////// -->
+    <ng-template #content let-modal class="modal-style">
+      <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="modal.close('Close click')"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>
+
+    <ng-template #DDLItemName let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Item Data</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tbody>
+            <tr
+              *ngIf="!isCollapsed && specificItemBricks.length === 0"
+              class="sub-table no-bg"
+            >
+              <td colspan="4" class="p-0">
+                <table class="table table-secondary">
+                  <tbody>
+                    <tr *ngFor="let row of itemNameDropDown">
+                      <td *ngFor="let key of objectKeys(row)">
+                        {{ row[key] }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="modal.close('Close click')"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>
+
+    <!-- ////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////// -->
+
+    <!-- ////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////// -->
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="modal.close('Close click')"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>
+
+    <ng-template #collapsedTable let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Item Data</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label class="label ml-3">Brick Name</label>
+        <ng-select
+          style="height: 60%"
+          class="shadow-lg p-3 mb-5 bg-white rounded"
+          [items]="bricksDropDownMenu"
+          [(ngModel)]="selectedBrick"
+          (change)="getBricks(collapsedTable)"
+          bindLabel="Brick Name"
+          [disabled]="!brickFilter"
+          appendTo="body"
+        >
+        </ng-select>
+        <table>
+          <tbody>
+            <tr
+              *ngIf="isCollapsed && specificItemBricks.length === 0"
+              class="sub-table no-bg"
+            >
+              <td colspan="4" class="p-0">
+                <table class="table table-secondary">
+                  <tbody>
+                    <tr *ngFor="let row of dataGrouped">
+                      <td *ngFor="let key of objectKeys(row)">
+                        {{ row[key] }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <tbody>
+            <tr
+              *ngIf="isCollapsed && specificItemBricks.length > 0"
+              class="sub-table no-bg"
+            >
+              <td colspan="4" class="p-0">
+                <table class="table table-secondary">
+                  <tbody>
+                    <tr *ngFor="let row of specificItemBricks">
+                      <td *ngFor="let key of objectKeys(row)">
+                        {{ row[key] }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="modal.close('Close click')"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>
+
+    <!-- ////////////////////////////////////////////////////////// -->
+
+    <!-- /////////////////////////////////////////////////////////////// -->
   </div>
-
-  <table class="table table-bordered heading-hvr">
-    <thead>
-      <tr>
-        <td *ngFor="let header of tableHeaders">
-          {{ header.name }}
-        </td>
-      </tr>
-    </thead>
-    <tbody *ngFor="let row of dataPagination; let i = index">
-      <tr
-        *ngIf="i === 0 && page === 1"
-        class="accordion-toggle"
-        (click)="collapsedCheck(row, i)"
-      >
-        <td *ngFor="let key of objectKeys(row) | slice: 3">
-          {{ row[key] }}
-        </td>
-      </tr>
-    </tbody>
-
-    <tbody *ngFor="let row of dataPagination; let i = index">
-      <tr
-        *ngIf="i >= 1"
-        class="accordion-toggle"
-        (click)="collapsedCheck(row, i)"
-      >
-        <td *ngFor="let key of objectKeys(row)">
-          {{ row[key] }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="d-flex justify-content-between p-2">
-    <ngb-pagination
-      [collectionSize]="collectionSize"
-      [(page)]="page"
-      [pageSize]="pageSize"
-      (pageChange)="refreshData()"
-      [maxSize]="15"
-    >
-    </ngb-pagination>
-    <select
-      class="custom-select"
-      style="width: auto"
-      [(ngModel)]="pageSize"
-      (ngModelChange)="refreshData()"
-    >
-      <option [ngValue]="2">2 items per page</option>
-      <option [ngValue]="4">4 items per page</option>
-      <option [ngValue]="6">6 items per page</option>
-    </select>
-  </div>
-
-  <table>
-    <tbody>
-      <tr
-        *ngIf="!isCollapsed && specificItemBricks.length === 0"
-        class="sub-table no-bg"
-      >
-        <td colspan="4" class="p-0">
-          <table class="table table-secondary">
-            <tbody>
-              <tr *ngFor="let row of itemNameDropDown">
-                <td *ngFor="let key of objectKeys(row)">
-                  {{ row[key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table>
-    <tbody>
-      <tr
-        *ngIf="isCollapsed && specificItemBricks.length === 0"
-        class="sub-table no-bg"
-      >
-        <td colspan="4" class="p-0">
-          <table class="table table-secondary">
-            <tbody>
-              <tr *ngFor="let row of dataGrouped">
-                <td *ngFor="let key of objectKeys(row)">
-                  {{ row[key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table>
-    <tbody>
-      <tr
-        *ngIf="isCollapsed && specificItemBricks.length > 0"
-        class="sub-table no-bg"
-      >
-        <td colspan="4" class="p-0">
-          <table class="table table-secondary">
-            <tbody>
-              <tr *ngFor="let row of specificItemBricks">
-                <td *ngFor="let key of objectKeys(row)">
-                  {{ row[key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

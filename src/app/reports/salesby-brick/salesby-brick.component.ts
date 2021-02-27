@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FileService } from 'src/app/core/file.Service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as XLSX from 'xlsx';
 import * as _ from 'lodash';
@@ -40,6 +41,12 @@ export class SalesbyBrickComponent implements OnInit {
   bricksDropDownMenu: any = [];
   specificItemBricks: any = [];
   brickFilter: any = false;
+
+  openScrollableContent(longContent: any, row: any, i: any) {
+    if (row !== 0) this.collapsedCheck(row, i);
+    this.modalService.open(longContent, { scrollable: true });
+  }
+
   filterBricks() {
     this.bricksDropDownMenu = _.uniqBy(this.data, 'Brick Name');
   }
@@ -49,15 +56,18 @@ export class SalesbyBrickComponent implements OnInit {
       return item['Brick Name'] === selectedItem['Brick Name'];
     });
   }
-  getBricks() {
+  getBricks(DDLBrickName: any) {
     this.checkBricks(this.selectedBrick);
+    this.openScrollableContent(DDLBrickName, 0, 0);
+
     this.specificItemBricks = this.dataGrouped.filter((item: any) => {
       return item['Brick Name'] === this.selectedBrick['Brick Name'];
     });
     console.log('speeeeeeec', this.specificItemBricks);
   }
   itemNameDropDown: any = [];
-  getItems(item: any) {
+  getItems(item: any, DDLItemName: any) {
+    this.openScrollableContent(DDLItemName, 0, 0);
     console.log('ahoooooo', item.__rowNum__);
     this.getSpecificItemData(this.selectedItem, item.__rowNum__);
     this.itemNameDropDown = this.dataGrouped.filter((item: any) => {
@@ -206,6 +216,8 @@ export class SalesbyBrickComponent implements OnInit {
   selectedChart = '';
   selectedChart2 = '';
 
+  closeResult: any;
+
   getTableData() {
     this.tableData = _.map(this.data, function (item: any) {
       return item;
@@ -219,7 +231,10 @@ export class SalesbyBrickComponent implements OnInit {
   filterItems() {
     this.itemsDropDownMenu = _.uniqBy(this.data, 'Item Name');
   }
-  constructor(private _fileService: FileService) {}
+  constructor(
+    private _fileService: FileService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.getExelfile();
