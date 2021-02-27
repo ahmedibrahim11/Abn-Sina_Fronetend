@@ -129,18 +129,34 @@ export class SalesbyBrickComponent implements OnInit {
     } else {
       this.fliterData = this.dataGrouped;
     }
-
     console.log('speeeeeeec', this.specificItemBricks);
   }
   itemNameDropDown: any = [];
+  items: any = [];
   getItems(item: any) {
     if (this.selectedItem !== null) {
-      //this.openScrollableContent(DDLItemName, 0, 0);
-      console.log('ahoooooo', item.__rowNum__);
-      //this.getSpecificItemData(this.selectedItem, item.__rowNum__);
-      this.dataPagination = this.tableData.filter((item: any) => {
+      this.items = this.tableData.filter((item: any) => {
         return item['Item Name'] === this.selectedItem['Item Name'];
       });
+      if (this.selectedItem.__rowNum__ === 1) {
+        let first = this.items[0];
+        this.dataPagination = [];
+        this.dataPagination.push(first);
+      } else {
+        let last = this.items[this.items.length - 1];
+        console.log('last', last);
+        this.dataPagination = [];
+        let obj: any = {};
+        obj['Date'] = '';
+        obj['Supp Code'] = '';
+        obj[''] = '';
+        obj['Item Code'] = last['Item Code'];
+        obj['Item Name'] = last['Item Name'];
+        obj['Brick'] = last['Brick'];
+        obj['Brick Name'] = last['Brick Name'];
+        obj['Total Qty'] = last['Total Qty'];
+        this.dataPagination.push(obj);
+      }
     } else {
       this.dataPagination = this.separateWithItemName;
     }
