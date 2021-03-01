@@ -142,11 +142,12 @@ export class SalesAndStocksItemComponent implements OnInit {
     this.chart1Data = { labels: [], colors: [], values: [] };
     this.chart2Data = { labels: [], colors: [], values: [] };
     if (this.selectedvalQty === 'val') {
-      this.getSalesData(
+      this.getStockData(
         this.selectedItem['Item Code'],
-        'Sales Qty',
+        'Stock Value',
         this.chart1Data
       );
+    
       this.getSalesData(
         this.selectedItem['Item Code'],
         'Sales Value',
@@ -158,12 +159,12 @@ export class SalesAndStocksItemComponent implements OnInit {
         'Stock',
         this.chart1Data
       );
-
-      this.getStockData(
+      this.getSalesData(
         this.selectedItem['Item Code'],
-        'Stock Value',
+        'Sales Qty',
         this.chart2Data
       );
+    
     }
 
     if (this.chart1 !== undefined) {
