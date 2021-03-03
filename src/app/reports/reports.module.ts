@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms';
 import { MostSalesBranchesComponent } from './sales-and-stocks/most-sales-branches/most-sales-branches.component';
 import { SalesAndStocksItemComponent } from './sales-and-stocks/sales-and-stocks-item/sales-and-stocks-item.component';
 import { SalesbyClientComponent } from './salesby-client/salesby-client.component';
-import { GenricSmartTableComponent } from '../shared/genric-smart-table/genric-smart-table.component';
 import { MostSalesCitiesComponent } from './salesby-client/most-sales-cities/most-sales-cities.component';
 import { MostSalesGovsComponent } from './salesby-client/most-sales-govs/most-sales-govs.component';
 import { MostSalesPerSegmentComponent } from './salesby-client/most-sales-per-segment/most-sales-per-segment.component';
@@ -31,7 +30,7 @@ import { TableComponent } from '../shared/table/table.component';
 
 @NgModule({
   declarations: [
-    ReportsComponent, SalesAndStocksComponent, GenricSmartTableComponent, MostSalesBranchesComponent,
+    ReportsComponent, SalesAndStocksComponent, MostSalesBranchesComponent,
     SalesAndStocksItemComponent, SalesbyClientComponent,
     MostSalesCitiesComponent, MostSalesGovsComponent,
     MostSalesPerSegmentComponent, SalesAndStockClientItemComponent,SalesbyBrickComponent,
